@@ -19,6 +19,6 @@ class AdminUserSeeder extends Seeder
         'password' => Hash::make('admin12345'),
         'role' => 'admin',
         'email_verified_at' => now(),
-    ]); // <-- TAMBAHKAN INI
+    ]);
 }
 }

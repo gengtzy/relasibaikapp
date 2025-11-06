@@ -43,7 +43,7 @@ class Login extends Component
             if ($user->role === 'admin') {
                 $this->redirect(route('admin.dashboard'), navigate: true); // Anda menamainya admin.home.index, pastikan nama rute ini benar
             } else {
-                $this->redirect(route('screening.start'), navigate: true);
+                $this->redirect(route('screening.wizard'), navigate: true);
             }
 
             return;

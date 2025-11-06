@@ -71,19 +71,18 @@
                     <a href="{{ route('admin.dashboard') }}" @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('admin.dashboard*'),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
-                            'admin.dashboard*'),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.dashboard*'),
                     ])>
                         <i class="fas fa-home"></i>
                         <span class="ms-3">Dasbor Utama</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.dashboard') }}" @class([
+                    <a href="{{ route('admin.screening-result') }}" @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.dashboard*'),
+                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.screening-result*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
-                            'admin.dashboard*'),
+                            'admin.screening-result*'),
                     ])>
                         <i class="fas fa-poll-h ml-1"></i>
                         <span class="ms-3">Hasil Skrining</span>
@@ -93,49 +92,113 @@
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">MANAJEMEN DATA</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('admin.dashboard') }}" @class([
-                        'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.dashboard*'),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
-                            'admin.dashboard*'),
-                    ])>
-                        <i class="fas fa-users-cog"></i>
-                        <span class="ms-3">Manajemen Pengguna</span>
-                    </a>
-                </li>
-                <li>
-                    <button type="button"
-                        class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 w-full"
-                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                    <button type="button" @class([
+                        'flex items-center p-2 w-full rounded-lg',
+                        'text-blue-500 bg-gray-50' => request()->routeIs([
+                            'instrumentindex*',
+                            'instrumentcreate*',
+                            'instrumentedit*',
+                            'questionsindex',
+                            'questionscreate',
+                            'questionsedit',
+                        ]),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                            'instrumentindex*',
+                            'instrumentcreate*',
+                            'instrumentedit*',
+                            'questionsindex',
+                            'questionscreate',
+                            'questionsedit',
+                        ]),
+                    ]) aria-controls="dropdown-example"
+                        data-collapse-toggle="dropdown-example"
+                        aria-expanded="{{ request()->routeIs(['instrumentindex*', 'instrumentcreate*', 'instrumentedit*', 'questionsindex', 'questionscreate', 'questionsedit']) ? 'true' : 'false' }}">
                         <i class="fas fa-tasks-alt"></i>
                         <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Kuisioner</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
-                    <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                    <ul id="dropdown-example" @class([
+                        'py-2 space-y-2',
+                        'hidden' => !request()->routeIs([
+                            'instrumentindex*',
+                            'instrumentcreate*',
+                            'instrumentedit*',
+                            'questionsindex',
+                            'questionscreate',
+                            'questionsedit',
+                        ]),
+                    ])>
                         <li>
-                            <a href="instrumenlist.html"
-                                class="flex pl-10 items-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 group">Instrumen</a>
+                            <a href="{{ route('instrumentindex') }}" @class([
+                                'flex pl-10 items-center p-2',
+                                'text-blue-500 bg-gray-50' => request()->routeIs([
+                                    'instrumentindex*',
+                                    'instrumentcreate*',
+                                    'instrumentedit*',
+                                ]),
+                                'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                                    'instrumentindex*',
+                                    'instrumentcreate*',
+                                    'instrumentedit*',
+                                ]),
+                            ])>Instrumen</a>
                         </li>
                         <li>
-                            <a href="questionslist.html"
-                                class="flex pl-10 items-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 group">Pertanyaan</a>
+                            <a href="{{ route('questionsindex') }}" @class([
+                                'flex pl-10 items-center p-2',
+                                'text-blue-500 bg-gray-50' => request()->routeIs([
+                                    'questionsindex*',
+                                    'questionscreate*',
+                                    'questionsedit*',
+                                ]),
+                                'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                                    'questionsindex*',
+                                    'questionscreate*',
+                                    'questionsedit*',
+                                ]),
+                            ])>Pertanyaan</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="recomdlist.html"
-                        class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 group">
+                    <a href="{{ route('recommendationsindex') }}" @class([
+                        'flex items-center p-2 rounded-lg group',
+                        'text-blue-500 bg-gray-50' => request()->routeIs([
+                            'recommendationsindex*',
+                            'recommendationscreate*',
+                            'recommendationsedit*',
+                        ]),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                            'recommendationsindex*',
+                            'recommendationscreate*',
+                            'recommendationsedit*',
+                        ]),
+                    ])>
                         <i class="fas fa-diagnoses"></i>
-                        <span class="ms-2">Manajemen Rekomendasi</span>
+                        <span class="ms-3">Manajemen Rekomendasi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.users') }}" @class([
+                        'flex items-center p-2 rounded-lg group',
+                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.users*'),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.users*'),
+                    ])>
+                        <i class="fas fa-users-cog"></i>
+                        <span class="ms-3">Manajemen Pengguna</span>
                     </a>
                 </li>
             </ul>
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">PELAPORAN</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="report.html" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 group">
+                    <a href="{{ route('admin.report') }}" @class([
+                        'flex items-center p-2 rounded-lg group',
+                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.report*'),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.report*'),
+                    ])>
                         <i class="fas fa-file-export"></i>
-                        <span class="ms-2">Cetak Laporan</span>
+                        <span class="ms-3">Cetak Laporan</span>
                     </a>
                 </li>
             </ul>

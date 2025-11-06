@@ -13,6 +13,8 @@
         rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @livewireStyles
 </head>
 
 <body>
@@ -20,12 +22,12 @@
     <livewire:layout.navigation-admin />
 
     <main class="bg-slate-100 p-4 sm:ml-64 min-h-screen">
-        <div class="p-4 mt-14">
+        <div class="p-4 mt-14 relative overflow-x-auto">
             {{ $slot }}
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-
+    @livewireScripts
 </body>

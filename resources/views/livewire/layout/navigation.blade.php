@@ -6,7 +6,7 @@
             <div class="container mx-auto px-6 lg:px-24">
                 <div class="flex justify-between items-center">
                     <div class="flex-shrink-0">
-                        <a href="{{ route('screening.start') }}" id="navbar-logo"
+                        <a href="{{ route('screening.wizard') }}" id="navbar-logo"
                             :class="{ 'text-white': !scrolled, 'text-blue-500': scrolled }"
                             class="text-2xl font-bold text-white transition-colors duration-300">
                             RelasiBaik.

@@ -24,7 +24,7 @@ class VerifyEmail extends Component
     {
         if (Auth::user()->hasVerifiedEmail()) {
             // RedirectIntended tidak tersedia secara langsung, gunakan redirect biasa
-            $this->redirect(route('screening.start', absolute: false), navigate: true);
+            $this->redirect(route('screening.wizard', absolute: false), navigate: true);
             return;
         }
 

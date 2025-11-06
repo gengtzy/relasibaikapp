@@ -8,7 +8,7 @@
     </nav>
     <h1 class="text-2xl font-bold mb-6">Dasbor Utama</h1>
 
-    <div class="lg:grid lg:grid-cols-4 space-y-4 lg:space-y-0 gap-4 mb-4">
+    {{-- <div class="lg:grid lg:grid-cols-4 space-y-4 lg:space-y-0 gap-4 mb-4">
         <div class="rounded-2xl grid grid-cols-6 gap-12 border border-gray-200 bg-white p-5 hover:shadow-md">
             <div class="text-green-600 text-4xl">
                 <i class="ri-user-follow-fill"></i>
@@ -148,5 +148,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
