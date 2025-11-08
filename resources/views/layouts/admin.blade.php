@@ -30,4 +30,23 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     @livewireScripts
+
+    <script>
+        // Ini akan berjalan setiap kali halaman baru dimuat via wire:navigate
+        document.addEventListener('livewire:navigated', () => {
+            // Inisialisasi ulang semua komponen Flowbite
+            initFlowbite();
+        });
+
+        // Ini akan berjalan setiap kali Livewire melakukan update di halaman
+        // (misalnya, setelah validasi error, update, dll.)
+        document.addEventListener('livewire:init', () => {
+            Livewire.hook('morph.updated', ({
+                el,
+                component
+            }) => {
+                initFlowbite();
+            });
+        });
+    </script>
 </body>

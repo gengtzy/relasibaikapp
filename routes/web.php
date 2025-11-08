@@ -5,7 +5,10 @@ use App\Livewire\ScreeningWizard;
 use App\Livewire\LocationDropdowns;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\ScreeningResult;
-use App\Livewire\Admin\Users;
+
+use App\Livewire\Admin\Users\Index as UsersIndex;
+use App\Livewire\Admin\Users\Create as UsersCreate;
+use App\Livewire\Admin\Users\Edit as UsersEdit;
 
 use App\Livewire\Admin\Instruments\Index as InstrumentIndex;
 use App\Livewire\Admin\Instruments\Create as InstrumentCreate;
@@ -36,7 +39,10 @@ Route::middleware(['auth', 'verified', 'redirect.admin'])->group(function () {
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard'); 
     Route::get('/screening-result', ScreeningResult::class)->name('admin.screening-result'); 
-    Route::get('/users', Users::class)->name('admin.users');
+
+    Route::get('/users', UsersIndex::class)->name('adminusers');
+    Route::get('/usersnew', UsersCreate::class)->name('userscreate');
+    Route::get('/users/{id}/edit', UsersEdit::class)->name('usersedit');
 
     Route::get('/instrumentindex', InstrumentIndex::class)->name('instrumentindex');
     Route::get('/instrumentnew', InstrumentCreate::class)->name('instrumentcreate');

@@ -68,7 +68,7 @@
             <h3 class="text-sm font-semibold text-slate-500 mb-4 ml-2">MENU</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('admin.dashboard') }}" @class([
+                    <a href="{{ route('admin.dashboard') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('admin.dashboard*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.dashboard*'),
@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.screening-result') }}" @class([
+                    <a href="{{ route('admin.screening-result') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('admin.screening-result*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
@@ -92,7 +92,7 @@
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">MANAJEMEN DATA</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <button type="button" @class([
+                    <button type="button" wire:navigate @class([
                         'flex items-center p-2 w-full rounded-lg',
                         'text-blue-500 bg-gray-50' => request()->routeIs([
                             'instrumentindex*',
@@ -117,7 +117,7 @@
                         <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Kuisioner</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
-                    <ul id="dropdown-example" @class([
+                    <ul id="dropdown-example" wire:navigate @class([
                         'py-2 space-y-2',
                         'hidden' => !request()->routeIs([
                             'instrumentindex*',
@@ -129,7 +129,7 @@
                         ]),
                     ])>
                         <li>
-                            <a href="{{ route('instrumentindex') }}" @class([
+                            <a href="{{ route('instrumentindex') }}" wire:navigate @class([
                                 'flex pl-10 items-center p-2',
                                 'text-blue-500 bg-gray-50' => request()->routeIs([
                                     'instrumentindex*',
@@ -144,7 +144,7 @@
                             ])>Instrumen</a>
                         </li>
                         <li>
-                            <a href="{{ route('questionsindex') }}" @class([
+                            <a href="{{ route('questionsindex') }}" wire:navigate @class([
                                 'flex pl-10 items-center p-2',
                                 'text-blue-500 bg-gray-50' => request()->routeIs([
                                     'questionsindex*',
@@ -161,7 +161,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('recommendationsindex') }}" @class([
+                    <a href="{{ route('recommendationsindex') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs([
                             'recommendationsindex*',
@@ -179,10 +179,18 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.users') }}" @class([
+                    <a href="{{ route('adminusers') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.users*'),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.users*'),
+                        'text-blue-500 bg-gray-50' => request()->routeIs([
+                            'adminusers*',
+                            'userscreate*',
+                            'recommendationsedit*',
+                        ]),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                            'adminusers*',
+                            'userscreate*',
+                            'recommendationsedit*',
+                        ]),
                     ])>
                         <i class="fas fa-users-cog"></i>
                         <span class="ms-3">Manajemen Pengguna</span>
@@ -192,7 +200,7 @@
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">PELAPORAN</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('admin.report') }}" @class([
+                    <a href="{{ route('admin.report') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('admin.report*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.report*'),
