@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ScreeningService
 {
@@ -20,8 +22,9 @@ class ScreeningService
         array $motherAnswers,
         array $otherAnswers
     ) {
+        $user = Auth::user();
         // 1. Logika perhitungan skor ayah ada di sini
-        $fatherScore = $this->calculateFatherScore($fatherAnswers);
+        $fatherScore = $this->calculateFatherScore($fatherAnswers, $user);
 
         // 2. Logika perhitungan skor ibu ada di sini
         $motherScore = $this->calculateMotherScore($motherAnswers);
@@ -50,10 +53,24 @@ class ScreeningService
     // --- METODE PERHITUNGAN ---
     // (Ini semua akan kita isi nanti)
 
-    private function calculateFatherScore(array $answers): int
+    public function calculateFatherScore(array $answers, User $user): int
     {
-        // ... logika hitung skor ayah ...
-        return 0; // contoh
+        if (empty($answers)) {
+            return 0;
+        }
+
+        $cleanAnswers = array_map(fn($val) => (int) $val, $answers);
+        $baseScore = array_sum($cleanAnswers);
+
+        $bonus = 0;
+        if ($user->role === 'masyarakat' && 
+            $user->superiority_role === 'Ayah' && 
+            $user->hasVerifiedEmail()) {
+            
+            $bonus = 5; // Tambahan poin bonus (bisa disesuaikan)
+        }
+
+        return $baseScore + $bonus;
     }
 
     private function calculateMotherScore(array $answers): int

@@ -1,8 +1,8 @@
 <div>
     @if ($currentStep == 1)
-        <livewire:screening.step-biodata />
+        <livewire:screening.step-biodata :default-data="$biodata"/>
     @elseif ($currentStep == 2)
-        <livewire:screening.step-father />
+        <livewire:screening.step-father :default-answers="$fatherAnswers"/>
     @elseif ($currentStep == 3)
         <livewire:screening.step-mother />
     @elseif ($currentStep == 4)

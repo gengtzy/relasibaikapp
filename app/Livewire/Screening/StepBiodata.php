@@ -9,8 +9,7 @@ use Livewire\Attributes\Session;
 
 class StepBiodata extends Component
 {
-    // 1. Definisikan properti yang akan di-bind (wire:model)
-    
+
     #[Rule('required|string|min:3', message: 'Lokasi wajib diisi.')]
     #[Session]
     public $lokasi = '';
@@ -19,23 +18,28 @@ class StepBiodata extends Component
     #[Rule('required|date', message: 'Tanggal wajib diisi.')]
     public $tanggal = '';
 
-    // 2. 'mount()' adalah constructor, bagus untuk set nilai default
-    public function mount()
+    public function mount($defaultData = []) 
     {
+        if (!empty($defaultData)) {
+            // Gunakan null coalescing operator (??) untuk menjaga data session jika defaultData kosong
+            $this->lokasi = $defaultData['lokasi_name'] ?? $this->lokasi; 
+            $this->tanggal = $defaultData['tanggal'] ?? $this->tanggal;
+        }
+
         if (empty($this->tanggal)) {
             $this->tanggal = Carbon::today()->format('Y-m-d');
         }
     }
 
-    // 3. Method 'save' yang dipanggil oleh wire:submit="save"
     public function save()
     {
-        // 4. Validasi data berdasarkan Rules di atas
         $validated = $this->validate();
         
-        $this->dispatch('biodataCompleted', biodata: $validated);
-
-        $this->reset('lokasi', 'tanggal');
+        // Kirim ke Parent
+        $this->dispatch('biodataCompleted', biodata: [
+            'lokasi_name' => $this->lokasi,
+            'tanggal' => $this->tanggal
+        ]);
     }
 
     public function render()

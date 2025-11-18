@@ -16,7 +16,10 @@ class ScreeningWizard extends Component
 
     #[Session]
     public $biodata = [];
+    #[Session]
     public $fatherAnswers = [];
+    #[Session]
+    public $fatherScore = 0;
     public $motherAnswers = [];
     public $otherAnswers = [];
     
@@ -32,14 +35,23 @@ class ScreeningWizard extends Component
         $this->currentStep = 2;
     }
 
-    // ... (Nanti kita akan tambahkan listener lain di sini)
-    // #[On('fatherAnswersCompleted')]
-    // ...
+    #[On('goToStep')]
+    public function onGoToStep($step)
+    {
+        $this->currentStep = $step;
+    }
+
+    #[On('fatherAnswersCompleted')]
+    public function onFatherAnswersCompleted($answers, $score)
+    {
+        $this->fatherAnswers = $answers;
+        $this->fatherScore = $score;
+
+        $this->currentStep = 3;
+    }
 
     public function render()
     {
-        // Render view-nya seperti biasa
-        // (View ini akan berisi @if($currentStep == 1) ... dst)
         return view('livewire.screening-wizard');
     }
 }
