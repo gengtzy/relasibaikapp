@@ -1,36 +1,28 @@
 <div>
     <form wire:submit="save">
-        <section id="form" class="flex flex-col items-center min-h-screen py-24">
+        <section id="form" class="w-full max-w-5xl mx-auto my-24 border border-white shadow-xl rounded-2xl">
 
             {{-- Container Utama --}}
-            <div
-                class="w-full max-w-5xl h-auto p-4 md:p-12 lg:p-12 bg-blue-500/30 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg">
+            <div class="bg-blue-500 p-8 text-white relative rounded-t-2xl">
+                <h2 class="text-3xl font-bold mb-2">Jawablah sesuai kondisi Anda saat ini</h2>
+                <p class="opacity-90">
+                    Pernyataan di bawah ini berkaitan dengan relasi Anda dengan sosok <strong>Ayah</strong>.
+                    <br>
+                    Mohon isi <strong>{{ count($questions) }} butir pernyataan</strong> dengan jujur.
+                </p>
+            </div>
 
-                <div class="bg-slate-100/90 p-6 rounded-lg shadow-md mb-8 text-center border border-slate-200">
-                    <h5 class="mb-4 text-2xl font-bold tracking-tight text-slate-800">
-                        Jawablah sesuai kondisi Anda saat ini 😊
-                    </h5>
-                    <p class="text-lg text-gray-700">
-                        Pernyataan di bawah ini berkaitan dengan relasi Anda dengan sosok <strong>Ayah</strong>.
-                        <br>
-                        Mohon isi  <strong>{{ count($questions) }} butir pernyataan</strong> dengan jujur.
-                    </p>
-                </div>
-
-                <div class="space-y-16 bg-slate-100/90 p-6 rounded-lg shadow-md mb-8 border border-slate-200">
+            <div class="h-auto p-8 bg-white rounded-b-2xl space-y-12">
                     @foreach ($questions as $index => $question)
-                        <div
-                            class="">
-
-                            {{-- Teks Pertanyaan --}}
-                            <h5 class="text-lg font-semibold text-slate-800 mb-4 leading-relaxed">
+                        <div class="mb-12">
+                            <h5 class="text-lg font-semibold text-slate-800 leading-relaxed mb-4">
                                 <span>{{ $loop->iteration }}.</span>
                                 {{ $question->question_text }}
                                 <span class="text-red-500" title="Wajib diisi">*</span>
                             </h5>
-
+    
                             <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-3">
-
+    
                                 {{-- 0: Sangat Tidak Sesuai --}}
                                 <label class="cursor-pointer group">
                                     <input type="radio" wire:model.live="answers.{{ $question->id }}" value="0"
@@ -40,7 +32,7 @@
                                         <div class="text-sm font-medium">Sangat Tidak Sesuai</div>
                                     </div>
                                 </label>
-
+    
                                 {{-- 1: Tidak Sesuai --}}
                                 <label class="cursor-pointer group">
                                     <input type="radio" wire:model.live="answers.{{ $question->id }}" value="1"
@@ -50,7 +42,7 @@
                                         <div class="text-sm font-medium">Tidak Sesuai</div>
                                     </div>
                                 </label>
-
+    
                                 {{-- 2: Netral --}}
                                 <label class="cursor-pointer group">
                                     <input type="radio" wire:model.live="answers.{{ $question->id }}" value="2"
@@ -60,7 +52,7 @@
                                         <div class="text-sm font-medium">Netral</div>
                                     </div>
                                 </label>
-
+    
                                 {{-- 3: Sesuai --}}
                                 <label class="cursor-pointer group">
                                     <input type="radio" wire:model.live="answers.{{ $question->id }}" value="3"
@@ -70,7 +62,7 @@
                                         <div class="text-sm font-medium">Sesuai</div>
                                     </div>
                                 </label>
-
+    
                                 {{-- 4: Sangat Sesuai --}}
                                 <label class="cursor-pointer group">
                                     <input type="radio" wire:model.live="answers.{{ $question->id }}" value="4"
@@ -81,8 +73,7 @@
                                     </div>
                                 </label>
                             </div>
-
-                            {{-- Pesan Error per Item --}}
+                            
                             @error("answers.{$question->id}")
                                 <p class="mt-2 text-sm text-red-600 font-medium flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,9 +85,6 @@
                             @enderror
                         </div>
                     @endforeach
-                </div>
-
-                {{-- Footer Navigasi --}}
                 <div
                     class="flex flex-col-reverse sm:flex-row justify-between items-center mt-10 mx-4 pt-6 border-t border-blue-200 gap-4">
 
@@ -122,8 +110,9 @@
                         </svg>
                     </button>
                 </div>
-
             </div>
+
+
         </section>
     </form>
 </div>

@@ -48,12 +48,12 @@ class StepFather extends Component
             auth()->user()
         );
 
-        dd([
-        'Status' => 'Berhasil masuk fungsi save',
-        'Data User' => auth()->user()->name . ' (' . auth()->user()->superiority_role . ')',
-        'Semua Jawaban (Array)' => $this->answers,
-        'Total Skor (Int)' => $totalScore
-        ]);
+        // dd([
+        // 'Status' => 'Berhasil masuk fungsi save',
+        // 'Data User' => auth()->user()->name . ' (' . auth()->user()->superiority_role . ')',
+        // 'Semua Jawaban (Array)' => $this->answers,
+        // 'Total Skor (Int)' => $totalScore
+        // ]);
 
         $this->dispatch('fatherAnswersCompleted', 
             answers: $this->answers,

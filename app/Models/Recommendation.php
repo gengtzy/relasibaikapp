@@ -10,9 +10,8 @@ class Recommendation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'code',
         'title',
         'description',
-        'min_score',
-        'max_score',
     ];
 }

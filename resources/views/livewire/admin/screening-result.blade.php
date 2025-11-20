@@ -7,5 +7,4 @@
         </ol>
     </nav>
     <h1 class="text-2xl font-bold mb-6">Hasil Skrining</h1>
-    {{-- Nothing in the world is as soft and yielding as water. --}}
 </div>

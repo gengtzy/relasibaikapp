@@ -12,9 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('screenings', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        $table->id();
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        
+        // KOLOM WAJIB AGAR BISA DISIMPAN
+        $table->string('lokasi')->nullable(); 
+        $table->date('tanggal_pengisian')->nullable();
+        
+        // Relasi ke rekomendasi (hasil rule)
+        $table->foreignId('id_recommendation')
+              ->nullable()
+              ->constrained('recommendations')
+              ->onDelete('set null');
+
+        $table->string('status')->default('draft'); // draft/completed
+        $table->timestamps();
+    });
     }
 
     /**

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('screening_results', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('recommendations', function (Blueprint $table) {
+        $table->id();
+        $table->string('code')->unique(); // Contoh: 'SANGAT_HARMONIS', 'RAWAN_AYAH', dll
+        $table->string('title');
+        $table->text('description');
+        $table->timestamps();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('screening_results');
+        Schema::dropIfExists('recommendations');
     }
 };

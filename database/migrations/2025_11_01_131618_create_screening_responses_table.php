@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('screening_responses', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        $table->id();
+        $table->foreignId('id_screening')->constrained('screenings')->onDelete('cascade');
+        $table->foreignId('id_question')->constrained('questions')->onDelete('cascade');
+        $table->integer('answer_value'); // Jawaban user 1-4 atau 1-9
+        $table->timestamps();
+    });
     }
 
     /**

@@ -28,6 +28,18 @@
                 <div>
                     {{-- Request #3: Input Nama Fungsional --}}
                     <div class="mb-6">
+                        <label for="code" class="block mb-2 font-semibold text-base text-gray-900">Kode Rules</label>
+                        <input wire:model="code" type="text" id="code"
+                            class="bg-white border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5
+                                      @error('code') border-red-500 @else border-gray-400 @enderror
+                                     ">
+                        {{-- Request #4: Pesan Error --}}
+                        @error('code')
+                            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-6">
                         <label for="title" class="block mb-2 font-semibold text-base text-gray-900">Nama</label>
                         <input wire:model="title" type="text" id="title"
                             class="bg-white border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5
@@ -39,31 +51,6 @@
                         @enderror
                     </div>
 
-                    {{-- Request #3: Input Skor Minimal Fungsional --}}
-                    <div class="mb-6">
-                        <label for="min_score" class="block mb-2 font-semibold text-base text-gray-900">Minimal
-                            Skor</label>
-                        <input wire:model="min_score" type="number" id="min_score"
-                            class="bg-white border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5
-                                      @error('min_score') border-red-500 @else border-gray-400 @enderror
-                                     ">
-                        @error('min_score')
-                            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Request #3: Input Skor Maksimal Fungsional --}}
-                    <div class="">
-                        <label for="max_score" class="block mb-2 font-semibold text-base text-gray-900">Maksimal
-                            Skor</label>
-                        <input wire:model="max_score" type="number" id="max_score"
-                            class="bg-white border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5
-                                      @error('max_score') border-red-500 @else border-gray-400 @enderror
-                                     ">
-                        @error('max_score')
-                            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
                 </div>
 
                 {{-- Kolom Kanan --}}

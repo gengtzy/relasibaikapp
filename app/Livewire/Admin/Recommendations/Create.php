@@ -10,6 +10,14 @@ use Livewire\Attributes\Rule;
 #[Layout('layouts.admin')]
 class Create extends Component
 {
+
+    #[Rule('required', message: 'Rule wajib diisi.')]
+    #[Rule('string', message: 'Rule harus berupa teks.')]
+    #[Rule('min:3', message: 'Rule minimal 3 karakter.')]
+    #[Rule('max:3', message: 'Rule maksimal 3 karakter.')]
+    #[Rule('regex:/^[TSR]+$/', message: 'Rule hanya boleh menggunakan huruf T, S, atau R.')]
+    public $code = '';
+
     #[Rule('required', message: 'Nama/Judul wajib diisi.')]
     #[Rule('string', message: 'Nama/Judul harus berupa teks.')]
     #[Rule('min:5', message: 'Nama/Judul minimal 5 karakter.')]
@@ -19,12 +27,6 @@ class Create extends Component
     #[Rule('string', message: 'Deskripsi harus berupa teks.')]
     #[Rule('min:10', message: 'Deskripsi minimal 10 karakter.')]
     public $description = '';
-
-    #[Rule('nullable|integer', message: 'Skor minimal harus berupa angka.')]
-    public $min_score = '';
-
-    #[Rule('nullable|integer|gt:min_score', message: 'Skor maksimal harus lebih besar dari skor minimal.')]
-    public $max_score = '';
 
     public function save()
     {

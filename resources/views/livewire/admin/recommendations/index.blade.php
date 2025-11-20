@@ -77,10 +77,9 @@
                                 <label class="sr-only">checkbox</label>
                             </div>
                         </th>
-                        <th scope="col" class="px-6 py-3">Judul Rekomendasi</th>
-                        <th scope="col" class="px-6 py-3">Deskripsi</th>
-                        <th scope="col" class="px-6 py-3">Minimal Skor</th>
-                        <th scope="col" class="px-6 py-3">Maksimal Skor</th>
+                        <th scope="col" class="px-6 py-3">Rules</th>
+                        <th scope="col" class="px-6 py-3">Diagnosa</th>
+                        <th scope="col" class="px-6 py-3">Rekomendasi</th>
                         <th scope="col" class="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
@@ -100,17 +99,14 @@
                             
                             {{-- Request #6: TD bisa diklik untuk edit --}}
                             <td wire:click="editRecommendation({{ $recommendation->id }})" class="align-top px-6 py-4 cursor-pointer">
+                                {{ $recommendation->code }}
+                            </td>
+                            <td wire:click="editRecommendation({{ $recommendation->id }})" class="align-top px-6 py-4 cursor-pointer">
                                 {{ $recommendation->title }}
                             </td>
                             <td wire:click="editRecommendation({{ $recommendation->id }})" class="px-6 py-4 cursor-pointer">
                                 {{-- Gunakan Str::limit agar deskripsi tidak terlalu panjang di list --}}
                                 {{ \Illuminate\Support\Str::limit($recommendation->description, 150, '...') }}
-                            </td>
-                            <td wire:click="editRecommendation({{ $recommendation->id }})" class="align-top px-6 py-4 cursor-pointer">
-                                {{ $recommendation->min_score ?? '-' }}
-                            </td>
-                            <td wire:click="editRecommendation({{ $recommendation->id }})" class="align-top px-6 py-4 cursor-pointer">
-                                {{ $recommendation->max_score ?? '-' }}
                             </td>
                             
                             {{-- Request #7: Aksi Edit dan Hapus difungsikan --}}
