@@ -23,4 +23,9 @@ class Screening extends Model
     {
         return $this->belongsTo(Recommendation::class, 'id_recommendation');
     }
+    
+    public function responses()
+    {
+        return $this->hasMany(ScreeningResponse::class, 'id_screening');
+    }
 }

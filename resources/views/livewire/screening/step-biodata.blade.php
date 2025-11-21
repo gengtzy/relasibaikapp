@@ -1,6 +1,6 @@
 <div class="overflow-hidden">
     <form wire:submit="save">
-        <section id="form" class="w-full max-w-5xl mx-auto my-24 border border-white shadow-xl rounded-2xl">
+        <section id="form" class="w-full max-w-6xl mx-auto my-24 border border-white shadow-xl rounded-2xl">
             <div class="bg-blue-500 p-8 text-white relative rounded-t-2xl">
                 <h2 class="text-3xl font-bold mb-2">Isi dengan benar dan sesuai</h2>
                 <p class="opacity-90">
@@ -30,15 +30,16 @@
                     @enderror
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex flex-col-reverse sm:flex-row justify-between items-center mt-10 pt-6 border-t border-blue-200 gap-4">
+                    <a href="/"
+                        class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-100 transition-all">
+                        <i class="fas fa-arrow-left"></i>
+                        Kembali ke Beranda
+                    </a>
                     <button type="submit"
-                        class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md hover:shadow-lg transition-all">
+                        class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md hover:shadow-lg transition-all">
                         Lanjut ke Kuisioner Ayah
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                        </svg>
+                        <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>

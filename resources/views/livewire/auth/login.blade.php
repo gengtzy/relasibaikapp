@@ -1,27 +1,27 @@
 <div class="flex justify-center items-center min-h-screen">
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="w-full max-w-sm px-6 pb-6 bg-blue-500/15 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg">
-        <form wire:submit="login" class="space-y-4">
-            <h5 class="text-2xl font-medium text-gray-900 pt-6">Masuk ke Relasibaik.</h5>
+    <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg">
+        <form wire:submit="login" class="space-y-6">
+            <h5 class="text-2xl font-bold text-gray-900 pt-6">Masuk ke Relasibaik.</h5>
 
             <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email Kamu</label>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                 <input id="email" type="email" wire:model="email" required autofocus autocomplete="username"
-                    class="bg-slate-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5"
-                    placeholder="name@company.com" />
+                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5"
+                    placeholder="Masukan email kamu" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <div x-data="{ showPassword: false }">
 
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi Kamu</label>
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
 
                 <div class="relative">
 
                     <input id="password" :type="showPassword ? 'text' : 'password'" wire:model="password" required
-                        autocomplete="current-password" placeholder=""
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 pr-10" />
+                        autocomplete="current-password" placeholder="Masukan kata sandi kamu"
+                        class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5" />
 
                     <div @click="showPassword = !showPassword"
                         class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
@@ -33,14 +33,6 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
-            {{-- <div>
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi Kamu</label>
-                <input id="password" type="password" wire:model="password" required autocomplete="current-password"
-                    placeholder=""
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div> --}}
-
             <div class="flex items-center justify-between">
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
@@ -51,18 +43,17 @@
                 </div>
 
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-sm text-blue-700 hover:underline"
+                    <a href="{{ route('password.request') }}" class="text-sm text-blue-500 hover:underline"
                         wire:navigate>Lupa
                         Sandi?</a>
                 @endif
             </div>
 
             <button type="submit"
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md font-semibold px-5 py-2.5 text-center">Masuk
-                ke Akun Kamu</button>
+                class="w-full text-white bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md font-semibold px-5 py-2.5 text-center">Masuk</button>
 
             <div class="text-sm font-medium text-center">
-                Belum punya akun? <a href="{{ route('register') }}" class="text-blue-700 hover:underline"
+                Belum punya akun? <a href="{{ route('register') }}" class="text-blue-500 hover:underline"
                     wire:navigate>Daftar</a>
             </div>
         </form>

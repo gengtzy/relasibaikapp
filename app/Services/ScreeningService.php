@@ -39,9 +39,9 @@ class ScreeningService
             $totalScore  = $scoreFather + $scoreMother + $scoreOther;
 
             // 2. Tentukan Kategori (Fakta)
-            $catFather = $this->getCategory($scoreFather, 14, 4); // "Tinggi"/"Sedang"/"Rendah"
-            $catMother = $this->getCategory($scoreMother, 24, 8);
-            $catOther  = $this->getCategory($scoreOther, 8, 8);
+            $catFather = $this->getCategory($scoreFather, 14, 4, 0); // "Tinggi"/"Sedang"/"Rendah"
+            $catMother = $this->getCategory($scoreMother, 28, 4, 0);
+            $catOther  = $this->getCategory($scoreOther, 8, 9, 0);
 
             $ruleCode = substr($catFather, 0, 1) . substr($catMother, 0, 1) . substr($catOther, 0, 1);
 
@@ -61,7 +61,7 @@ class ScreeningService
             'lokasi'  => $biodata['lokasi_name'] ?? null,
             'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
             'id_recommendation' => $recommendation ? $recommendation->id : null, // Simpan ID-nya
-            'status' => 'completed'
+            'status' => 'preview'
             ]);
 
             ScreeningResult::create([
@@ -114,7 +114,7 @@ class ScreeningService
             $user->superiority_role === 'Ayah' && 
             $user->hasVerifiedEmail()) {
             
-            $bonus = 5; // Tambahan poin bonus (bisa disesuaikan)
+            $bonus = 5;
         }
 
         return $baseScore + $bonus;
@@ -137,16 +137,12 @@ class ScreeningService
             // Pastikan ada jawaban untuk pertanyaan ini
             if (!isset($answers[$question->id])) continue;
 
-            $userVal = (int) $answers[$question->id]; // Nilai 1-9 dari Slider
+            $userVal = (int) $answers[$question->id]; 
 
             if ($question->scoring_type === 'Favorable') {
-                // Rumus Favorable: Nilai - 1
-                // 1 jadi 0, ..., 9 jadi 8
-                $score = $userVal - 1;
+                $score = $userVal;
             } else {
-                // Rumus Unfavorable (Terbalik): 9 - Nilai
-                // 1 jadi 8, ..., 9 jadi 0
-                $score = 9 - $userVal;
+                $score = 4 - $userVal;
             }
 
             $totalScore += $score;
@@ -185,7 +181,7 @@ class ScreeningService
                 $score = $userVal - 1;
             } else {
                 // Rumus Unfavorable (Terbalik): 9 - Nilai
-                $score = 9 - $userVal;
+                $score = 10 - $userVal;
             }
 
             $totalScore += $score;
@@ -202,10 +198,10 @@ class ScreeningService
         return $totalScore + $bonus;
     }
 
-    public function getCategory(int $score, int $numberOfQuestions, int $maxScale): string
+    public function getCategory(int $score, int $numberOfQuestions, int $maxScale, int $minScale): string
     {
         // Rumus Statistik Anda:
-        $xMin = 0;
+        $xMin = $minScale * $numberOfQuestions;
         $xMax = $maxScale * $numberOfQuestions; // Max Poin per butir * Jumlah Soal
 
         $range = $xMax - $xMin;

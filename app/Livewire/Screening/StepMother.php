@@ -44,8 +44,7 @@ class StepMother extends Component
         $messages = [];
         
         foreach ($this->questions as $question) {
-            // Validasi 1 sampai 9 (Sesuai UI Slider)
-            $rules["answers.{$question->id}"] = 'required|integer|min:1|max:9';
+            $rules["answers.{$question->id}"] = 'required|integer|min:0|max:4';
             $messages["answers.{$question->id}.required"] = "Butir ini wajib diisi (geser slider).";
         }
 

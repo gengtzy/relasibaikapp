@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\ScreeningWizard;
+use App\Livewire\Profile;
 use App\Livewire\LocationDropdowns;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\ScreeningResult;
@@ -33,6 +34,8 @@ Route::get('/', function () {
 // Rute untuk Pengguna Biasa (User)
 Route::middleware(['auth', 'verified', 'redirect.admin'])->group(function () {
     Route::get('/screening', ScreeningWizard::class)->name('screening.wizard'); 
+
+    Route::get('/profile', Profile::class)->name('profile'); 
 });
 
 // Rute KHUSUS untuk Admin

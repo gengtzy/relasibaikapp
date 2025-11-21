@@ -11,4 +11,9 @@ class ScreeningResponse extends Model
         'id_question',
         'answer_value',
     ];
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'id_question');
+    }
 }

@@ -105,7 +105,7 @@ class StepOther extends Component
         $messages = [];
         
         foreach ($this->questions as $question) {
-            $rules["answers.{$question->id}"] = 'required|integer|min:1|max:9';
+            $rules["answers.{$question->id}"] = 'required|integer|min:1|max:10';
             $messages["answers.{$question->id}.required"] = "Pertanyaan ini wajib diisi.";
         }
 

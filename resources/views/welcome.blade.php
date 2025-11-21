@@ -21,7 +21,7 @@
                                 Mulai Sekarang
                             </a>
                         @else
-                            <a href="#"
+                            <a href="{{ route('login') }}"
                                 class="inline-block mt-8 bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-600 transition-transform hover:scale-105">
                                 Mulai Screening Gratis
                             </a>

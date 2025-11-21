@@ -11,6 +11,9 @@ class ScreeningResult extends Model
         'fpq_score',   // Skor Ayah
         'mciq_score',  // Skor Ibu
         'fmwb_score',  // Skor Keluarga Lain
-        'total_score', // Skor Total
+        'total_score',
+        'fpq_category', 
+        'mciq_category', 
+        'fmwb_category', 
     ];
 }

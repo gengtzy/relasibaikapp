@@ -13,16 +13,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Buat User Test
         User::create([
             'name' => 'test',
             'email' => 'test@example.com',
-            'password' => Hash::make('password'), // password login
+            'password' => Hash::make('password'),
             'role' => 'masyarakat',
-            'superiority_role' => 'Ayah', // Contoh buat ngetes bonus poin
+            'superiority_role' => 'Ayah',
+        ]);
+        
+        User::create([
+            'name' => 'Adminrb',
+            'email' => 'admin@relasibaik.com',
+            'password' => Hash::make('admin12345'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
         ]);
 
-        // 2. Buat Instruments
         $insFather = Instrument::create(['code' => 'FPQ', 'name' => 'Father Presence Questionnaire']);
         $insMother = Instrument::create(['code' => 'MCIQ', 'name' => 'Maternal Closeness Questionnaire']);
         $insOther  = Instrument::create(['code' => 'FMWB', 'name' => 'Family Well-Being Scale']);
@@ -48,51 +54,194 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 4. Buat Pertanyaan (Questions)
-        
-        // --- SOAL AYAH (FPQ) - 14 Soal (Skala 0-4) ---
         $fpqQuestions = [
-            'Saya merasa ayah saya selalu ada untuk saya.',
-            'Ayah saya sering mengajak saya berdiskusi.',
-            // ... Masukkan 14 soal FPQ di sini ...
-            'Saya merasa canggung dengan ayah saya.', // Contoh soal negatif
+            'Saya merasa dekat dengan ayah.',
+            'Ayah sangat penting bagi saya.',
+            'Saya merasa ayah membela dan mendukung pilihan atau kegiatan saya.',
+            'Saya menghormati ayah saya.',
+            'Saya terinspirasi oleh ayah.',
+            'Ayah saya memiliki tempat istimewa dalam hidup saya dan tak seorangpun dapat menggantikannya.',
+            'Ayah dan saya menikmati kebersamaan kami.',
+            'Saya ingin seperti ayah saya.',
+            'Ayah membantu saya mempelajari hal-hal baru.',
+            'Saya dapat meminta nasihat dari ayah atau meminta ayah membantu saya menyelesaikan masalah.',
+            'Ayah membantu saya memikirkan masa depan saya.',
+            'Ayah mendengarkan saya ketika saya berbicara dengannya.',
+            'Ayah mendorong/menyemangati saya.',
+            'Ayah akan memegang tangan/menggandeng saya atau merangkul saya.',
         ];
 
         foreach ($fpqQuestions as $index => $text) {
             Question::create([
                 'id_instrument' => $insFather->id,
                 'question_text' => $text,
-                'scoring_type' => ($index == 13) ? 'Unfavorable' : 'Favorable', // Contoh soal terakhir unfavorable
+                'scoring_type' => 'Favorable',
             ]);
         }
 
-        // --- SOAL IBU (MCIQ) - 24 Soal (Skala 1-9) ---
         $mciqQuestions = [
-            'Seberapa sering Anda merasa dimengerti oleh Ibu?',
-            'Seberapa sering Ibu mengabaikan perasaan Anda?',
-             // ... Masukkan 24 soal MCIQ di sini ...
+            [
+                'text' => 'Ibu saya jarang mengatakan hal-hal baik pada saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Saya adalah orang penting di mata ibuku.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya sering bertindak seolah-olah dia tidak peduli dengan saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibuku senang menghabiskan waktu bersamaku.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibuku mengungkapkan kehangatan dan rasa sayangnya kepadaku.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Saya mudah berbicara dengan ibu.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Saya merasa tegang dan tidak nyaman saat ibu dan saya bersama.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Saya merasa bahwa ibu lebih sering menyalahkan kesalahan saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu berminat aktif dalam kegiatan/urusan saya.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Saya merasa sangat dekat dengan ibu saya.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya tidak memahami saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu mempercayai saya.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Saya tidak merasa ibu senang bersamaku.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibuku tidak benar-benar tahu tipe orang seperti apa saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu saya adalah seorang yang hangat dan penuh perhatian.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya tidak merasa saya adalah seorang yang penting dan menarik.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu saya sangat tertarik dengan hal-hal mengenai saya.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya sering mengkritik saya dan tidak ada yang pernah saya bisa lakukan untuk menyenangkannya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu saya jarang menunjukkan kasih sayang kepada saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibuku menghiburku dan membantuku saat aku tidak bahagia atau bermasalah.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibuku umumnya dingin dan "berjarak" saat aku bersamanya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Saya banyak menerima penguatan dari ibu saya.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya sangat pengertian dan simpatik.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya tidak terlalu peduli dengan apa yang terjadi pada diri saya.',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Ibu saya mendorong saya untuk berbicara dengan ayah.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya menghormati keputusan ayah.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Ibu saya menghargai apa yang dilakukan ayah untuk kami.',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Saya menyukai cara ibu bercerita tentang ayah.',
+                'type' => 'Favorable'
+            ],
         ];
 
-        foreach ($mciqQuestions as $index => $text) {
+        foreach ($mciqQuestions as $item) {
             Question::create([
                 'id_instrument' => $insMother->id,
-                'question_text' => $text,
-                'scoring_type' => ($index == 1) ? 'Unfavorable' : 'Favorable',
+                'question_text' => $item['text'],
+                'scoring_type'  => $item['type'],
             ]);
         }
 
-        // --- SOAL LAINNYA (FMWB) - 8 Soal (Skala 1-9) ---
         $fmwbQuestions = [
-            'Bagaimana energi Anda saat bersama keluarga besar?', // Kata kunci: energi
-            'Apakah Anda merasa sedih di rumah?', // Kata kunci: sedih
-             // ... Masukkan 8 soal FMWB di sini ...
+            [
+                'text' => 'Seberapa mengkhawatirkannya kesehatan Anda saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Seberapa relaks atau tegangnya Anda saat ini (selama 1 bulan terakhir)',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Seberapa besar energi semangat, vitalitas yang Anda rasakan? (selama 1 bulan terakhir)',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Seberapa tertekan atau cerianya Anda saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Seberapa takut Anda rasakan saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Favorable'
+            ],
+            [
+                'text' => 'Seberapa marahkah Anda saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Seberapa sedihkah Anda saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Unfavorable'
+            ],
+            [
+                'text' => 'Seberapa khawatirnya Anda terhadap kesehatan salah satu anggota keluarga saat ini? (selama 1 bulan terakhir)',
+                'type' => 'Favorable'
+            ],
         ];
 
-        foreach ($fmwbQuestions as $text) {
+        foreach ($fmwbQuestions as $item) {
             Question::create([
                 'id_instrument' => $insOther->id,
-                'question_text' => $text,
-                'scoring_type' => 'Favorable',
+                'question_text' => $item['text'],
+                'scoring_type'  => $item['type'],
             ]);
         }
     }

@@ -3,10 +3,10 @@
         <nav x-data="{ open: false, scrolled: false }" @scroll.window="scrolled = (window.scrollY > 20)"
             :class="{ 'bg-white/40 backdrop-blur-sm shadow-md': scrolled }" id="navbar-guest"
             class="fixed top-0 left-0 right-0 py-4 transition-all duration-300 z-50">
-            <div class="container mx-auto px-6 lg:px-24">
+            <div class="container mx-auto px-6 lg:px-16">
                 <div class="flex justify-between items-center">
                     <div class="flex-shrink-0">
-                        <a href="{{ route('screening.wizard') }}" id="navbar-logo"
+                        <a href="/" id="navbar-logo"
                             :class="{ 'text-white': !scrolled, 'text-blue-500': scrolled }"
                             class="text-2xl font-bold text-white transition-colors duration-300">
                             RelasiBaik.
@@ -29,7 +29,7 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-link :href="3" wire:navigate>{{ __('Profil') }}</x-dropdown-link>
+                                <x-dropdown-link href="{{ route('profile') }}" wire:navigate>{{ __('Profil') }}</x-dropdown-link>
                                 <x-dropdown-link href="#">{{ __('Riwayat Pengisian') }}</x-dropdown-link>
                                 <button wire:click="logout"
                                     class="w-full text-start"><x-dropdown-link>{{ __('Keluar') }}</x-dropdown-link></button>
