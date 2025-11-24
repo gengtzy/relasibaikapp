@@ -12,7 +12,6 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 
-// Mendefinisikan layout menggunakan Attribute
 #[Layout('layouts.guest')]
 class Register extends Component
 {

@@ -103,6 +103,7 @@
             {{-- Perhatikan class: 'print:hidden' --}}
             <div
                 class="print:hidden flex flex-col-reverse sm:flex-row justify-between items-center mt-10 pt-6 border-t border-blue-200 gap-4 relative">
+                @if (!request()->routeIs('screening.result'))
                 <a href="/"
                     class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-100 transition-all">
                     <svg class="w-4 h-4 mr-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +113,9 @@
                     </svg>
                     Kembali ke Beranda
                 </a>
+                @else
+                <div></div>
+                @endif
 
                 {{-- Tombol Kanan: Dropup Menu (Simpan & Cetak) --}}
                 <div x-data="{ open: false }" class="relative w-full sm:w-auto">

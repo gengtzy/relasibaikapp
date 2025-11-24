@@ -2,28 +2,31 @@
 
 namespace App\Livewire\Auth;
 
-use App\Livewire\Actions\Logout;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Livewire\Component;
-use Livewire\Attributes\Layout;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-#[Layout('layouts.guest')] // Mendefinisikan layout menggunakan Attribute
+#[Layout('layouts.guest')]
 class VerifyEmail extends Component
 {
-    // Method mount() untuk mengirim data layout
-    public function mount(): void
+    public function mount()
     {
         View::share('bgImage', 'images/bgauth.svg');
         View::share('centered', true);
+        // Jika user sudah verified, lempar langsung
+        if (Auth::user()?->hasVerifiedEmail()) {
+            $this->redirect(route('screening.wizard', absolute: false) . '?verified=1', navigate: true);
+        }
     }
 
-    // Fungsi $sendVerification menjadi method public sendVerification()
-    public function sendVerification(): void
+    // Fungsi kirim ulang email
+    public function sendVerification()
     {
         if (Auth::user()->hasVerifiedEmail()) {
-            // RedirectIntended tidak tersedia secara langsung, gunakan redirect biasa
             $this->redirect(route('screening.wizard', absolute: false), navigate: true);
             return;
         }
@@ -33,14 +36,30 @@ class VerifyEmail extends Component
         Session::flash('status', 'verification-link-sent');
     }
 
-    // Fungsi $logout menjadi method public logout()
-    public function logout(Logout $logout): void
+    // Fungsi Logout
+    public function logout()
     {
-        $logout();
+        Auth::guard('web')->logout();
+        Session::invalidate();
+        Session::regenerateToken();
         $this->redirect('/', navigate: true);
     }
 
-    // Method render() memberitahu Livewire file view mana yang harus ditampilkan
+    // --- FUNGSI BARU: PENGGANTI CONTROLLER ---
+    // Method statis/biasa untuk menangani route verify/{id}/{hash}
+    public function verify(EmailVerificationRequest $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('screening.wizard', absolute: false).'?verified=1');
+        }
+
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+        }
+
+        return redirect()->intended(route('screening.wizard', absolute: false).'?verified=1');
+    }
+
     public function render()
     {
         return view('livewire.auth.verify-email');

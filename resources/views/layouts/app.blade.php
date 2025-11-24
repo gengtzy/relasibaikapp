@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('images/Logorelasibaik.svg') }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -18,26 +19,12 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased bg-no-repeat bg-cover w-full"
+<body class="min-h-screen bg-cover bg-no-repeat"
     style="background-image: url('{{ asset('images/bgapp.svg') }}')">
-    <div class="min-h-screen">
+
         <livewire:layout.navigation />
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
-        <!-- Page Content -->
-        <main>
             {{ $slot }}
-        </main>
-
-    </div>
 
     @livewireScripts
 </body>

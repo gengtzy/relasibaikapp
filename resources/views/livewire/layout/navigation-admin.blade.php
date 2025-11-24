@@ -78,11 +78,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.screening-result') }}" wire:navigate @class([
+                    <a href="{{ route('screeningresult') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.screening-result*'),
+                        'text-blue-500 bg-gray-50' => request()->routeIs('screeningresult*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
-                            'admin.screening-result*'),
+                            'screeningresult*'),
                     ])>
                         <i class="fas fa-poll-h ml-1"></i>
                         <span class="ms-3">Hasil Skrining</span>

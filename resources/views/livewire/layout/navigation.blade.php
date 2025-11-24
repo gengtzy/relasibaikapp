@@ -30,7 +30,7 @@
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link href="{{ route('profile') }}" wire:navigate>{{ __('Profil') }}</x-dropdown-link>
-                                <x-dropdown-link href="#">{{ __('Riwayat Pengisian') }}</x-dropdown-link>
+                                <x-dropdown-link href="{{route('history')}}">{{ __('Riwayat Pengisian') }}</x-dropdown-link>
                                 <button wire:click="logout"
                                     class="w-full text-start"><x-dropdown-link>{{ __('Keluar') }}</x-dropdown-link></button>
                             </x-slot>
@@ -54,8 +54,8 @@
             <div :class="{ 'block': open, 'hidden': !open }"
                 class="hidden md:hidden mt-4 bg-white rounded-lg shadow-lg mx-6">
                 <div class="pt-2 pb-2 space-y-1">
-                    <x-responsive-nav-link :href="3" wire:navigate>{{ __('Profil') }}</x-responsive-nav-link>
-                    <x-responsive-nav-link href="#">{{ __('Riwayat Pengisian') }}</x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('profile') }}" wire:navigate>{{ __('Profil') }}</x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{route('history')}}">{{ __('Riwayat Pengisian') }}</x-responsive-nav-link>
                     <button wire:click="logout"
                         class="w-full text-start"><x-responsive-nav-link>{{ __('Keluar') }}</x-responsive-nav-link></button>
                 </div>

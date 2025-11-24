@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Screening extends Model
 {
+    protected $guarded = [];
     protected $fillable = [
         'user_id', 
         'lokasi', 
@@ -14,6 +15,11 @@ class Screening extends Model
         'status'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
     public function result()
     {
         return $this->hasOne(ScreeningResult::class, 'id_screening');

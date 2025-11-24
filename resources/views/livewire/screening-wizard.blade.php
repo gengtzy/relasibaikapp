@@ -69,3 +69,16 @@
         </div>
     @endif
 </div>
+
+@script
+<script>
+    // Mendengarkan event 'scroll-to-top' dari Livewire
+    Livewire.on('scroll-to-top', () => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+@endscript

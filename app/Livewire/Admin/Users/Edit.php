@@ -60,7 +60,7 @@ class Edit extends Component
                 Rule::unique('users')->ignore($this->userId),
             ],
             'role' => 'required|in:admin,masyarakat',
-            'superiority_role' => 'required_if:role,masyarakat|nullable',
+            'superiority_role' => 'nullable',
             
             // Password bersifat opsional, tapi jika diisi, harus min 8 & terkonfirmasi
             'password' => 'nullable|min:8|confirmed',

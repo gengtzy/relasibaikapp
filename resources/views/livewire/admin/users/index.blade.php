@@ -30,7 +30,7 @@
     </div>
 
     {{-- Kontainer Tabel --}}
-    <div class="border border-slate-300 shadow-sm rounded-2xl bg-white">
+    <div class="border border-slate-200 shadow-sm rounded-2xl bg-white">
 
         {{-- Area Filter dan Aksi --}}
         <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 p-4">
@@ -73,12 +73,11 @@
                             {{-- Request #4: Checkbox "Select All" --}}
                             <div class="flex items-center">
                                 <input wire:model.live="selectAll" type="checkbox"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm accent-blue-500">
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded accent-blue-500">
                                 <label class="sr-only">checkbox</label>
                             </div>
                         </th>
-                        <th scope="col" class="px-6 py-3">Nama</th>
-                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Nama User</th>
                         <th scope="col" class="px-6 py-3">Peran</th>
                         <th scope="col" class="px-6 py-3">Tanggal Registrasi</th>
                         <th scope="col" class="px-6 py-3">Status Verifikasi</th>
@@ -101,10 +100,9 @@
 
                             {{-- Request #6: TD bisa diklik untuk edit --}}
                             <td wire:click="editUser({{ $user->id }})" class="px-6 py-4 cursor-pointer">
-                                {{ $user->name }}
-                            </td>
-                            <td wire:click="editUser({{ $user->id }})" class="px-6 py-4 cursor-pointer">
-                                {{ $user->email }}
+                                <div class="font-semibold text-slate-800">{{ $user->name}}
+                                </div>
+                                <div class="text-xs text-slate-400">{{ $user->email}}</div>
                             </td>
                             <td wire:click="editUser({{ $user->id }})" class="px-6 py-4 cursor-pointer">
                                 @if ($user->role == 'admin')

@@ -5,7 +5,9 @@ namespace App\Livewire\Screening;
 use App\Models\Screening;
 use App\Services\ScreeningService;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.app')]
 class StepResult extends Component
 {
     public $resultId;

@@ -45,6 +45,7 @@ class ScreeningWizard extends Component
 
         // 5. Pindahkan ke langkah berikutnya
         $this->currentStep = 2;
+        $this->dispatch('scroll-to-top');
     }
 
     #[On('goToStep')]
@@ -60,6 +61,7 @@ class ScreeningWizard extends Component
         $this->fatherScore = $score;
 
         $this->currentStep = 3;
+        $this->dispatch('scroll-to-top');
     }
 
     #[On('motherAnswersCompleted')]
@@ -70,7 +72,8 @@ class ScreeningWizard extends Component
 
         // dd($this->motherAnswers, $this->motherScore);
 
-        $this->currentStep = 4; // Lanjut ke Step Keluarga Lain
+        $this->currentStep = 4;
+        $this->dispatch('scroll-to-top');
     }
 
     #[On('otherAnswersCompleted')]
@@ -126,8 +129,9 @@ class ScreeningWizard extends Component
 
     public function goToResult()
     {
-        $this->isFinished = false; // Tutup Modal
-        $this->currentStep = 5;    // Pindah Halaman
+        $this->isFinished = false;
+        $this->currentStep = 5;
+        $this->dispatch('scroll-to-top');
     }
 
     public function render()

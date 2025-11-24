@@ -14,11 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'test',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password'),
+            'name' => 'AgengDev',
+            'email' => 'ageng@yopmail.com',
+            'password' => Hash::make('akuakuaku'),
             'role' => 'masyarakat',
             'superiority_role' => 'Ayah',
+            'email_verified_at' => now(),
         ]);
         
         User::create([
@@ -36,15 +37,51 @@ class DatabaseSeeder extends Seeder
         // 3. Buat 27 Rule Recommendations (Knowledge Base)
         // Format Code: AYAH-IBU-LAIN (T=Tinggi, S=Sedang, R=Rendah)
         $rules = [
-            ['TTT', 'Keluarga Sangat Harmonis', 'Selamat! Hubungan dengan Ayah, Ibu, dan keluarga lain sangat baik.'],
-            ['TTS', 'Keluarga Harmonis Stabil', 'Hubungan orang tua sangat baik, namun interaksi keluarga lain sedang.'],
-            ['TTR', 'Masalah Lingkungan Berat', 'Hubungan orang tua baik, tapi lingkungan keluarga lain buruk.'],
-            // ... Tambahkan kombinasi lain sesuai skripsi (Total 27) ...
+            // 1. Kombinasi Tinggi - Tinggi - Tinggi
+            ['TTT', 'Keluarga Sangat Harmonis', 'Selamat! Semua hubungan dalam keluarga berada pada tingkat terbaik.'],
+
+            // Kombinasi dengan dominan Tinggi
+            ['TTS', 'Keluarga Harmonis Stabil', 'Orangtua sangat baik, hubungan keluarga lain cukup stabil.'],
+            ['TTR', 'Keluarga Harmonis tapi Lingkungan Bermasalah', 'Hubungan inti baik, namun ada masalah di lingkungan keluarga lain.'],
+
+            ['TST', 'Hubungan Baik dengan Dinamika Sedang', 'Hubungan cukup kuat, meskipun ada area yang perlu perhatian.'],
+            ['TSS', 'Cukup Harmonis', 'Interaksi dalam keluarga cukup baik secara keseluruhan.'],
+            ['TSR', 'Harmonis namun Ada Masalah Sampingan', 'Hubungan orang tua baik, tetapi ada masalah pada anggota keluarga tertentu.'],
+
+            ['TRT', 'Keluarga Cenderung Harmonis', 'Sebagian besar hubungan berjalan baik meski ada satu area rendah.'],
+            ['TRS', 'Keluarga Hampir Harmonis', 'Mayoritas hubungan baik, namun beberapa aspek butuh perhatian.'],
+            ['TRR', 'Harmonis Terbatas', 'Hanya hubungan inti yang baik, sisanya bermasalah.'],
+
+            // Kombinasi dominan Sedang
+            ['STT', 'Potensi Harmonis Tinggi', 'Hubungan keluarga bisa menjadi sangat baik dengan sedikit perbaikan.'],
+            ['STS', 'Cukup Stabil', 'Keluarga berada dalam kondisi stabil meski tidak terlalu dekat.'],
+            ['STR', 'Stabil tapi Ada Konflik', 'Hubungan keluarga sedang, namun ada area konflik yang perlu diperhatikan.'],
+
+            ['SST', 'Stabil Menuju Harmonis', 'Hubungan keluarga stabil dan dapat meningkat dengan komunikasi lebih baik.'],
             ['SSS', 'Keluarga Rata-Rata', 'Hubungan dalam keluarga berjalan standar, perlu ditingkatkan kehangatannya.'],
-            ['RRR', 'Disharmonis Total', 'Kondisi krisis. Disarankan segera mencari bantuan profesional/psikolog.'],
-            // Default Fallback jika kombinasi belum lengkap
-            ['BUTUH_KONSELING', 'Perlu Evaluasi Lanjut', 'Silakan hubungi admin.'] 
+            ['SSR', 'Stabil namun Cenderung Melemah', 'Hubungan masih cukup, tetapi mulai ada kendala yang perlu diperbaiki.'],
+
+            ['SRT', 'Hubungan Tidak Stabil tapi Bisa Dipulihkan', 'Ada dinamika rendah, namun masih ada faktor positif.'],
+            ['SRS', 'Hubungan Mulai Bermasalah', 'Hubungan cukup renggang, namun masih bisa diperbaiki.'],
+            ['SRR', 'Hubungan Banyak Masalah', 'Mayoritas hubungan keluarga memerlukan perhatian serius.'],
+
+            // Kombinasi dominan Rendah
+            ['RTT', 'Masalah pada Anggota Tertentu', 'Orangtua baik, tetapi ada masalah serius pada hubungan tertentu.'],
+            ['RTS', 'Cenderung Bermasalah', 'Hubungan kurang harmonis, namun masih ada bagian stabil.'],
+            ['RTR', 'Masalah Berat pada Lingkungan', 'Hubungan sangat terpengaruh oleh konflik di lingkungan keluarga.'],
+
+            ['RST', 'Hubungan Kurang baik Namun Ada Potensi', 'Dua area rendah, namun ada satu hubungan yang masih baik.'],
+            ['RSS', 'Kurang Harmonis', 'Hubungan dalam keluarga cenderung buruk namun masih bisa diperbaiki.'],
+            ['RSR', 'Disharmonis Parsial', 'Hubungan tidak stabil dan memerlukan perbaikan signifikan.'],
+
+            ['RRT', 'Banyak Konflik Serius', 'Kondisi keluarga buruk namun masih ada sedikit aspek positif.'],
+            ['RRS', 'Keluarga Hampir Disharmonis', 'Mayoritas hubungan buruk, hanya satu yang sedang.'],
+            ['RRR', 'Disharmonis Total', 'Kondisi krisis. Disarankan segera mencari dukungan profesional.'],
+
+            // Fallback
+            ['BUTUH_KONSELING', 'Perlu Evaluasi Lanjut', 'Silakan hubungi admin.'],
         ];
+
 
         foreach ($rules as $rule) {
             Recommendation::create([

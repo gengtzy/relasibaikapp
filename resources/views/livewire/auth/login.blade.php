@@ -1,7 +1,10 @@
 <div class="flex justify-center items-center min-h-screen">
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
     <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg">
+        @if (session('status'))
+            <div class="mt-6 mb-4 text-sm font-medium text-green-600 bg-green-50 p-3 rounded-lg text-center border border-green-200">
+                {{ session('status') }}
+            </div>
+        @endif
         <form wire:submit="login" class="space-y-6">
             <h5 class="text-2xl font-bold text-gray-900 pt-6">Masuk ke Relasibaik.</h5>
 

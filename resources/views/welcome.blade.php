@@ -6,6 +6,24 @@
 
         <section id="beranda" class="py-24 lg:py-44">
             <div class="container mx-auto px-6 lg:px-24">
+                @auth
+                    @if (Auth::User()->superiority_role)
+                        <span class="text-sm line-clamp-2 bg-green-100 text-green-600 font-medium p-2.5 rounded-md">
+                            Akun Anda telah berhasil diverifikasi. Peran <span
+                                class="font-bold text-base">{{ Auth::User()->superiority_role }}</span> telah ditetapkan
+                            sebagai superior dalam keluarga
+                            Anda. Setiap perhitungan diagnosis akan secara otomatis menyertakan penambahan bobot untuk item
+                            yang
+                            terkait dengan peran {{ Auth::User()->superiority_role }}.
+                        </span>
+                    @else
+                        <span class="text-sm line-clamp-2 bg-orange-100 text-orange-600 font-medium p-2.5 rounded-md">
+                            Akun Anda belum diverifikasi. Anda tetap dapat melakukan pengisian diagnosis, namun
+                            perhitungan belum menyertakan bobot khusus karena peran superior (Ayah, Ibu, atau Anggota
+                            Lain) di dalam keluarga Anda belum ditentukan.
+                        </span>
+                    @endif
+                @endauth
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div class="text-center lg:text-left">
                         <h1 class="text-3xl lg:text-5xl font-bold text-slate-100 leading-tight">
@@ -170,8 +188,8 @@
                             <path
                                 d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                         </svg>
-                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 22 20">
+                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                             <path
                                 d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                         </svg>
