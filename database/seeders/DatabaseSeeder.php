@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $insFather = Instrument::create(['code' => 'FPQ', 'name' => 'Father Presence Questionnaire']);
-        $insMother = Instrument::create(['code' => 'MCIQ', 'name' => 'Maternal Closeness Questionnaire']);
-        $insOther  = Instrument::create(['code' => 'FMWB', 'name' => 'Family Well-Being Scale']);
+        $insMother = Instrument::create(['code' => 'MCIQ', 'name' => 'Mother Child-Interaction Questionnaire']);
+        $insOther  = Instrument::create(['code' => 'FMWB', 'name' => 'Family Member Well-Being']);
 
         // 3. Buat 27 Rule Recommendations (Knowledge Base)
         // Format Code: AYAH-IBU-LAIN (T=Tinggi, S=Sedang, R=Rendah)

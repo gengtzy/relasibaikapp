@@ -23,6 +23,30 @@
         <h1 class="text-2xl font-bold text-slate-800">Hasil Skrining</h1>
     </div>
 
+    @if ($filterType === 'risk')
+        <div
+            class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between animate-fade-in">
+            <div class="flex items-center gap-3">
+                <div class="bg-red-100 p-2 rounded-full text-red-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-red-800 text-sm">Mode Filter: Indikasi Masalah</h4>
+                    <p class="text-red-600 text-xs">Menampilkan data skrining yang memerlukan perhatian (Kategori
+                        Rendah/Disharmonis).</p>
+                </div>
+            </div>
+            <a href="{{ route('screeningresult') }}" wire:navigate
+                class="text-sm text-red-600 hover:text-red-800 font-medium underline">
+                Reset Filter
+            </a>
+        </div>
+    @endif
+
     {{-- Alert --}}
     {{-- @if (session()->has('success'))
         <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 border border-green-200 flex items-center"
@@ -100,7 +124,8 @@
                             </td>
 
                             {{-- ID Sesi Custom --}}
-                            <td wire:click="viewResult({{ $item->id }})" class="px-6 py-4 font-medium whitespace-nowrap cursor-pointer">
+                            <td wire:click="viewResult({{ $item->id }})"
+                                class="px-6 py-4 font-medium whitespace-nowrap cursor-pointer">
                                 SCR-{{ $item->created_at->format('Ymd') }}-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}
                             </td>
 
@@ -108,13 +133,15 @@
                                 {{ $item->user->name }}
                             </td>
 
-                            <td wire:click="viewResult({{ $item->id }})" class="px-6 py-4 whitespace-nowrap cursor-pointer">
+                            <td wire:click="viewResult({{ $item->id }})"
+                                class="px-6 py-4 whitespace-nowrap cursor-pointer">
                                 {{ $item->created_at->translatedFormat('d F Y') }}
                                 <br>
                                 <span class="text-xs text-slate-400">{{ $item->created_at->format('H:i') }} WIB</span>
                             </td>
 
-                            <td wire:click="viewResult({{ $item->id }})" class="px-6 py-4 text-center cursor-pointer">
+                            <td wire:click="viewResult({{ $item->id }})"
+                                class="px-6 py-4 text-center cursor-pointer">
                                 <span
                                     class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded border border-blue-200">
                                     {{ $item->result->total_score ?? 0 }}
@@ -150,7 +177,8 @@
                                     Lihat
                                 </button>
                                 <button wire:click="deleteResult({{ $item->id }})"
-                                    wire:confirm="Yakin ingin menghapus data screening ID SCR-{{ $item->created_at->format('Ymd') }}-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}?" type="button"
+                                    wire:confirm="Yakin ingin menghapus data screening ID SCR-{{ $item->created_at->format('Ymd') }}-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}?"
+                                    type="button"
                                     class="flex gap-1 items-center font-medium text-red-600 hover:underline">
                                     <i class="fas fa-trash-alt"></i>
                                     Hapus

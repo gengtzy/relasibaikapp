@@ -16,19 +16,35 @@ class Index extends Component
     public $perPage = 10;
     public $selectAll = false;
     public $selectedUsers = [];
+    public $filter = '';
+
+    public function mount()
+    {
+        $this->filter = request()->query('filter');
+    }
 
     public function updatedSearch()
     {
         $this->resetPage();
+        $this->resetSelection();
     }
 
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->selectedUsers = User::pluck('id')->map(fn ($id) => (string) $id);
+            $this->selectedUsers = $this->getUsersQuery()
+                ->pluck('id')
+                ->map(fn ($id) => (string) $id)
+                ->toArray();
         } else {
             $this->selectedUsers = [];
         }
+    }
+
+    public function resetSelection()
+    {
+        $this->selectAll = false;
+        $this->selectedUsers = [];
     }
 
     public function createNewUser()
@@ -49,9 +65,13 @@ class Index extends Component
             return;
         }
 
-        User::find($id)->delete();
-        session()->flash('success', 'Pengguna berhasil dihapus.');
-        $this->reset('selectAll', 'selectedUsers');
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            session()->flash('success', 'Pengguna berhasil dihapus.');
+        }
+        
+        $this->resetSelection();
     }
 
     public function deleteSelected()
@@ -59,23 +79,41 @@ class Index extends Component
         // Filter agar tidak bisa menghapus diri sendiri
         $filteredIds = array_filter($this->selectedUsers, fn ($id) => $id != auth()->id());
         
+        if (empty($filteredIds)) {
+            session()->flash('error', 'Tidak ada data yang dipilih atau Anda mencoba menghapus akun sendiri.');
+            return;
+        }
+
         User::whereIn('id', $filteredIds)->delete();
-        session()->flash('success', 'Pengguna yang dipilih berhasil dihapus.');
-        $this->reset('selectAll', 'selectedUsers');
+        
+        session()->flash('success', count($filteredIds) . ' Pengguna yang dipilih berhasil dihapus.');
+        $this->resetSelection();
     }
 
+    protected function getUsersQuery()
+    {
+        $query = User::query()->latest();
+
+        if ($this->filter === 'no_role') {
+            $query->where('role', 'masyarakat')
+                  ->whereNull('superiority_role');
+        }
+
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                  ->orWhere('email', 'like', '%' . $this->search . '%')
+                  ->orWhere('role', 'like', '%' . $this->search . '%')
+                  ->orWhere('superiority_role', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        return $query;
+    }
 
     public function render()
     {
-        $users = User::query()
-            ->where(function ($query) {
-                // Request #3: Fungsi Search
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%')
-                    ->orWhere('role', 'like', '%' . $this->search . '%')
-                    ->orWhere('superiority_role', 'like', '%' . $this->search . '%');
-            })
-            ->paginate($this->perPage);
+        $users = $this->getUsersQuery()->paginate($this->perPage);
 
         return view('livewire.admin.users.index', [
             'users' => $users,

@@ -20,7 +20,9 @@
                         <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">RelasiBaik.</span>
                     </a>
                 </div>
+
                 <div class="flex items-center">
+                        <livewire:admin.components.admin-notification />
                     <div class="flex items-center ms-3">
                         <div>
                             <button type="button"
@@ -200,10 +202,10 @@
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">PELAPORAN</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('admin.report') }}" wire:navigate @class([
+                    <a href="{{ route('report') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs('admin.report*'),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.report*'),
+                        'text-blue-500 bg-gray-50' => request()->routeIs('report*'),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('report*'),
                     ])>
                         <i class="fas fa-file-export"></i>
                         <span class="ms-3">Cetak Laporan</span>

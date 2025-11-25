@@ -14,10 +14,17 @@ class Index extends Component
 
     public $search = '';
     public $perPage = 10;
+
+    public $filterType = '';
     
     // Bulk Action
     public $selectAll = false;
     public $selectedIds = [];
+
+    public function mount()
+    {
+        $this->filterType = request()->query('filter');
+    }
 
     public function updatedSearch()
     {
@@ -74,9 +81,17 @@ class Index extends Component
 
     protected function getScreeningQuery()
     {
-        return Screening::with(['user', 'result', 'recommendation'])
-            ->where('status', 'saved')
-            ->where(function($q) {
+        $query = Screening::with(['user', 'result', 'recommendation'])
+            ->where('status', 'saved');
+
+        if ($this->filterType === 'risk') {
+            // Filter: Cari yang kode rekomendasinya mengandung huruf 'R'
+            $query->whereHas('recommendation', function($q) {
+                $q->where('code', 'like', '%R%'); 
+            });
+        }
+
+        return $query->where(function($q) {
                 $q->whereHas('user', function($u) {
                     $u->where('name', 'like', '%' . $this->search . '%');
                 })

@@ -44,7 +44,7 @@ class Register extends Component
 
         // Menambahkan 'role' secara eksplisit saat membuat user
         $user = User::create(array_merge($validated, [
-            'role' => 'user',
+            'role' => 'masyarakat',
         ]));
 
         event(new Registered($user));

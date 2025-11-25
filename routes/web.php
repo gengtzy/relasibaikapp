@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\ScreeningWizard;
 use App\Livewire\Profile;
 use App\Livewire\ScreeningHistory;
-use App\Livewire\LocationDropdowns;
 use App\Livewire\Admin\Dashboard;
-use App\Livewire\Admin\ScreeningResult;
+use App\Http\Controllers\Admin\ReportController;
+use App\Livewire\Admin\Report;
 
 Use App\Livewire\Admin\ScreeningResult\Index as ScreeningResultIndex;
 Use App\Livewire\Admin\ScreeningResult\View as ScreeningResultView;
@@ -27,7 +27,6 @@ use App\Livewire\Admin\Recommendations\Index as RecommendationsIndex;
 use App\Livewire\Admin\Recommendations\Create as RecommendationsCreate;
 use App\Livewire\Admin\Recommendations\Edit as RecommendationsEdit;
 
-use App\Livewire\Admin\Report;
 use App\Livewire\Screening\StepResult;
 
 // Rute untuk Tamu
@@ -69,7 +68,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::get('/recommendationsnew', RecommendationsCreate::class)->name('recommendationscreate');
     Route::get('/recommendations/{id}/edit', RecommendationsEdit::class)->name('recommendationsedit');
 
-    Route::get('/report', Report::class)->name('admin.report');
+    Route::get('/report', Report::class)->name('report');
+    Route::get('/report/print', [ReportController::class, 'print'])->name('report.print');
 });
 
 // Route::get('/tes-dropdown', LocationDropdowns::class)->name('location.dropdowns');
