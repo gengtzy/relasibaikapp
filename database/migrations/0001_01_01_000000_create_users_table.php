@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar')->nullable();
             $table->string('role')->default('masyarakat'); 
             $table->string('superiority_role')->nullable(); 
             

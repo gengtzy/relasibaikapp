@@ -19,7 +19,7 @@ class DummyScreeningSeeder extends Seeder
 
         // 1. SIAPKAN DATA USER (Bikin 3 User Dummy Baru)
         // Kita buat array email agar gampang dilacak
-        $emails = ['user1@test.com', 'user2@test.com', 'user3@test.com'];
+        $emails = ['user1@test.com', 'user2@test.com', 'user3@test.com', 'user4@test.com'];
         $targetUsers = [];
 
         foreach ($emails as $email) {
@@ -63,7 +63,7 @@ class DummyScreeningSeeder extends Seeder
             Auth::login($user);
 
             // LOOPING SKRINING (Misal tiap user punya 3 data)
-            for ($i = 1; $i <= 5; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 
                 // Generate Jawaban
                 $fatherAnswers = [];

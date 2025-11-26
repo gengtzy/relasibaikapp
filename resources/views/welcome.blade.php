@@ -1,31 +1,43 @@
 <x-guest-layout :bgImage="'images/bgall3.png'">
 
+    @push('styles')
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+
+                50% {
+                    transform: translateY(-20px);
+                }
+
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+
+                {
+                animation: float 7s ease-in-out infinite;
+                animation-delay: 1s;
+            }
+        </style>
+    @endpush
     <livewire:layout.navigation />
 
     <main>
 
         <section id="beranda" class="py-24 lg:py-44">
             <div class="container mx-auto px-6 lg:px-24">
-                @auth
-                    @if (Auth::User()->superiority_role)
-                        <span class="text-sm line-clamp-2 bg-green-100 text-green-600 font-medium p-2.5 rounded-md">
-                            Akun Anda telah berhasil diverifikasi. Peran <span
-                                class="font-bold text-base">{{ Auth::User()->superiority_role }}</span> telah ditetapkan
-                            sebagai superior dalam keluarga
-                            Anda. Setiap perhitungan diagnosis akan secara otomatis menyertakan penambahan bobot untuk item
-                            yang
-                            terkait dengan peran {{ Auth::User()->superiority_role }}.
-                        </span>
-                    @else
-                        <span class="text-sm line-clamp-2 bg-orange-100 text-orange-600 font-medium p-2.5 rounded-md">
-                            Akun Anda belum diverifikasi. Anda tetap dapat melakukan pengisian diagnosis, namun
-                            perhitungan belum menyertakan bobot khusus karena peran superior (Ayah, Ibu, atau Anggota
-                            Lain) di dalam keluarga Anda belum ditentukan.
-                        </span>
-                    @endif
-                @endauth
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div class="text-center lg:text-left">
+                    <div class="text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
                         <h1 class="text-3xl lg:text-5xl font-bold text-slate-100 leading-tight">
                             Ukur & Pahami Kualitas Hubungan Keluarga Anda.
                         </h1>
@@ -40,7 +52,7 @@
                             </a>
                         @else
                             <a href="{{ route('login') }}"
-                                class="inline-block mt-8 bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-600 transition-transform hover:scale-105">
+                                class="inline-block mt-8 bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-500 transition-transform hover:scale-105">
                                 Mulai Screening Gratis
                             </a>
                         @endguest
@@ -57,103 +69,182 @@
 
         <section id="alur" class="py-24">
             <div class="container mx-auto px-6 lg:px-24">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Alur Kerja yang Mudah</h2>
-                    <p class="text-lg text-slate-900 mt-2">Hanya butuh beberapa langkah untuk mendapatkan hasil
-                        analisis.</p>
+
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <span class="text-blue-500 font-bold tracking-wider uppercase text-sm">Proses Kami</span>
+                    <h2
+                        class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                        Alur Kerja yang Mudah</h2>
+                    <p
+                        class="text-lg text-slate-500 mt-4 max-w-2xl mx-auto dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                        Hanya butuh beberapa langkah sederhana untuk mendapatkan hasil analisis psikologi yang akurat.
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-8">
-                    <div class="flex justify-center">
-                        <img src="{{ asset('images/section2.svg') }}" alt="Ilustrasi mengisi kuisioner"
-                            class="w-full max-w-lg">
+                {{-- Step 1 --}}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                    <div class="flex justify-center" data-aos="zoom-in-right">
+                        <img src="{{ asset('images/section2.svg') }}" alt="Ilustrasi login" class="w-full max-w-md">
                     </div>
-                    <div class="space-y-8 text-center lg:text-left">
-                        <h3 class="text-3xl font-bold text-slate-900">
-                            <span>Mulai</span><span class="text-blue-500"> Screening</span>
+                    <div class="space-y-8" data-aos="fade-left">
+                        <h3
+                            class="text-3xl font-bold text-slate-900 border-l-4 border-blue-500 pl-4 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                            <span>1. Mulai</span><span class="text-blue-500"> Screening</span>
                         </h3>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl pt-1">📧</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Login dengan Gmail</h4>
-                                <p class="text-base text-slate-600">Masuk ke sistem menggunakan akun Gmail Anda untuk
-                                    memulai proses.</p>
+
+                        {{-- Card Item --}}
+                        <div
+                            class="group p-6 rounded-2xl hover:shadow-xl hover:border-blue-200 transition-all duration-300 cursor-default dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-blue-100 p-3 rounded-lg text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                    <i class="fas fa-user-circle text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Buat akun / Masuk</h4>
+                                    <p
+                                        class="text-slate-600 leading-relaxed dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Masuk ke sistem menggunakan akun Anda
+                                        untuk menjamin kerahasiaan dan menyimpan riwayat data.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl pt-1">📄</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Isi Kuisioner</h4>
-                                <p class="text-base text-slate-600">
-                                    Jawab pertanyaan dari tiga instrumen psikologi:
-                                    <span class="block mt-1"><b class="text-slate-700">FPQ</b> (Keterlibatan
-                                        Ayah)</span>
-                                    <span class="block"><b class="text-slate-700">MCIQ</b> (Interaksi
-                                        Ibu-Anak)</span>
-                                    <span class="block"><b class="text-slate-700">FMWB</b> (Relasi Keluarga)</span>
-                                </p>
+
+                        {{-- Card Item --}}
+                        <div
+                            class="group p-6 rounded-2xl hover:shadow-xl hover:border-blue-200 cursor-default dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-blue-100 p-3 rounded-lg text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                    <i class="fas fa-clipboard-list text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Isi Kuisioner</h4>
+                                    <p
+                                        class="text-slate-600 text-sm mb-2 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Jawab pertanyaan dari tiga instrumen
+                                        psikologi terpercaya:</p>
+                                    <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-300">
+                                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i>
+                                            FPQ (Keterlibatan Ayah)</li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i>
+                                            MCIQ (Interaksi Ibu-Anak)</li>
+                                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i>
+                                            FMWB (Relasi Keluarga)</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-                    <div class="flex justify-center lg:order-last">
+                {{-- Step 2 --}}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                    <div class="space-y-8 order-2 lg:order-1" data-aos="fade-right">
+                        <h3
+                            class="text-3xl font-bold text-slate-900 border-l-4 border-purple-500 pl-4 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                            <span>2. Proses</span><span class="text-purple-600"> Penilaian</span>
+                        </h3>
+
+                        <div
+                            class="group p-6 rounded-2xl hover:bg-white hover:shadow-xl hover:border-purple-200 dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-purple-100 p-3 rounded-lg text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                    <i class="fas fa-calculator text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Kalkulasi Otomatis</h4>
+                                    <p
+                                        class="text-slate-600 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Sistem pakar menghitung skor secara real-time menggunakan
+                                        algoritma rule-based reasoning.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="group p-6 rounded-2xl hover:bg-white hover:shadow-xl hover:border-purple-200 dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-purple-100 p-3 rounded-lg text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                    <i class="fas fa-chart-pie text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Analisis Kategori</h4>
+                                    <p
+                                        class="text-slate-600 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Skor dikategorikan (Baik, Sedang, Buruk) sesuai pedoman
+                                        psikologi untuk gambaran yang jelas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center order-1 lg:order-2" data-aos="zoom-in-left">
                         <img src="{{ asset('images/section3.svg') }}" alt="Ilustrasi proses penilaian"
-                            class="w-full max-w-lg">
+                            class="w-full max-w-md">
                     </div>
-                    <div class="space-y-8 text-center lg:text-left">
-                        <h3 class="text-3xl font-bold text-slate-900">
-                            <span class="text-blue-500">Proses</span> Penilaian
+                </div>
+
+                {{-- Step 3 --}}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="flex justify-center" data-aos="zoom-in-right">
+                        <img src="{{ asset('images/section4.svg') }}" alt="Ilustrasi hasil" class="w-full max-w-md">
+                    </div>
+                    <div class="space-y-8" data-aos="fade-left">
+                        <h3
+                            class="text-3xl font-bold text-slate-900 border-l-4 border-green-500 pl-4 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                            <span>3. Hasil &</span><span class="text-green-600"> Rekomendasi</span>
                         </h3>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl">⚙️</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Pengolahan Jawaban</h4>
-                                <p class="text-base text-slate-600">Sistem akan menghitung total skor secara otomatis
-                                    berdasarkan jawaban yang Anda berikan.</p>
+
+                        <div
+                            class="group p-6 rounded-2xl hover:bg-white hover:shadow-xl hover:border-green-200 dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-green-100 p-3 rounded-lg text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                    <i class="fas fa-file-medical-alt text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Laporan Komprehensif</h4>
+                                    <p
+                                        class="text-slate-600 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Dapatkan ringkasan hasil visual yang mudah dipahami
+                                        mencerminkan kualitas relasi keluarga.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl">📊</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Analisis & Hasil</h4>
-                                <p class="text-base text-slate-600">Setiap skor dikategorikan menjadi Baik, Sedang,
-                                    atau Buruk sesuai pedoman psikologi untuk memberikan gambaran yang jelas.</p>
+
+                        <div
+                            class="group p-6 rounded-2xl hover:bg-white hover:shadow-xl hover:border-green-200 dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="bg-green-100 p-3 rounded-lg text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                    <i class="fas fa-lightbulb text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        Saran Perbaikan</h4>
+                                    <p
+                                        class="text-slate-600 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                                        Jika terdeteksi masalah, sistem memberikan rekomendasi
+                                        praktis untuk memperbaiki hubungan.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div class="flex justify-center">
-                        <img src="{{ asset('images/section4.svg') }}" alt="Ilustrasi mengisi kuisioner"
-                            class="w-full max-w-lg">
-                    </div>
-                    <div class="space-y-8 text-center lg:text-left">
-                        <h3 class="text-3xl font-bold text-slate-900">
-                            <span>Hasil &</span><span class="text-blue-500"> Rekomendasi</span>
-                        </h3>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl pt-1">📧</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Tampilkan Hasil Screening</h4>
-                                <p class="text-base text-slate-600">Pengguna akan melihat ringkasan hasil yang
-                                    mencerminkan kualitas relasi keluarga.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start text-left gap-4">
-                            <div class="text-3xl pt-1">📄</div>
-                            <div>
-                                <h4 class="text-xl font-semibold text-slate-800">Saran & Rekomendasi</h4>
-                                <p class="text-base text-slate-600">
-                                    Jika relasi terdeteksi sedang atau buruk, sistem akan memberikan rekomendasi singkat
-                                    untuk perbaikan hubungan keluarga.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -161,6 +252,7 @@
 
     <footer style="background-image: url('{{ asset('images/bgfooter.svg') }}')"
         class="max-w-lg py-24 bg-cover bg-right lg:w-full lg:max-w-none lg:bg-center md:w-full md:max-w-none md:bg-center">
+
         <div class="container mx-auto px-6 lg:px-24">
             <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-y-8 md:gap-x-8">
 
@@ -174,42 +266,24 @@
                 </div>
 
                 <div class="flex flex-col items-center gap-2 text-white md:items-end">
-                    <p class="text-2xl font-bold">RelasiBaik.</p>
-                    <p class="text-base text-gray-300 mt-1">Beri kami rating!</p>
-
-                    <div class="flex items-center">
-                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 22 20">
-                            <path
-                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 22 20">
-                            <path
-                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path
-                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path
-                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                        <svg class="w-4 h-4 text-gray-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 22 20">
-                            <path
-                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                        </svg>
-                        <p class="ms-1 text-sm font-medium text-slate-100">4.95</p>
-                        <p class="ms-1 text-sm font-medium text-slate-100">out of</p>
-                        <p class="ms-1 text-sm font-medium text-slate-100">5</p>
+                    <p class="text-lg font-bold">Link Cepat</p>
+                    <div class="flex flex-wrap justify-center md:justify-end gap-6 text-slate-300 text-sm">
+                        <a href="#beranda" class="hover:text-white hover:underline transition-all">Beranda</a>
+                        <a href="#alur" class="hover:text-white hover:underline transition-all">Alur Kerja</a>
+                        <a href="{{ route('login') }}"
+                            class="hover:text-white hover:underline transition-all">Masuk</a>
+                        <a href="{{ route('register') }}"
+                            class="hover:text-white hover:underline transition-all">Daftar</a>
                     </div>
                 </div>
 
             </div>
         </div>
+
     </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </x-guest-layout>

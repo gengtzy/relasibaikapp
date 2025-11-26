@@ -16,6 +16,7 @@ class Create extends Component
     #[Rule('min:3', message: 'Rule minimal 3 karakter.')]
     #[Rule('max:3', message: 'Rule maksimal 3 karakter.')]
     #[Rule('regex:/^[TSR]+$/', message: 'Rule hanya boleh menggunakan huruf T, S, atau R.')]
+    #[Rule('unique:recommendations,code,', message: 'Code ini sudah terdaftar, gunakan kombinasi lain.')]
     public $code = '';
 
     #[Rule('required', message: 'Nama/Judul wajib diisi.')]

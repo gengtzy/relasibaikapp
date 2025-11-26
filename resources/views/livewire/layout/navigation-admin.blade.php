@@ -22,28 +22,49 @@
                 </div>
 
                 <div class="flex items-center">
-                        <livewire:admin.components.admin-notification />
-                    <div class="flex items-center ms-3">
+                    <livewire:admin.components.admin-notification />
+                    <div class="flex items-center ms-3" x-data="{ dropdownOpen: false }">
+
                         <div>
-                            <button type="button"
+                            <button @click="dropdownOpen = !dropdownOpen" type="button"
                                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
-                                aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                aria-expanded="false">
+
                                 <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                    alt="user photo">
+
+                                @if (Auth::user()->avatar)
+                                    <img class="w-8 h-8 rounded-full object-cover"
+                                        src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="user photo">
+                                @else
+                                    <img class="w-8 h-8 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random"
+                                        alt="user photo">
+                                @endif
                             </button>
                         </div>
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
-                            id="dropdown-user">
+
+                        <div x-show="dropdownOpen" @click.outside="dropdownOpen = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="z-50 absolute right-5 top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
+                            style="display: none;"> {{-- style display none agar tidak kedip saat load --}}
+
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900" role="none">{{ Auth::user()->name }}</p>
                                 <p class="text-sm font-medium text-gray-900 truncate" role="none">
                                     {{ Auth::user()->email }}</p>
                             </div>
+
                             <ul class="py-1" role="none">
-                                <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Pengaturan</a></li>
+                                <li>
+                                    <a href="{{ route('profileadmin') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem">Profil Akun</a>
+                                </li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -83,8 +104,7 @@
                     <a href="{{ route('screeningresult') }}" wire:navigate @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('screeningresult*'),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs(
-                            'screeningresult*'),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs('screeningresult*'),
                     ])>
                         <i class="fas fa-poll-h ml-1"></i>
                         <span class="ms-3">Hasil Skrining</span>
@@ -131,34 +151,36 @@
                         ]),
                     ])>
                         <li>
-                            <a href="{{ route('instrumentindex') }}" wire:navigate @class([
-                                'flex pl-10 items-center p-2',
-                                'text-blue-500 bg-gray-50' => request()->routeIs([
-                                    'instrumentindex*',
-                                    'instrumentcreate*',
-                                    'instrumentedit*',
-                                ]),
-                                'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                                    'instrumentindex*',
-                                    'instrumentcreate*',
-                                    'instrumentedit*',
-                                ]),
-                            ])>Instrumen</a>
+                            <a href="{{ route('instrumentindex') }}" wire:navigate
+                                @class([
+                                    'flex pl-10 items-center p-2',
+                                    'text-blue-500 bg-gray-50' => request()->routeIs([
+                                        'instrumentindex*',
+                                        'instrumentcreate*',
+                                        'instrumentedit*',
+                                    ]),
+                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                                        'instrumentindex*',
+                                        'instrumentcreate*',
+                                        'instrumentedit*',
+                                    ]),
+                                ])>Instrumen</a>
                         </li>
                         <li>
-                            <a href="{{ route('questionsindex') }}" wire:navigate @class([
-                                'flex pl-10 items-center p-2',
-                                'text-blue-500 bg-gray-50' => request()->routeIs([
-                                    'questionsindex*',
-                                    'questionscreate*',
-                                    'questionsedit*',
-                                ]),
-                                'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                                    'questionsindex*',
-                                    'questionscreate*',
-                                    'questionsedit*',
-                                ]),
-                            ])>Pertanyaan</a>
+                            <a href="{{ route('questionsindex') }}" wire:navigate
+                                @class([
+                                    'flex pl-10 items-center p-2',
+                                    'text-blue-500 bg-gray-50' => request()->routeIs([
+                                        'questionsindex*',
+                                        'questionscreate*',
+                                        'questionsedit*',
+                                    ]),
+                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
+                                        'questionsindex*',
+                                        'questionscreate*',
+                                        'questionsedit*',
+                                    ]),
+                                ])>Pertanyaan</a>
                         </li>
                     </ul>
                 </li>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\ScreeningWizard;
 use App\Livewire\Profile;
+use App\Livewire\Admin\Profile as ProfileAdmin;
 use App\Livewire\ScreeningHistory;
 use App\Livewire\Admin\Dashboard;
 use App\Http\Controllers\Admin\ReportController;
@@ -67,6 +68,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::get('/recommendationsindex', RecommendationsIndex::class)->name('recommendationsindex');
     Route::get('/recommendationsnew', RecommendationsCreate::class)->name('recommendationscreate');
     Route::get('/recommendations/{id}/edit', RecommendationsEdit::class)->name('recommendationsedit');
+
+    Route::get('/profile', ProfileAdmin::class)->name('profileadmin');
 
     Route::get('/report', Report::class)->name('report');
     Route::get('/report/print', [ReportController::class, 'print'])->name('report.print');
