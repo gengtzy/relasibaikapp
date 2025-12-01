@@ -16,6 +16,8 @@ class Index extends Component
     public $perPage = 10;
 
     public $filterType = '';
+    public $deleteId = null;
+    public ?Screening $deletingScreening = null;
     
     // Bulk Action
     public $selectAll = false;
@@ -52,14 +54,30 @@ class Index extends Component
         $this->selectedIds = [];
     }
 
-    // Hapus Satu Data
-    public function deleteResult($id)
+    public function confirmDelete($id)
     {
-        $screening = Screening::find($id);
-        if ($screening) {
-            $screening->delete();
-            session()->flash('success', 'Data screening berhasil dihapus.');
+        $this->deleteId = $id;
+        $this->deletingScreening = Screening::find($id);
+    }
+
+    public function cancelDelete()
+    {
+        $this->deleteId = null;
+        $this->deletingScreening = null;
+    }
+
+    public function delete()
+    {
+        if ($this->deletingScreening) {
+            $formattedId = 'SCR-' . $this->deletingScreening->created_at->format('Ymd') . '-' . str_pad($this->deletingScreening->id, 5, '0', STR_PAD_LEFT);
+
+            $this->deletingScreening->delete();
+
+            session()->flash('success', "Data skrining {$formattedId} berhasil dihapus.");
         }
+        
+        $this->deleteId = null;
+        $this->deletingScreening = null;
         $this->resetSelection();
     }
 

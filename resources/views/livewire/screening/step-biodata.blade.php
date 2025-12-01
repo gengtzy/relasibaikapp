@@ -21,31 +21,31 @@
                     @endif
                 @endauth
             </div>
-            <div class="border border-white shadow-xl rounded-2xl">
+            <div class="border border-white dark:border-slate-600 transition-colors duration-500 ease-in-out shadow-xl rounded-2xl">
                 <div class="bg-blue-500 p-8 text-white relative rounded-t-2xl">
                     <h2 class="text-3xl font-bold mb-2">Isi dengan benar dan sesuai</h2>
                     <p class="opacity-90">
                         Lengkapi formulir dibawah ini
                     </p>
                 </div>
-                <div class="h-auto p-8 bg-white rounded-b-2xl space-y-8">
+                <div class="h-auto p-8 bg-white rounded-b-2xl space-y-8 dark:bg-slate-700 transition-colors duration-500 ease-in-out">
     
                     <div class="">
-                        <label for="lokasi" class="block mb-2 text-lg font-medium text-gray-900">Lokasi
+                        <label for="lokasi" class="block mb-2 text-lg font-medium text-gray-900 dark:text-slate-50 transition-colors duration-500 ease-in-out">Lokasi
                             Pengisian</label>
                         <input wire:model.live="lokasi" type="text" id="lokasi"
-                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-4"
-                            placeholder="Contoh: Sidoarjo" />
+                            class="bg-white border border-gray-300 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-4 dark:bg-slate-600 dark:placeholder:text-slate-400 dark:text-slate-50 dark:border-slate-500 transition-colors duration-500 ease-in-out"
+                            placeholder="Masukan lokasimu" />
                         @error('lokasi')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
     
                     <div>
-                        <label for="tanggal" class="block mb-2 text-lg font-medium text-gray-900">Tanggal
+                        <label for="tanggal" class="block mb-2 text-lg font-medium text-gray-900 dark:text-slate-50 transition-colors duration-500 ease-in-out">Tanggal
                             Pengisian</label>
                         <input wire:model="tanggal" type="date" id="tanggal"
-                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-4" />
+                            class="bg-white border border-gray-300 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-4 dark:bg-slate-600 dark:placeholder:text-slate-400 dark:text-slate-50 dark:border-slate-500 transition-colors duration-500 ease-in-out" />
                         @error('tanggal')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -54,7 +54,7 @@
                     <div
                         class="flex flex-col-reverse sm:flex-row justify-between items-center mt-10 pt-6 border-t border-blue-200 gap-4">
                         <a href="/"
-                            class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-100 transition-all">
+                            class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-1 focus:outline-none dark:bg-slate-600 dark:border-slate-500 dark:text-slate-50 transition-colors duration-500 ease-in-out">
                             <i class="fas fa-arrow-left"></i>
                             Kembali ke Beranda
                         </a>

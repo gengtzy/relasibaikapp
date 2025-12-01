@@ -22,14 +22,14 @@
             </div>
         @endif
 
-        <div class="border border-slate-300 shadow-sm rounded-2xl bg-white">
+        <div class="border border-slate-300 shadow-sm rounded-2xl bg-white dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
             <div class="p-4 flex justify-end">
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
-                        <i class="fas fa-search text-gray-500"></i>
+                        <i class="fas fa-search text-gray-500 dark:text-slate-100 transition-colors duration-500 ease-in-out"></i>
                     </div>
                     <input wire:model.live.debounce.300ms="search" type="text"
-                        class="block w-full p-2.5 pl-10 text-sm text-slate-900 border border-slate-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        class="block w-full p-2.5 pl-10 text-sm text-slate-900 border border-slate-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 shadow-sm dark:bg-slate-600 dark:text-slate-100 dark:border-slate-500 dark:placeholder:text-slate-300 transition-colors duration-500 ease-in-out"
                         placeholder="Cari lokasi atau tanggal...">
                 </div>
             </div>
@@ -38,8 +38,8 @@
             <div class="bg-white overflow-hidden">
                 @if ($screenings->count() > 0)
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-slate-500">
-                            <thead class="text-xs text-slate-700 uppercase bg-slate-50 border-b border-slate-200">
+                        <table class="w-full text-sm text-left text-slate-500 dark:text-slate-200 transition-colors duration-500 ease-in-out">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-50 border-b border-slate-200 dark:text-slate-100 dark:bg-slate-600 dark:border-slate-400 transition-colors duration-500 ease-in-out">
                                 <tr>
                                     <th scope="col" class="px-6 py-4 font-bold w-16 text-center">No</th>
                                     <th scope="col" class="px-6 py-4 font-bold">Tanggal Pengisian</th>
@@ -51,29 +51,23 @@
                             <tbody>
                                 @foreach ($screenings as $index => $item)
                                     <tr
-                                        class="bg-white border-b hover:bg-blue-50 transition-colors group cursor-pointer">
-
-                                        {{-- Kolom No (Klik Baris -> Detail) --}}
+                                        class="bg-white border-b hover:bg-blue-50 transition-colors group cursor-pointer dark:bg-slate-700 dark:text-slate-100 dark:border-slate-400 dark:hover:bg-slate-600 duration-500 ease-in-out">
                                         <td onclick="window.location='{{ route('screening.result', $item->id) }}'"
                                             class="px-6 py-4 text-center">
                                             {{ $screenings->firstItem() + $index }}
                                         </td>
-
-                                        {{-- Kolom Tanggal (Klik Baris -> Detail) --}}
                                         <td onclick="window.location='{{ route('screening.result', $item->id) }}'"
-                                            class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">
+                                            class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap dark:text-slate-100 transition-colors duration-500 ease-in-out">
                                             {{ \Carbon\Carbon::parse($item->tanggal_pengisian)->format('d F Y') }}
                                             <br>
                                             <span class="text-xs text-slate-400 font-normal">
                                                 {{ $item->created_at->format('H:i') }} WIB
                                             </span>
                                         </td>
-
-                                        {{-- Kolom Lokasi (Klik Baris -> Detail) --}}
                                         <td onclick="window.location='{{ route('screening.result', $item->id) }}'"
                                             class="px-6 py-4">
                                             <div class="flex items-center">
-                                                <svg class="w-3.5 h-3.5 text-slate-400 mr-2" fill="none"
+                                                <svg class="w-3.5 h-3.5 text-slate-400 mr-2 dark:text-slate-200 transition-colors duration-500 ease-in-out" fill="none"
                                                     stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         stroke-width="2"
@@ -85,8 +79,6 @@
                                                 {{ $item->lokasi ?? '-' }}
                                             </div>
                                         </td>
-
-                                        {{-- Kolom Hasil (Klik Baris -> Detail) --}}
                                         <td onclick="window.location='{{ route('screening.result', $item->id) }}'"
                                             class="px-6 py-4">
                                             @if ($item->recommendation)
@@ -98,14 +90,12 @@
                                                 <span class="text-slate-400 italic">Tidak ada data</span>
                                             @endif
                                         </td>
-
-                                        {{-- Kolom Aksi (STOP PROPAGATION agar tidak memicu klik baris) --}}
                                         <td class="px-6 py-4 text-center">
                                             <div class="flex justify-center items-center gap-3">
 
                                                 <a href="{{ route('screening.result', ['resultId' => $item->id, 'action' => 'print']) }}"
                                                     target="_blank"
-                                                    class="text-slate-500 hover:text-blue-600 transition-colors tooltip"
+                                                    class="text-slate-500 hover:text-blue-500 transition-colors tooltip dark:text-slate-100 dark:hover:text-blue-500 duration-500 ease-in-out"
                                                     title="Cetak PDF">
 
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor"
@@ -117,10 +107,9 @@
                                                     </svg>
                                                 </a>
 
-                                                {{-- Tombol Hapus --}}
                                                 <button wire:click="delete({{ $item->id }})"
                                                     wire:confirm="Apakah Anda yakin ingin menghapus riwayat ini? Data tidak dapat dikembalikan."
-                                                    class="text-slate-500 hover:text-red-600 transition-colors"
+                                                    class="text-slate-500 hover:text-red-600 transition-colors dark:text-slate-100 dark:hover:text-red-500 duration-500 ease-in-out"
                                                     title="Hapus">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
@@ -138,17 +127,17 @@
                         </table>
                     </div>
                 @else
-                    <div class="flex flex-col items-center justify-center py-12 text-center">
-                        <div class="p-4 rounded-full bg-slate-100 mb-4">
-                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor"
+                    <div class="flex flex-col items-center justify-center py-12 text-center dark:bg-slate-700 transition-colors duration-500 ease-in-out">
+                        <div class="p-4 rounded-full bg-slate-100 mb-4 dark:bg-slate-600 transition-colors duration-500 ease-in-out">
+                            <svg class="w-8 h-8 text-slate-400 dark:text-slate-100 transition-colors duration-500 ease-in-out" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-medium text-slate-900">Belum ada riwayat</h3>
-                        <p class="text-slate-500 mt-1 max-w-sm">
+                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Belum ada riwayat</h3>
+                        <p class="text-slate-500 mt-1 max-w-sm dark:text-slate-200 transition-colors duration-500 ease-in-out">
                             @if (!empty($search))
                                 Tidak ditemukan data dengan kata kunci "{{ $search }}".
                             @else
@@ -169,12 +158,12 @@
 
             <nav class="flex pb-4 items-center flex-col md:flex-row justify-between pt-4 px-4"
                 aria-label="Table navigation">
-                <span class="text-sm font-normal text-slate-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+                <span class="text-sm font-normal text-slate-500 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-slate-200 transition-colors duration-500 ease-in-out">
                     Showing
                     <span
-                        class="font-semibold text-slate-700">{{ $screenings->firstItem() ?? 0 }}-{{ $screenings->lastItem() ?? 0 }}</span>
+                        class="font-semibold text-slate-700 dark:text-slate-100 transition-colors duration-500 ease-in-out">{{ $screenings->firstItem() ?? 0 }}-{{ $screenings->lastItem() ?? 0 }}</span>
                     of
-                    <span class="font-semibold text-slate-700">{{ $screenings->total() }}</span>
+                    <span class="font-semibold text-slate-700 dark:text-slate-100 transition-colors duration-500 ease-in-out">{{ $screenings->total() }}</span>
                 </span>
 
                 {{ $screenings->links() }}

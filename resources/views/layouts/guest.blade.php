@@ -25,6 +25,21 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script>
+        function setTheme() {
+            if (localStorage.getItem('darkMode') === 'true' ||
+                (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        setTheme();
+        document.addEventListener('livewire:navigated', () => {
+            setTheme();
+        });
+    </script>
+
     @livewireStyles
     @stack('styles')
 </head>

@@ -1,20 +1,20 @@
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg">
+    <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
         <form wire:submit="register" class="space-y-6">
-            <h5 class="text-2xl font-bold text-gray-900 pt-6">Buat Akun Relasibaik.</h5>
+            <h5 class="text-2xl font-bold text-gray-900 pt-6 dark:text-slate-100 transition-colors duration-500 ease-in-out">Buat Akun Relasibaik.</h5>
 
             <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Name</label>
                 <input id="name" type="text" wire:model="name" required autofocus autocomplete="name"
-                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5"
+                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out"
                     placeholder="Masukan nama kamu" />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
 
             <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Email</label>
                 <input id="email" type="email" wire:model="email" required autocomplete="username"
-                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5"
+                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out"
                     placeholder="Masukan email kamu" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
@@ -22,11 +22,11 @@
             <div x-data="{ showPasswords: false }">
                 <!-- Input Kata Sandi Pertama -->
                 <div class="mb-6">
-                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Password</label>
                     <div class="relative">
                         <input id="password" :type="showPasswords ? 'text' : 'password'" wire:model="password" required
                             autocomplete="new-password"
-                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5" placeholder="Masukan kata sandi kamu" />
+                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out" placeholder="Masukan kata sandi kamu" />
                         <div @click="showPasswords = !showPasswords"
                             class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
                             {{-- Menggunakan SVG agar tidak bergantung pada Font Awesome --}}
@@ -49,11 +49,11 @@
 
                 <!-- Input Konfirmasi Kata Sandi -->
                 <div>
-                    <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
+                    <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Confirm Password</label>
                     <div class="relative">
                         <input id="password_confirmation" :type="showPasswords ? 'text' : 'password'"
                             wire:model="password_confirmation" required autocomplete="new-password"
-                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5" placeholder="Konfirmasi kata sandi kamu" />
+                            class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out" placeholder="Konfirmasi kata sandi kamu" />
                         <div @click="showPasswords = !showPasswords"
                             class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
                             {{-- Menggunakan SVG agar tidak bergantung pada Font Awesome --}}
@@ -79,7 +79,7 @@
                 class="w-full text-white bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Daftar
                 Akun</button>
 
-            <div class="text-sm font-medium text-center">
+            <div class="text-sm font-medium text-center dark:text-slate-100 transition-colors duration-500 ease-in-out">
                 Sudah punya akun? <a href="{{ route('login') }}" class="text-blue-500 hover:underline"
                     wire:navigate>Masuk</a>
             </div>

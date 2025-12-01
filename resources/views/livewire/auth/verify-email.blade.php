@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-md px-6 pb-6 bg-white border border-white rounded-lg shadow-lg text-center">
+    <div class="w-full max-w-md px-6 pb-6 bg-white border border-white rounded-lg shadow-lg text-center dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
         
         <div class="pt-6 pb-4">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
@@ -7,10 +7,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
             </div>
-            <h5 class="text-xl font-bold text-gray-900 mt-4">Verifikasi Email Anda</h5>
+            <h5 class="text-xl font-bold text-gray-900 mt-4 dark:text-slate-100 transition-colors duration-500 ease-in-out">Verifikasi Email Anda</h5>
         </div>
 
-        <div class="mb-6 text-sm text-gray-600 text-left">
+        <div class="mb-6 text-sm text-gray-600 text-left dark:text-slate-200 transition-colors duration-500 ease-in-out">
             {{ __('Terima kasih telah mendaftar! Sebelum memulai, bisakah Anda memverifikasi alamat email Anda dengan mengklik tautan yang baru saja kami kirimkan ke email Anda? Jika Anda tidak menerima email tersebut, kami akan dengan senang hati mengirimkan yang baru.') }}
         </div>
 
@@ -27,7 +27,7 @@
             </button>
 
             <button wire:click="logout" 
-                class="text-sm text-gray-600 hover:text-gray-900 underline decoration-dotted hover:decoration-solid">
+                class="text-sm text-gray-600 hover:text-gray-900 underline decoration-dotted hover:decoration-solid dark:text-slate-200 dark:hover:text-slate-100">
                 {{ __('Keluar (Logout)') }}
             </button>
         </div>

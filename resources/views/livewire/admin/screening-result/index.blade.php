@@ -47,19 +47,6 @@
         </div>
     @endif
 
-    {{-- Alert --}}
-    {{-- @if (session()->has('success'))
-        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 border border-green-200 flex items-center"
-            role="alert">
-            <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-            </svg>
-            <span class="font-medium">Berhasil!</span> {{ session('success') }}
-        </div>
-    @endif --}}
-
     <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
         <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 p-4">
@@ -91,6 +78,37 @@
                 </button>
             </div>
         </div>
+
+        @if (session()->has('success'))
+            <div x-data="{ show: true }" x-show="show" x-transition:enter="transform ease-out duration-300 transition"
+                x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+                x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0" x-init="setTimeout(() => show = false, 4000)"
+                class="fixed top-24 right-5 z-[60] flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg border-l-4 border-green-500 dark:text-gray-400 dark:bg-gray-800"
+                role="alert">
+
+                <div
+                    class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Check icon</span>
+                </div>
+                <div class="ms-3 text-sm font-normal text-slate-800">{{ session('success') }}</div>
+                <button type="button" @click="show = false"
+                    class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+        @endif
 
         {{-- Tabel --}}
         <div class="overflow-x-auto">
@@ -176,9 +194,7 @@
                                     <i class="fas fa-eye"></i>
                                     Lihat
                                 </button>
-                                <button wire:click="deleteResult({{ $item->id }})"
-                                    wire:confirm="Yakin ingin menghapus data screening ID SCR-{{ $item->created_at->format('Ymd') }}-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}?"
-                                    type="button"
+                                <button wire:click="confirmDelete({{ $item->id }})" type="button"
                                     class="flex gap-1 items-center font-medium text-red-600 hover:underline">
                                     <i class="fas fa-trash-alt"></i>
                                     Hapus
@@ -209,4 +225,60 @@
             {{ $screenings->links() }}
         </nav>
     </div>
+
+    @if ($deleteId && $deletingScreening)
+        {{-- wire:transition adalah kunci animasi smooth saat modal muncul/hilang --}}
+        <div wire:transition.opacity.duration.300ms
+            class="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-900/50 backdrop-blur-sm p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+
+            {{-- Tambahkan transisi scale agar efeknya seperti 'Pop Up' --}}
+            <div wire:transition.scale.origin.center.duration.300ms class="relative w-full max-w-md max-h-full">
+
+                <div
+                    class="relative bg-white border border-gray-200 rounded-xl shadow-2xl p-4 md:p-6 transform transition-all">
+
+                    <button type="button" wire:click="cancelDelete"
+                        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+
+                    <div class="p-4 md:p-5 text-center">
+                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+
+                        <h3 class="mb-2 text-lg font-normal text-gray-500">
+                            Apakah Anda yakin ingin menghapus data ini?
+                        </h3>
+
+                        <div class="mb-6 py-2 px-3 bg-gray-50 rounded-lg border border-gray-100 inline-block">
+                            <span class="font-mono text-sm font-bold text-gray-800">
+                                ID:
+                                SCR-{{ $deletingScreening->created_at->format('Ymd') }}-{{ str_pad($deletingScreening->id, 5, '0', STR_PAD_LEFT) }}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-3">
+                            <button wire:click="delete" type="button"
+                                class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center transition-all shadow-md hover:shadow-lg">
+                                Ya, Hapus Data
+                            </button>
+
+                            <button wire:click="cancelDelete" type="button"
+                                class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 transition-all shadow-sm">
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
+    darkMode: localStorage.getItem('darkMode') === 'true'
+}" x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+    :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="utf-8">
@@ -16,17 +19,34 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script>
+        function setTheme() {
+            if (localStorage.getItem('darkMode') === 'true' ||
+                (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        setTheme();
+        document.addEventListener('livewire:navigated', () => {
+            setTheme();
+        });
+    </script>
+
     @livewireStyles
+    @stack('styles')
 </head>
 
-<body class="min-h-screen bg-cover bg-no-repeat"
+<body class="min-h-screen bg-cover bg-no-repeat bg-white dark:bg-slate-800 transition-colors duration-500 ease-in-out"
     style="background-image: url('{{ asset('images/bgapp.svg') }}')">
 
-        <livewire:layout.navigation />
+    <livewire:layout.navigation />
 
-            {{ $slot }}
+    {{ $slot }}
 
     @livewireScripts
 </body>
+@stack('scripts')
 
 </html>

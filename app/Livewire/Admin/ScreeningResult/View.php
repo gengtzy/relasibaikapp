@@ -26,7 +26,7 @@ class View extends Component
     {
         $this->screening->delete();
         session()->flash('success', 'Data screening berhasil dihapus.');
-        return redirect()->route('admin.screening-result.index');
+        return redirect()->route('screeningresult');
     }
 
     public function render()

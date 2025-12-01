@@ -1,6 +1,6 @@
 <div>
     <form wire:submit="save">
-        <section id="form" class="w-full max-w-6xl mx-auto my-24 border border-white shadow-xl rounded-2xl">
+        <section id="form" class="w-full max-w-6xl mx-auto my-24 border border-white shadow-xl rounded-2xl dark:border-slate-600 transition-colors duration-500 ease-in-out">
 
             <div class="bg-blue-500 p-8 text-white relative rounded-t-2xl">
                 <h2 class="text-3xl font-bold mb-2">Jawablah sesuai kondisi Anda saat ini</h2>
@@ -12,10 +12,10 @@
             </div>
 
             {{-- Daftar Pertanyaan --}}
-            <div class="h-auto p-8 bg-white rounded-b-2xl space-y-12">
+            <div class="h-auto p-8 bg-white rounded-b-2xl space-y-12 dark:bg-slate-700 transition-colors duration-500 ease-in-out">
                 @foreach ($questions as $index => $question)
                     <div class="mb-12">
-                        <h5 class="text-xl font-semibold text-slate-800 mb-6 leading-relaxed">
+                        <h5 class="text-lg font-semibold text-slate-800 leading-relaxed mb-4 dark:text-slate-50 transition-colors duration-500 ease-in-out">
                             <span class="text-blue-600 mr-1">{{ $loop->iteration }}.</span>
                             {{ $question->question_text }}
                             <span class="text-red-500" title="Wajib diisi">*</span>
@@ -28,7 +28,7 @@
                                 <input type="radio" wire:model.live="answers.{{ $question->id }}" value="0"
                                     class="peer sr-only">
                                 <div
-                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-red-100 peer-checked:text-red-700 peer-checked:border-red-500 transition-all hover:bg-gray-100">
+                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-red-100 peer-checked:text-red-700 peer-checked:border-red-500 transition-all hover:bg-gray-100 dark:bg-slate-600 dark:text-slate-300 dark:border-slate-500 duration-500 ease-in-out">
                                     <div class="text-sm font-medium">Sangat Tidak Sesuai</div>
                                 </div>
                             </label>
@@ -38,7 +38,7 @@
                                 <input type="radio" wire:model.live="answers.{{ $question->id }}" value="1"
                                     class="peer sr-only">
                                 <div
-                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-orange-100 peer-checked:text-orange-700 peer-checked:border-orange-500 transition-all hover:bg-gray-100">
+                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-orange-100 peer-checked:text-orange-700 peer-checked:border-orange-500 transition-all hover:bg-gray-100 dark:bg-slate-600 dark:text-slate-300 dark:border-slate-500 duration-500 ease-in-out">
                                     <div class="text-sm font-medium">Tidak Sesuai</div>
                                 </div>
                             </label>
@@ -48,7 +48,7 @@
                                 <input type="radio" wire:model.live="answers.{{ $question->id }}" value="2"
                                     class="peer sr-only">
                                 <div
-                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-gray-200 peer-checked:text-gray-800 peer-checked:border-gray-500 transition-all hover:bg-gray-100">
+                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-gray-200 peer-checked:text-gray-800 peer-checked:border-gray-500 transition-all hover:bg-gray-100 dark:bg-slate-600 dark:text-slate-300 dark:border-slate-500 duration-500 ease-in-out">
                                     <div class="text-sm font-medium">Netral</div>
                                 </div>
                             </label>
@@ -58,7 +58,7 @@
                                 <input type="radio" wire:model.live="answers.{{ $question->id }}" value="3"
                                     class="peer sr-only">
                                 <div
-                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-blue-100 peer-checked:text-blue-700 peer-checked:border-blue-500 transition-all hover:bg-gray-100">
+                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-blue-100 peer-checked:text-blue-700 peer-checked:border-blue-500 transition-all hover:bg-gray-100 dark:bg-slate-600 dark:text-slate-300 dark:border-slate-500 duration-500 ease-in-out">
                                     <div class="text-sm font-medium">Sesuai</div>
                                 </div>
                             </label>
@@ -68,7 +68,7 @@
                                 <input type="radio" wire:model.live="answers.{{ $question->id }}" value="4"
                                     class="peer sr-only">
                                 <div
-                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-green-100 peer-checked:text-green-700 peer-checked:border-green-500 transition-all hover:bg-gray-100">
+                                    class="p-3 text-center rounded-lg border border-gray-300 bg-gray-50 text-gray-600 peer-checked:bg-green-100 peer-checked:text-green-700 peer-checked:border-green-500 transition-all hover:bg-gray-100 dark:bg-slate-600 dark:text-slate-300 dark:border-slate-500 duration-500 ease-in-out">
                                     <div class="text-sm font-medium">Sangat Sesuai</div>
                                 </div>
                             </label>
@@ -90,7 +90,7 @@
 
                     {{-- Tombol Kembali --}}
                     <button type="button" wire:click="back"
-                        class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-100 transition-all">
+                        class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-1 focus:outline-none dark:bg-slate-600 dark:border-slate-500 dark:text-slate-50 transition-colors duration-500 ease-in-out">
                         <i class="fas fa-arrow-left"></i>
                         Kembali ke Kuisioner Ayah
                     </button>

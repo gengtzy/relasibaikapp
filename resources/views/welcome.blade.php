@@ -94,7 +94,7 @@
 
                         {{-- Card Item --}}
                         <div
-                            class="group p-6 rounded-2xl hover:shadow-xl hover:border-blue-200 transition-all duration-300 cursor-default dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
+                            class="group p-6 rounded-2xl hover:shadow-xl hover:border-blue-200 cursor-default dark:hover:bg-slate-800 dark:hover:shadow-slate-50 transition-colors duration-500 ease-in-out">
                             <div class="flex items-start gap-4">
                                 <div
                                     class="bg-blue-100 p-3 rounded-lg text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
