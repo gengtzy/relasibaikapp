@@ -17,7 +17,8 @@ class Index extends Component
 
     public $filterType = '';
     public $deleteId = null;
-    public ?Screening $deletingScreening = null;
+    public $isBulkDelete = false;
+    // public ?Screening $deletingScreening = null;
     
     // Bulk Action
     public $selectAll = false;
@@ -54,31 +55,34 @@ class Index extends Component
         $this->selectedIds = [];
     }
 
-    public function confirmDelete($id)
+    public function executeDelete()
     {
-        $this->deleteId = $id;
-        $this->deletingScreening = Screening::find($id);
-    }
-
-    public function cancelDelete()
-    {
-        $this->deleteId = null;
-        $this->deletingScreening = null;
+        // Cek properti $isBulkDelete yang dikirim dari tombol View
+        if ($this->isBulkDelete) {
+            $this->deleteSelected();
+        } else {
+            $this->delete();
+        }
     }
 
     public function delete()
     {
-        if ($this->deletingScreening) {
-            $formattedId = 'SCR-' . $this->deletingScreening->created_at->format('Ymd') . '-' . str_pad($this->deletingScreening->id, 5, '0', STR_PAD_LEFT);
-
-            $this->deletingScreening->delete();
-
-            session()->flash('success', "Data skrining {$formattedId} berhasil dihapus.");
+        if ($this->deleteId) {
+            $screening = Screening::find($this->deleteId);
+            
+            if ($screening) {
+                // Format ID untuk pesan sukses (Opsional)
+                $formattedId = 'SCR-' . $screening->created_at->format('Ymd') . '-' . str_pad($screening->id, 5, '0', STR_PAD_LEFT);
+                
+                $screening->delete();
+                session()->flash('success', "Data skrining {$formattedId} berhasil dihapus.");
+            }
         }
         
         $this->deleteId = null;
-        $this->deletingScreening = null;
+        $this->isBulkDelete = false;
         $this->resetSelection();
+        $this->dispatch('close-modal');
     }
 
     // Hapus Banyak Data
@@ -89,7 +93,9 @@ class Index extends Component
         Screening::whereIn('id', $this->selectedIds)->delete();
         
         session()->flash('success', count($this->selectedIds) . ' data screening berhasil dihapus.');
+        $this->isBulkDelete = false; // Reset mode
         $this->resetSelection();
+        $this->dispatch('close-modal');
     }
 
     public function viewResult($id)

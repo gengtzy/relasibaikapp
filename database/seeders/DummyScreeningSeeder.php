@@ -63,7 +63,7 @@ class DummyScreeningSeeder extends Seeder
             Auth::login($user);
 
             // LOOPING SKRINING (Misal tiap user punya 3 data)
-            for ($i = 1; $i <= 10; $i++) {
+            for ($i = 1; $i <= 50; $i++) {
                 
                 // Generate Jawaban
                 $fatherAnswers = [];
