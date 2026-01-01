@@ -41,7 +41,7 @@
                             Verifikasi Role Diperlukan
                         </div>
                         <div class="text-xs text-gray-500 mb-1">
-                            User <span class="font-medium text-gray-700">{{ $user->name }}</span> belum memiliki peran keluarga.
+                            User <span class="font-medium text-gray-700">{{ $user->name }}</span> belum memiliki peran superior.
                         </div>
                         <div class="text-xs text-blue-500 font-medium">
                             {{ $user->created_at->diffForHumans() }}

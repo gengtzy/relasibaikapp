@@ -193,7 +193,36 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center font-bold text-slate-700">
-                                    {{ $response->answer_value }}
+                                    @php
+                                        $rawVal = (int) $response->answer_value;
+                                        $scoringType = $response->question->scoring_type ?? 'Favorable';
+                                        $instrumentCode = $response->question->instrument->code ?? '';
+
+                                        $finalScore = $rawVal;
+
+                                        // 1. INSTRUMEN IBU (MCIQ)
+                                        if ($instrumentCode === 'MCIQ') {
+                                            if ($scoringType === 'Unfavorable') {
+                                                $finalScore = 4 - $rawVal;
+                                            } else {
+                                                $finalScore = $rawVal;
+                                            }
+                                        }
+                                        // 2. INSTRUMEN LAIN (FMWB)
+                                        elseif ($instrumentCode === 'FMWB') {
+                                            if ($scoringType === 'Favorable') {
+                                                $finalScore = $rawVal - 1;
+                                            } else {
+                                                $finalScore = 10 - $rawVal;
+                                            }
+                                        }
+                                        // 3. INSTRUMEN AYAH (FPQ)
+                                        else {
+                                            $finalScore = $rawVal;
+                                        }
+                                    @endphp
+
+                                    {{ $finalScore }}
                                 </td>
                             </tr>
                         @endforeach

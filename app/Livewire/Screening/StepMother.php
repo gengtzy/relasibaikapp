@@ -30,7 +30,6 @@ class StepMother extends Component
         // 3. Inisialisasi array agar tidak error di view
         foreach ($this->questions as $question) {
             if (!array_key_exists($question->id, $this->answers)) {
-                // Slider butuh nilai default agar terlihat di tengah atau di awal
                 // Kita set null dulu, nanti validasi yang memaksa user menggeser/memilih
                 $this->answers[$question->id] = null; 
             }

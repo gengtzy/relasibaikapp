@@ -118,7 +118,36 @@
                                     {{ $response->question->question_text }}
                                 </td>
                                 <td class="px-4 py-2 text-center font-bold">
-                                    {{ $response->answer_value }}
+                                    @php
+                                        $rawVal = (int) $response->answer_value;
+                                        $scoringType = $response->question->scoring_type ?? 'Favorable';
+                                        $instrumentCode = $response->question->instrument->code ?? '';
+
+                                        $finalScore = $rawVal;
+
+                                        // 1. INSTRUMEN IBU (MCIQ)
+                                        if ($instrumentCode === 'MCIQ') {
+                                            if ($scoringType === 'Favorable') {
+                                                $finalScore = $rawVal;
+                                            } else {
+                                                $finalScore = 4 - $rawVal;
+                                            }
+                                        }
+                                        // 2. INSTRUMEN LAIN (FMWB)
+                                        elseif ($instrumentCode === 'FMWB') {
+                                            if ($scoringType === 'Favorable') {
+                                                $finalScore = $rawVal - 1;
+                                            } else {
+                                                $finalScore = 10 - $rawVal;
+                                            }
+                                        }
+                                        // 3. INSTRUMEN AYAH (FPQ) atau Default
+                                        else {
+                                            $finalScore = $rawVal;
+                                        }
+                                    @endphp
+
+                                    {{ $finalScore }}
                                 </td>
                             </tr>
                         @endforeach
@@ -206,8 +235,8 @@
                                     {{-- Arahkan ke Route Cetak PDF (Nanti dibuat controllernya) --}}
                                     <a href="#" onclick="window.print()"
                                         class="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-2 transition-colors border-t border-gray-100 dark:border-slate-600 dark:hover:bg-slate-700 duration-500 ease-in-out">
-                                        <svg class="w-4 h-4 text-gray-600 dark:text-slate-200 transition-colors duration-500 ease-in-out" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 text-gray-600 dark:text-slate-200 transition-colors duration-500 ease-in-out"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
                                             </path>
