@@ -31,6 +31,8 @@ class Edit extends Component
     #[Rule('in:admin,masyarakat', message: 'Peran tidak valid.')]
     public $role = '';
 
+    public $showModal = false;
+
     // #[Rule('required_if:role,masyarakat', message: 'Peran superior wajib dipilih untuk masyarakat.')]
     #[Rule('nullable')] 
     public $superiority_role = '';
@@ -110,11 +112,15 @@ class Edit extends Component
             return;
         }
         
-        User::findOrFail($this->userId)->delete();
-        session()->flash('success', 'Pengguna berhasil dihapus.');
+        $user = User::findOrFail($this->userId);
+        $name = $user->name; // Simpan nama untuk pesan sukses
+
+        $user->delete();
+        
+        session()->flash('success', "Pengguna '{$name}' berhasil dihapus.");
+        
         return $this->redirectRoute('adminusers', navigate: true);
     }
-
 
     public function render()
     {

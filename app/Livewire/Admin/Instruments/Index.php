@@ -14,6 +14,13 @@ class Index extends Component
 
     public $search = '';
     public $perPage = 10;
+
+    public $showModal = false; // Kontrol tampil modal
+    public $deleteId = null;
+    public $deleteCode = ''; // Untuk nama instrumen di modal
+    public $isBulkDelete = false;
+    public $bulkCount = 0;
+
     public $selectAll = false;
     public $selectedInstruments = [];
 
@@ -33,6 +40,12 @@ class Index extends Component
         }
     }
 
+    public function resetSelection()
+    {
+        $this->selectAll = false;
+        $this->selectedInstruments = [];
+    }
+
     // Fungsi untuk tombol "Instrumen Baru" (Request #2)
     public function createNewInstrument()
     {
@@ -48,20 +61,46 @@ class Index extends Component
         return $this->redirect("instrument/{$id}/edit", navigate: true);
     }
 
-    // Fungsi untuk tombol "Hapus"
-    public function deleteInstrument($id)
+    public function executeDelete()
     {
-        Instrument::find($id)->delete();
-        session()->flash('success', 'Instrumen berhasil dihapus.');
-        $this->reset('selectAll', 'selectedInstruments'); // Reset pilihan
+        if ($this->isBulkDelete) {
+            $this->deleteSelected();
+        } else {
+            $this->delete();
+        }
     }
 
-    // Fungsi untuk "Hapus Pilihan" (Request #5)
+    public function delete()
+    {
+        if ($this->deleteId) {
+            $instrument = Instrument::find($this->deleteId);
+            if ($instrument) {
+                $name = $instrument->name;
+                $instrument->delete();
+                session()->flash('success', "Instrumen '{$name}' berhasil dihapus.");
+            }
+        }
+        
+        $this->resetDeleteState();
+    }
+
     public function deleteSelected()
     {
+        if (empty($this->selectedInstruments)) return;
+
+        $count = count($this->selectedInstruments);
         Instrument::whereIn('id', $this->selectedInstruments)->delete();
-        session()->flash('success', 'Instrumen yang dipilih berhasil dihapus.');
-        $this->reset('selectAll', 'selectedInstruments'); // Reset pilihan
+        
+        session()->flash('success', "{$count} instrumen berhasil dihapus.");
+        $this->resetDeleteState();
+    }
+
+    private function resetDeleteState()
+    {
+        $this->deleteId = null;
+        $this->isBulkDelete = false;
+        $this->resetSelection();
+        $this->dispatch('close-modal'); // Tutup modal via event listener di blade
     }
 
     public function render()

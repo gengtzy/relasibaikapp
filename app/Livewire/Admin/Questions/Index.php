@@ -14,6 +14,13 @@ class Index extends Component
 
     public $search = '';
     public $perPage = 10;
+
+    public $showModal = false;
+    public $deleteId = null;
+    public $deleteCode = ''; // Untuk menyimpan cuplikan teks pertanyaan
+    public $isBulkDelete = false;
+    public $bulkCount = 0;
+
     public $selectAll = false;
     public $selectedQuestions = [];
 
@@ -31,6 +38,12 @@ class Index extends Component
         }
     }
 
+    public function resetSelection()
+    {
+        $this->selectAll = false;
+        $this->selectedQuestions = [];
+    }
+
     public function createNewQuestion()
     {
         // Ganti '/admin/questions/new' jika path Anda berbeda
@@ -43,18 +56,46 @@ class Index extends Component
         return $this->redirect("/admin/questions/{$id}/edit", navigate: true);
     }
 
-    public function deleteQuestion($id)
+    public function executeDelete()
     {
-        Question::find($id)->delete();
-        session()->flash('success', 'Pertanyaan berhasil dihapus.');
-        $this->reset('selectAll', 'selectedQuestions');
+        if ($this->isBulkDelete) {
+            $this->deleteSelected();
+        } else {
+            $this->delete();
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->deleteId) {
+            $question = Question::find($this->deleteId);
+            if ($question) {
+                // Potong teks pertanyaan agar pesan sukses tidak kepanjangan
+                $text = \Illuminate\Support\Str::limit($question->question_text, 30);
+                $question->delete();
+                session()->flash('success', "Pertanyaan '{$text}' berhasil dihapus.");
+            }
+        }
+        $this->resetDeleteState();
     }
 
     public function deleteSelected()
     {
+        if (empty($this->selectedQuestions)) return;
+
+        $count = count($this->selectedQuestions);
         Question::whereIn('id', $this->selectedQuestions)->delete();
-        session()->flash('success', 'Pertanyaan yang dipilih berhasil dihapus.');
-        $this->reset('selectAll', 'selectedQuestions');
+        
+        session()->flash('success', "{$count} pertanyaan berhasil dihapus.");
+        $this->resetDeleteState();
+    }
+
+    private function resetDeleteState()
+    {
+        $this->deleteId = null;
+        $this->isBulkDelete = false;
+        $this->resetSelection();
+        $this->dispatch('close-modal'); // Tutup modal via event listener
     }
 
     public function render()

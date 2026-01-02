@@ -10,6 +10,7 @@ use Livewire\Attributes\Layout;
 class View extends Component
 {
     public $screening;
+    public $showModal = false;
 
     public function mount($id)
     {
@@ -24,9 +25,14 @@ class View extends Component
 
     public function delete()
     {
-        $this->screening->delete();
-        session()->flash('success', 'Data screening berhasil dihapus.');
-        return redirect()->route('screeningresult');
+        if ($this->screening) {
+            $formattedId = 'SCR-' . $this->screening->created_at->format('Ymd') . '-' . str_pad($this->screening->id, 5, '0', STR_PAD_LEFT);
+            
+            $this->screening->delete();
+            
+            session()->flash('success', "Data screening {$formattedId} berhasil dihapus.");
+            return redirect()->route('screeningresult');
+        }
     }
 
     public function render()

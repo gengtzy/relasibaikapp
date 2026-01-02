@@ -14,6 +14,13 @@ class Index extends Component
 
     public $search = '';
     public $perPage = 10;
+
+    public $showModal = false;
+    public $deleteId = null;
+    public $deleteCode = ''; // Untuk menyimpan Judul Rekomendasi
+    public $isBulkDelete = false;
+    public $bulkCount = 0;
+
     public $selectAll = false;
     public $selectedRecommendations = []; 
 
@@ -31,6 +38,12 @@ class Index extends Component
         }
     }
 
+    public function resetSelection()
+    {
+        $this->selectAll = false;
+        $this->selectedRecommendations = [];
+    }
+
     public function createNewRecommendation()
     {
         return $this->redirect('recommendationsnew', navigate: true);
@@ -41,18 +54,45 @@ class Index extends Component
         return $this->redirect("/admin/recommendations/{$id}/edit", navigate: true);
     }
 
-    public function deleteRecommendation($id)
+    public function executeDelete()
     {
-        Recommendation::find($id)->delete();
-        session()->flash('success', 'Rekomendasi berhasil dihapus.');
-        $this->reset('selectAll', 'selectedRecommendations');
+        if ($this->isBulkDelete) {
+            $this->deleteSelected();
+        } else {
+            $this->delete();
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->deleteId) {
+            $recommendation = Recommendation::find($this->deleteId);
+            if ($recommendation) {
+                $title = \Illuminate\Support\Str::limit($recommendation->title, 30);
+                $recommendation->delete();
+                session()->flash('success', "Rekomendasi '{$title}' berhasil dihapus.");
+            }
+        }
+        $this->resetDeleteState();
     }
 
     public function deleteSelected()
     {
+        if (empty($this->selectedRecommendations)) return;
+
+        $count = count($this->selectedRecommendations);
         Recommendation::whereIn('id', $this->selectedRecommendations)->delete();
-        session()->flash('success', 'Rekomendasi yang dipilih berhasil dihapus.');
-        $this->reset('selectAll', 'selectedRecommendations');
+        
+        session()->flash('success', "{$count} rekomendasi berhasil dihapus.");
+        $this->resetDeleteState();
+    }
+
+    private function resetDeleteState()
+    {
+        $this->deleteId = null;
+        $this->isBulkDelete = false;
+        $this->resetSelection();
+        $this->dispatch('close-modal');
     }
 
     public function render()

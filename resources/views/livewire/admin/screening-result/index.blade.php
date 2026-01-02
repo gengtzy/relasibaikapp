@@ -49,14 +49,21 @@
 
     <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
+        {{-- PERUBAHAN UTAMA DI SINI: Tambahkan $watch pada x-init --}}
         <div x-data="{
             showModal: false,
             deleteId: null,
             deleteCode: '',
             isBulk: false,
-            {{-- VARIABLE BARU --}}
-            bulkCount: 0 {{-- VARIABLE BARU --}}
-        }" @close-modal.window="showModal = false" class="flex flex-col">
+            bulkCount: 0
+        }" x-init="$watch('showModal', value => {
+            if (value) {
+                document.body.classList.add('overflow-hidden');
+            } else {
+                document.body.classList.remove('overflow-hidden');
+            }
+        })" @close-modal.window="showModal = false"
+            class="flex flex-col">
 
             <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 p-4">
 
@@ -67,7 +74,7 @@
                                 isBulk = true;
                                 bulkCount = {{ count($selectedIds) }};
                                 showModal = true;
-                                $wire.set('isBulkDelete', true, false); {{-- Beritahu Livewire ini bulk --}}
+                                $wire.set('isBulkDelete', true, false); 
                             "
                             type="button"
                             class="btn-danger w-full px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 transition-colors">
@@ -79,7 +86,6 @@
                 @endif
 
                 <div class="flex space-x-4">
-                    {{-- Request #3: Search difungsikan --}}
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
                             <i class="fas fa-search text-gray-500"></i>
@@ -98,7 +104,7 @@
             <div class="space-y-4">
 
                 @if (session()->has('success'))
-                    <div x-data="{ show: true }" x-show="show"
+                    <div wire:key="alert-{{ rand() }}" x-data="{ show: true }" x-show="show"
                         x-transition:enter="transform ease-out duration-300 transition"
                         x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
                         x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -129,7 +135,6 @@
                     </div>
                 @endif
 
-                {{-- Tabel --}}
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-slate-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
@@ -151,8 +156,6 @@
                         <tbody class="divide-y divide-slate-100">
                             @forelse($screenings as $item)
                                 <tr class="bg-white hover:bg-slate-50 transition-colors">
-
-                                    {{-- Checkbox --}}
                                     <td class="w-4 p-4">
                                         <div class="flex items-center">
                                             <input wire:model.live="selectedIds" type="checkbox"
@@ -160,16 +163,13 @@
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
                                         </div>
                                     </td>
-                                    {{-- ID Sesi Custom --}}
                                     <td wire:click="viewResult({{ $item->id }})"
                                         class="px-6 py-4 font-medium whitespace-nowrap cursor-pointer">
                                         SCR-{{ $item->created_at->format('Ymd') }}-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}
                                     </td>
-
                                     <td wire:click="viewResult({{ $item->id }})" class="px-6 py-4 cursor-pointer">
                                         {{ $item->user->name }}
                                     </td>
-
                                     <td wire:click="viewResult({{ $item->id }})"
                                         class="px-6 py-4 whitespace-nowrap cursor-pointer">
                                         {{ $item->created_at->translatedFormat('d F Y') }}
@@ -177,7 +177,6 @@
                                         <span class="text-xs text-slate-400">{{ $item->created_at->format('H:i') }}
                                             WIB</span>
                                     </td>
-
                                     <td wire:click="viewResult({{ $item->id }})"
                                         class="px-6 py-4 text-center cursor-pointer">
                                         <span
@@ -185,7 +184,6 @@
                                             {{ $item->result->total_score ?? 0 }}
                                         </span>
                                     </td>
-
                                     <td wire:click="viewResult({{ $item->id }})"
                                         class="px-6 py-4 cursor-pointer">
                                         @if ($item->recommendation)
@@ -208,18 +206,12 @@
                                             <span class="text-slate-400 text-xs italic">Belum ada hasil</span>
                                         @endif
                                     </td>
-
                                     <td class="flex gap-2 px-6 py-4">
                                         <button wire:click="viewResult({{ $item->id }})" type="button"
                                             class="flex gap-1 items-center font-medium text-slate-600 hover:underline">
                                             <i class="fas fa-eye"></i>
                                             Lihat
                                         </button>
-                                        {{-- <button wire:click="confirmDelete({{ $item->id }})" type="button"
-                                        class="flex gap-1 items-center font-medium text-red-600 hover:underline">
-                                        <i class="fas fa-trash-alt"></i>
-                                        Hapus
-                                    </button> --}}
                                         @php
                                             $scrCode =
                                                 'SCR-' .
@@ -227,7 +219,6 @@
                                                 '-' .
                                                 str_pad($item->id, 5, '0', STR_PAD_LEFT);
                                         @endphp
-
                                         <button type="button"
                                             @click="
                                                 isBulk = false;
@@ -268,7 +259,6 @@
                         of
                         <span class="font-semibold text-slate-700">{{ $screenings->total() }}</span>
                     </span>
-
                     {{ $screenings->links() }}
                 </nav>
 
@@ -303,22 +293,18 @@
                                         stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
 
-                                {{-- Judul Modal Dinamis --}}
                                 <h3 class="mb-2 text-lg font-normal text-gray-500"
                                     x-text="isBulk ? 'Hapus ' + bulkCount + ' data terpilih?' : 'Apakah Anda yakin ingin menghapus data ini?'">
                                 </h3>
 
-                                {{-- Detail Info Dinamis --}}
                                 <div class="mb-6 py-2 px-3 bg-gray-50 rounded-lg border border-gray-100 inline-block">
                                     <span class="font-mono text-sm font-bold text-gray-800"
                                         x-text="isBulk ? 'Tindakan ini tidak dapat dibatalkan.' : 'ID: ' + deleteCode"></span>
                                 </div>
 
                                 <div class="flex items-center justify-center gap-3">
-                                    {{-- Tombol Delete Dinamis --}}
                                     <button wire:click="executeDelete" wire:loading.attr="disabled" type="button"
                                         class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center transition-all shadow-md hover:shadow-lg disabled:opacity-50">
-
                                         <span wire:loading.remove>Ya, Hapus Data</span>
                                         <span wire:loading>Menghapus...</span>
                                     </button>

@@ -28,6 +28,8 @@ class Edit extends Component
     #[Rule('min:5', message: 'Pertanyaan minimal 5 karakter.')]
     public $question_text = '';
 
+    public $showModal = false;
+
     public function mount($id)
     {
         // 1. Cari pertanyaan berdasarkan ID
@@ -66,9 +68,14 @@ class Edit extends Component
 
     public function delete()
     {
-        Question::findOrFail($this->questionId)->delete();
+        $question = Question::findOrFail($this->questionId);
         
-        session()->flash('success', 'Pertanyaan berhasil dihapus.');
+        // Simpan text sebentar untuk pesan sukses (opsional)
+        $text = \Illuminate\Support\Str::limit($question->question_text, 30);
+
+        $question->delete();
+        
+        session()->flash('success', "Pertanyaan '{$text}' berhasil dihapus.");
 
         return $this->redirectRoute('questionsindex', navigate: true);
     }

@@ -208,12 +208,12 @@
                         'text-blue-500 bg-gray-50' => request()->routeIs([
                             'adminusers*',
                             'userscreate*',
-                            'recommendationsedit*',
+                            'usersedit*',
                         ]),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
                             'adminusers*',
                             'userscreate*',
-                            'recommendationsedit*',
+                            'usersedit*',
                         ]),
                     ])>
                         <i class="fas fa-users-cog"></i>

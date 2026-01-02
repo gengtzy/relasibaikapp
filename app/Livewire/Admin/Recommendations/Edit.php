@@ -29,6 +29,8 @@ class Edit extends Component
     #[Rule('min:10', message: 'Deskripsi minimal 10 karakter.')]
     public $description = '';
 
+    public $showModal = false;
+
     public function mount($id)
     {
         $recommendation = Recommendation::findOrFail($id);
@@ -62,12 +64,17 @@ class Edit extends Component
 
     public function delete()
     {
-        Recommendation::findOrFail($this->recommendationId)->delete();
+        $recommendation = Recommendation::findOrFail($this->recommendationId);
         
-        session()->flash('success', 'Rekomendasi berhasil dihapus.');
+        $title = \Illuminate\Support\Str::limit($recommendation->title, 30);
+
+        $recommendation->delete();
+        
+        session()->flash('success', "Rekomendasi '{$title}' berhasil dihapus.");
         
         return $this->redirectRoute('recommendationsindex', navigate: true);
     }
+
     public function render()
     {
         return view('livewire.admin.recommendations.edit');

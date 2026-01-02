@@ -16,6 +16,7 @@ class Edit extends Component
     public $name = '';
     public $descriptions = '';
 
+    public $showModal = false;
 
     public function mount($id)
     {
@@ -66,16 +67,15 @@ class Edit extends Component
 
     public function delete()
     {
-        // 1. Cari dan hapus instrumen
-        Instrument::findOrFail($this->instrumentId)->delete();
+        $instrument = Instrument::findOrFail($this->instrumentId);
+        $name = $instrument->name;
         
-        // 2. Beri notifikasi
-        session()->flash('success', 'Instrumen berhasil dihapus.');
+        $instrument->delete();
+        
+        session()->flash('success', "Instrumen '{$name}' berhasil dihapus.");
 
-        // 3. Redirect kembali ke halaman index
         return $this->redirectRoute('instrumentindex', navigate: true);
     }
-
 
     public function render()
     {
