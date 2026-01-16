@@ -15,7 +15,7 @@
         <div
             class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-opacity">
             <div
-                class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-100 dark:bg-slate-600 transition-colors duration-500 ease-in-out">
+                class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-100 dark:bg-slate-600 transition-colors duration-500 ease-in-out">
 
                 {{-- Loading State --}}
                 @if ($isProcessing)
@@ -37,7 +37,7 @@
 
                 {{-- Success State --}}
                 @if ($isFinished)
-                    <div>
+                    <div >
                         <h3 class="text-xl font-bold text-gray-800 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">Perhitungan Selesai!</h3>
                         <p class="text-gray-500 mb-6 dark:text-slate-100 transition-colors duration-500 ease-in-out">Hasil skrining kamu sudah siap.</p>
 
@@ -52,7 +52,7 @@
                         </div>
 
                         <button wire:click="goToResult"
-                            class="gap-2 w-full inline-flex justify-center items-center px-5 py-3 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all shadow-lg">
+                            class="gap-2 w-full inline-flex justify-center items-center px-5 py-3 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all shadow-lg transform hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                             Cek Hasil
                             <i class="fas fa-arrow-right"></i>
                         </button>

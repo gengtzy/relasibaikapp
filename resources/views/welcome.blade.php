@@ -81,8 +81,7 @@
                     </p>
                 </div>
 
-                {{-- Step 1 --}}
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                <div class="grid-card">
                     <div class="flex justify-center" data-aos="zoom-in-right">
                         <img src="{{ asset('images/section2.svg') }}" alt="Ilustrasi login" class="w-full max-w-md">
                     </div>
@@ -128,7 +127,8 @@
                                         class="text-slate-600 text-sm mb-2 dark:text-slate-200 transition-colors duration-500 ease-in-out">
                                         Jawab pertanyaan dari tiga instrumen
                                         psikologi terpercaya:</p>
-                                    <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-300">
+                                    <ul
+                                        class="space-y-1 text-sm text-slate-500 dark:text-slate-300 transition-colors duration-500 ease-in-out">
                                         <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i>
                                             FPQ (Keterlibatan Ayah)</li>
                                         <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i>
@@ -142,8 +142,7 @@
                     </div>
                 </div>
 
-                {{-- Step 2 --}}
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                <div class="grid-card">
                     <div class="space-y-8 order-2 lg:order-1" data-aos="fade-right">
                         <h3
                             class="text-3xl font-bold text-slate-900 border-l-4 border-purple-500 pl-4 dark:text-slate-50 transition-colors duration-500 ease-in-out">
@@ -194,8 +193,7 @@
                     </div>
                 </div>
 
-                {{-- Step 3 --}}
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="grid-card -mb-12">
                     <div class="flex justify-center" data-aos="zoom-in-right">
                         <img src="{{ asset('images/section4.svg') }}" alt="Ilustrasi hasil" class="w-full max-w-md">
                     </div>

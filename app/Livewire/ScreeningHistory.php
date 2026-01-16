@@ -14,21 +14,29 @@ class ScreeningHistory extends Component
     use WithPagination;
 
     public $search = '';
+    public $showModal = false;
+    public $deleteId = null;
+    public $deleteLabel = '';
 
     public function updatedSearch()
     {
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $screening = Screening::where('user_id', Auth::id())->find($id);
+        if ($this->deleteId) {
+            $screening = Screening::where('user_id', Auth::id())->find($this->deleteId);
 
-        if ($screening) {
-            // Hapus data (Cascade delete di database akan menghapus result & responses otomatis)
-            $screening->delete();
-            session()->flash('message', 'Data riwayat berhasil dihapus.');
+            if ($screening) {
+                $screening->delete();
+                session()->flash('message', 'Data riwayat berhasil dihapus.');
+            }
         }
+        
+        // Reset State & Tutup Modal
+        $this->showModal = false;
+        $this->deleteId = null;
     }
 
     public function render()
