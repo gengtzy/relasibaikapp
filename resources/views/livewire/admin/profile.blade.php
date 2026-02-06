@@ -18,41 +18,51 @@
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center items-center relative overflow-hidden">
                     <div class="relative inline-block">
-                        {{-- Input File Hidden dengan Javascript Converter --}}
-                        <input type="file" 
-                            id="avatar-upload" 
-                            class="hidden" 
-                            accept="image/*"
-                            onchange="
-                                    const file = this.files[0];
-                                    
-                                    // 1. Validasi Ukuran (Maks 1MB) biar database aman
-                                    if(file.size > 1024 * 1024) {
-                                        alert('Ukuran foto terlalu besar! Maksimal 1MB.');
-                                        this.value = ''; // Reset
-                                        return;
-                                    }
+                        @if ($existingAvatar)
+                            @if (str_contains($existingAvatar, 'data:image'))
+                                <img src="{{ $existingAvatar }}" 
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
+                            @else
+                                <img src="{{ asset('storage/' . $existingAvatar) }}" 
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
+                            @endif
+                        @else
+                            <div class="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 mx-auto border-4 border-slate-100 shadow-md">
+                                <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        @endif
 
-                                    // 2. Convert ke Base64 via Browser
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                        // Kirim hasil text base64 langsung ke variable 'avatar' di PHP
-                                        @this.set('avatar', reader.result);
-                                    }
-                                    reader.readAsDataURL(file);
-                            ">
-
-                        {{-- Loading Indicator Custom --}}
-                        {{-- Kita pakai wire:target="avatar" karena saat @this.set jalan, Livewire akan proses variable avatar --}}
+                        {{-- 2. LOADING INDICATOR (Muncul saat proses konversi) --}}
                         <div wire:loading wire:target="avatar" 
-                            class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-full z-10">
+                            class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-full z-10 transition-opacity">
                             <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
                         </div>
 
-                        {{-- Tombol Trigger --}}
+                        {{-- 3. INPUT FILE HIDDEN + LOGIC JS --}}
+                        <input type="file" 
+                            id="avatar-upload" 
+                            class="hidden" 
+                            accept="image/*"
+                            onchange="
+                                const file = this.files[0];
+                                if(file.size > 1024 * 1024) {
+                                    alert('Ukuran foto terlalu besar! Maksimal 1MB.');
+                                    this.value = '';
+                                    return;
+                                }
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                    @this.set('avatar', reader.result);
+                                }
+                                reader.readAsDataURL(file);
+                            ">
+
+                        {{-- 4. TOMBOL KAMERA (Label) --}}
                         <label for="avatar-upload"
                             class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition-colors z-20"
                             title="Ganti Foto">
@@ -63,6 +73,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </label>
+
                     </div>
 
                     @error('avatar')
