@@ -59,6 +59,7 @@
 
                     </div>
 
+
                     <div class="flex justify-center items-center">
                         <img src="{{ asset('images/section1.svg') }}" alt="Ilustrasi keluarga harmonis"
                             class="w-full max-w-lg">
@@ -192,6 +193,8 @@
                             class="w-full max-w-md">
                     </div>
                 </div>
+
+                <!-- rename -->
 
                 <div class="grid-card -mb-12">
                     <div class="flex justify-center" data-aos="zoom-in-right">
