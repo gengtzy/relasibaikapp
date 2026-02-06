@@ -17,25 +17,22 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center items-center relative overflow-hidden">
+                    
                     <div class="relative inline-block">
-                        {{-- Logic Preview Foto --}}
-                        @if ($avatar)
-                            {{-- Preview saat mau upload (Temporary Url) --}}
-                            <img src="{{ $avatar->temporaryUrl() }}"
-                                class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
-                        @elseif ($existingAvatar)
-                            {{-- Foto dari Database (Base64 atau Storage Lama) --}}
+                        
+                        {{-- 1. Gambar Profil (Selalu ambil dari DB/Variable existing) --}}
+                        @if ($existingAvatar)
                             @if (str_contains($existingAvatar, 'data:image'))
-                                {{-- Tampilkan Base64 langsung --}}
-                                <img src="{{ $existingAvatar }}"
+                                {{-- Base64 (Upload Baru) --}}
+                                <img src="{{ $existingAvatar }}" 
                                     class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
                             @else
-                                {{-- Fallback untuk gambar lama yg mungkin masih di storage --}}
-                                <img src="{{ asset('storage/' . $existingAvatar) }}"
+                                {{-- Fallback Storage Lama --}}
+                                <img src="{{ asset('storage/' . $existingAvatar) }}" 
                                     class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
                             @endif
                         @else
-                            {{-- Default Avatar UI --}}
+                            {{-- Default Avatar --}}
                             <div class="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 mx-auto border-4 border-slate-100 shadow-md">
                                 <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
@@ -43,7 +40,16 @@
                             </div>
                         @endif
 
-                        {{-- Tombol Kamera Kecil --}}
+                        {{-- 2. Loading Indicator (Muncul pas lagi upload) --}}
+                        <div wire:loading wire:target="avatar" 
+                            class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-full">
+                            <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+
+                        {{-- 3. Input File & Tombol Edit --}}
                         <label for="avatar-upload"
                             class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition-colors"
                             title="Ganti Foto">
@@ -54,18 +60,24 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </label>
+                        {{-- wire:model akan mentrigger updatedAvatar() di controller --}}
                         <input wire:model="avatar" id="avatar-upload" type="file" class="hidden" accept="image/*">
+                    
                     </div>
 
-                    <div wire:loading wire:target="avatar" class="text-xs text-blue-600 mt-2 font-medium animate-pulse">
-                        Mengunggah foto...
-                    </div>
                     @error('avatar')
-                        <span class="text-red-500 text-xs block mt-1">{{ $message }}</span>
+                        <span class="text-red-500 text-xs block mt-2">{{ $message }}</span>
                     @enderror
 
                     <h2 class="mt-4 text-xl font-bold text-slate-800">{{ Auth::user()->name }}</h2>
                     <p class="text-slate-500 text-sm">{{ Auth::user()->email }}</p>
+
+                    {{-- Flash Message Khusus Foto --}}
+                    @if (session()->has('status'))
+                        <div class="mt-2 text-xs text-green-600 bg-green-100 px-2 py-1 rounded inline-block">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
                     <div class="mt-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                         Administrator
