@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->foreignId('id_screening')->constrained('screenings')->onDelete('cascade');
         $table->foreignId('id_question')->constrained('questions')->onDelete('cascade');
-        $table->integer('answer_value'); // Jawaban user 1-4 atau 1-9
+        $table->integer('answer_value'); 
         $table->timestamps();
     });
     }
