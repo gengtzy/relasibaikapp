@@ -84,7 +84,7 @@
 
                 <div class="grid-card">
                     <div class="flex justify-center" data-aos="zoom-in-right">
-                        <img src="{{ asset('images/section2.svg') }}" alt="Ilustrasi login" class="w-full max-w-md">
+                        <img src="{{ asset('images/Section2.svg') }}" alt="Ilustrasi login" class="w-full max-w-md">
                     </div>
                     <div class="space-y-8" data-aos="fade-left">
                         <h3
@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center order-1 lg:order-2" data-aos="zoom-in-left">
-                        <img src="{{ asset('images/section3.svg') }}" alt="Ilustrasi proses penilaian"
+                        <img src="{{ asset('images/Section3.svg') }}" alt="Ilustrasi proses penilaian"
                             class="w-full max-w-md">
                     </div>
                 </div>
