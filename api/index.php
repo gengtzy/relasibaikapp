@@ -1,2 +1,19 @@
 <?php 
 require __DIR__. '/../public/index.php';
+
+$app = require __DIR__.'/../bootstrap/app.php';
+
+if (isset($_ENV['VERCEL'])) {
+    $app->useStoragePath('/tmp/storage');
+
+    if (!is_dir('/tmp/storage')) {
+        mkdir('/tmp/storage', 0777, true);
+        mkdir('/tmp/storage/app', 0777, true);
+        mkdir('/tmp/storage/framework/cache', 0777, true);
+        mkdir('/tmp/storage/framework/views', 0777, true);
+        mkdir('/tmp/storage/framework/sessions', 0777, true);
+        mkdir('/tmp/storage/logs', 0777, true);
+    }
+}
+
+return $app;

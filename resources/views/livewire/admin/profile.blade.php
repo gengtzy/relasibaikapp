@@ -16,25 +16,29 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-1 space-y-6">
-                <div
-                    class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center items-center relative overflow-hidden">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center items-center relative overflow-hidden">
                     <div class="relative inline-block">
                         {{-- Logic Preview Foto --}}
                         @if ($avatar)
-                            {{-- Preview Upload Baru --}}
+                            {{-- Preview saat mau upload (Temporary Url) --}}
                             <img src="{{ $avatar->temporaryUrl() }}"
                                 class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
                         @elseif ($existingAvatar)
-                            {{-- Foto dari Database --}}
-                            <img src="{{ asset('storage/' . $existingAvatar) }}"
-                                class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
+                            {{-- Foto dari Database (Base64 atau Storage Lama) --}}
+                            @if (str_contains($existingAvatar, 'data:image'))
+                                {{-- Tampilkan Base64 langsung --}}
+                                <img src="{{ $existingAvatar }}"
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
+                            @else
+                                {{-- Fallback untuk gambar lama yg mungkin masih di storage --}}
+                                <img src="{{ asset('storage/' . $existingAvatar) }}"
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-slate-100 shadow-md mx-auto">
+                            @endif
                         @else
                             {{-- Default Avatar UI --}}
-                            <div
-                                class="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 mx-auto border-4 border-slate-100 shadow-md">
+                            <div class="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 mx-auto border-4 border-slate-100 shadow-md">
                                 <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd"></path>
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                         @endif
@@ -47,8 +51,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
                                 </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </label>
                         <input wire:model="avatar" id="avatar-upload" type="file" class="hidden" accept="image/*">
@@ -64,8 +67,7 @@
                     <h2 class="mt-4 text-xl font-bold text-slate-800">{{ Auth::user()->name }}</h2>
                     <p class="text-slate-500 text-sm">{{ Auth::user()->email }}</p>
 
-                    <div
-                        class="mt-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                    <div class="mt-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                         Administrator
                     </div>
                     <p class="text-xs text-slate-400 mt-4">Bergabung sejak
