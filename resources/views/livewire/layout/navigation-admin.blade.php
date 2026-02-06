@@ -33,8 +33,10 @@
                                 <span class="sr-only">Open user menu</span>
 
                                 @if (Auth::user()->avatar)
+                                    {{-- FIX: Cek apakah avatar formatnya Base64 (Data URI) atau File Storage biasa --}}
                                     <img class="w-8 h-8 rounded-full object-cover"
-                                        src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="user photo">
+                                        src="{{ str_contains(Auth::user()->avatar, 'data:image') ? Auth::user()->avatar : asset('storage/' . Auth::user()->avatar) }}" 
+                                        alt="user photo">
                                 @else
                                     <img class="w-8 h-8 rounded-full"
                                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random"
