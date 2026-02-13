@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 #[Layout('layouts.app')]
 class ScreeningWizard extends Component
 {
-    #[Url(keep: true)]
+    #[Url]
     public $currentStep = 1;
 
     #[Session]
@@ -37,30 +37,30 @@ class ScreeningWizard extends Component
     public $isProcessing = false; 
     public $isFinished = false;
 
-    public function mount()
-    {
+    // public function mount()
+    // {
 
-        if (request()->query('reset') == 'true') {
-            session()->forget([
-                'last_screening_id', 
-                'biodata', 
-                'fatherAnswers', 'fatherScore',
-                'motherAnswers', 'motherScore',
-                'otherAnswers', 'otherScore'
-            ]);
-            $this->reset();
-            $this->currentStep = 1;
-        }
-        elseif (session()->has('last_screening_id')) {
-            $this->finalResultId = session('last_screening_id');
-            if ($this->currentStep == 5 && $this->finalResultId) {
-                $this->isFinished = true;
-            }
-            elseif ($this->currentStep == 5 && !$this->finalResultId) {
-                $this->currentStep = 1;
-            }
-        }
-    }
+    //     if (request()->query('reset') == 'true') {
+    //         session()->forget([
+    //             'last_screening_id', 
+    //             'biodata', 
+    //             'fatherAnswers', 'fatherScore',
+    //             'motherAnswers', 'motherScore',
+    //             'otherAnswers', 'otherScore'
+    //         ]);
+    //         $this->reset();
+    //         $this->currentStep = 1;
+    //     }
+    //     elseif (session()->has('last_screening_id')) {
+    //         $this->finalResultId = session('last_screening_id');
+    //         if ($this->currentStep == 5 && $this->finalResultId) {
+    //             $this->isFinished = true;
+    //         }
+    //         elseif ($this->currentStep == 5 && !$this->finalResultId) {
+    //             $this->currentStep = 1;
+    //         }
+    //     }
+    // }
 
     #[On('biodataCompleted')]
     public function onBiodataCompleted($biodata)

@@ -46,14 +46,14 @@
                             keterlibatan ayah, interaksi ibu-anak, dan kesejahteraan keluarga secara objektif.
                         </p>
                         @auth
-                            <!-- <a href="{{ route('screening.wizard') }}"
-                                class="inline-block mt-8 bg-green-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-600 transition-transform hover:scale-105">
-                                Mulai Sekarang
-                            </a> -->
-                            <a href="{{ route('screening.wizard', ['reset' => 'true']) }}"
+                            <a href="{{ route('screening.wizard') }}"
                                 class="inline-block mt-8 bg-green-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-600 transition-transform hover:scale-105">
                                 Mulai Sekarang
                             </a>
+                            <!-- <a href="{{ route('screening.wizard', ['reset' => 'true']) }}"
+                                class="inline-block mt-8 bg-green-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-600 transition-transform hover:scale-105">
+                                Mulai Sekarang
+                            </a> -->
                         @else
                             <a href="{{ route('login') }}"
                                 class="inline-block mt-8 bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-500 transition-transform hover:scale-105">
