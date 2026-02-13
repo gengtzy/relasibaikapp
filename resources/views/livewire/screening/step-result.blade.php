@@ -94,7 +94,7 @@
                         </div>
                     @endif
 
-                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">
+                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100 transition-colors duration-500 ease-in-out">
                         Relasi Ibu
                     </h5>
                     <div class="text-3xl font-bold text-pink-500 mb-1 print:text-black">
@@ -122,7 +122,7 @@
                         </div>
                     @endif
 
-                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">
+                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100 transition-colors duration-500 ease-in-out">
                         Keluarga Lain
                     </h5>
                     <div class="text-3xl font-bold text-green-500 mb-1 print:text-black">
