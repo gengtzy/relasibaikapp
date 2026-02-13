@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 #[Layout('layouts.app')]
 class ScreeningWizard extends Component
 {
-    #[Url]
+    #[Url(keep: true)]
     public $currentStep = 1;
 
     #[Session]
@@ -37,13 +37,25 @@ class ScreeningWizard extends Component
     public $isProcessing = false; 
     public $isFinished = false;
 
+    public function mount()
+    {
+        // Cek apakah ada ID hasil yang tersimpan di session browser
+        if (session()->has('last_screening_id')) {
+            $this->finalResultId = session('last_screening_id');
+            
+            // Jika user me-refresh halaman saat di step 5, pastikan ID-nya terisi
+            if ($this->currentStep == 5) {
+                $this->isFinished = true; // Opsional: sesuaikan dengan logika tampilan Anda
+            }
+        }
+    }
+
     #[On('biodataCompleted')]
     public function onBiodataCompleted($biodata)
     {
 
         $this->biodata = $biodata;
 
-        // 5. Pindahkan ke langkah berikutnya
         $this->currentStep = 2;
         $this->dispatch('scroll-to-top');
     }
@@ -108,6 +120,7 @@ class ScreeningWizard extends Component
 
             if ($result) {
                 $this->finalResultId = $result->id;
+                session()->put('last_screening_id', $result->id);
                 $this->isProcessing = false; 
                 $this->isFinished = true; // TRIGER MODAL SUKSES
             }
@@ -132,6 +145,13 @@ class ScreeningWizard extends Component
         $this->isFinished = false;
         $this->currentStep = 5;
         $this->dispatch('scroll-to-top');
+    }
+
+    public function startNew()
+    {
+        session()->forget('last_screening_id'); // Hapus session ID lama
+        $this->reset(); // Reset semua properti Livewire
+        return redirect()->to('/screening-wizard'); // Refresh halaman penuh
     }
 
     public function render()
