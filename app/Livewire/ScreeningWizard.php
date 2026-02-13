@@ -31,7 +31,7 @@ class ScreeningWizard extends Component
     public $otherAnswers = [];
     #[Session]
     public $otherScore = 0;
-    
+    #[Session]
     public $finalResultId = null;
 
     public $isProcessing = false; 
@@ -39,13 +39,25 @@ class ScreeningWizard extends Component
 
     public function mount()
     {
-        // Cek apakah ada ID hasil yang tersimpan di session browser
-        if (session()->has('last_screening_id')) {
+
+        if (request()->query('reset') == 'true') {
+            session()->forget([
+                'last_screening_id', 
+                'biodata', 
+                'fatherAnswers', 'fatherScore',
+                'motherAnswers', 'motherScore',
+                'otherAnswers', 'otherScore'
+            ]);
+            $this->reset();
+            $this->currentStep = 1;
+        }
+        elseif (session()->has('last_screening_id')) {
             $this->finalResultId = session('last_screening_id');
-            
-            // Jika user me-refresh halaman saat di step 5, pastikan ID-nya terisi
-            if ($this->currentStep == 5) {
-                $this->isFinished = true; // Opsional: sesuaikan dengan logika tampilan Anda
+            if ($this->currentStep == 5 && $this->finalResultId) {
+                $this->isFinished = true;
+            }
+            elseif ($this->currentStep == 5 && !$this->finalResultId) {
+                $this->currentStep = 1;
             }
         }
     }
@@ -94,8 +106,6 @@ class ScreeningWizard extends Component
         $this->otherAnswers = $answers;
         $this->otherScore = $score;
 
-        // --- FINAL PROSES: SIMPAN KE DATABASE ---
-        // Kita panggil method khusus di Wizard ini
         $this->submitAllData();
     }
 
@@ -120,7 +130,6 @@ class ScreeningWizard extends Component
 
             if ($result) {
                 $this->finalResultId = $result->id;
-                session()->put('last_screening_id', $result->id);
                 $this->isProcessing = false; 
                 $this->isFinished = true; // TRIGER MODAL SUKSES
             }
@@ -128,15 +137,10 @@ class ScreeningWizard extends Component
         } catch (\Exception $e) {
             $this->isProcessing = false;
             $this->isFinished = false;
-            
-            // LOG ERROR AGAR BISA DILACAK DI LARAVEL.LOG
+
             Log::error('Screening Error: ' . $e->getMessage());
             
-            // TAMPILKAN ERROR KE USER
             session()->flash('error', 'Gagal menyimpan: ' . $e->getMessage());
-            
-            // Opsional: dispatch event browser untuk sweetalert jika pakai
-            // $this->dispatch('show-error', message: $e->getMessage());
         }
     }
 
@@ -145,13 +149,6 @@ class ScreeningWizard extends Component
         $this->isFinished = false;
         $this->currentStep = 5;
         $this->dispatch('scroll-to-top');
-    }
-
-    public function startNew()
-    {
-        session()->forget('last_screening_id'); // Hapus session ID lama
-        $this->reset(); // Reset semua properti Livewire
-        return redirect()->to('/screening-wizard'); // Refresh halaman penuh
     }
 
     public function render()
