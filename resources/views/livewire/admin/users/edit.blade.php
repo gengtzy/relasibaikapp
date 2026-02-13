@@ -79,7 +79,7 @@
                                 <option value="">Pilih Peran Superior</option>
                                 <option value="Ayah">Ayah</option>
                                 <option value="Ibu">Ibu</option>
-                                <option value="Anggota Keluarga lain">Anggota Keluarga lain</option>
+                                <!-- <option value="Anggota Keluarga lain">Anggota Keluarga lain</option> -->
                             </select>
                             @error('superiority_role')
                                 <span class="text-red-500 text-sm mt-1">{{ $message }}</span>

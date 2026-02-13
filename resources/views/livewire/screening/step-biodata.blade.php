@@ -15,8 +15,7 @@
                     @else
                         <span class="text-sm line-clamp-2 bg-orange-100 text-orange-600 font-medium p-2.5 rounded-md">
                             Akun Anda belum diverifikasi. Anda tetap dapat melakukan pengisian diagnosis, namun
-                            perhitungan belum menyertakan bobot khusus karena peran superior (Ayah, Ibu, atau Anggota
-                            Lain) di dalam keluarga Anda belum ditentukan.
+                            perhitungan belum menyertakan bobot khusus karena peran superior (Ayah atau Ibu) di dalam keluarga Anda belum ditentukan.
                         </span>
                     @endif
                 @endauth
