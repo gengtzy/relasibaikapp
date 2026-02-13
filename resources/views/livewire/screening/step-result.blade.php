@@ -8,8 +8,9 @@
                 Hasil Skrining
             </h2>
             <p class="opacity-90 print:text-gray-600">
-                Nama: {{ Auth::user()->name }} | Tanggal:
-                {{ \Carbon\Carbon::parse($screeningData->tanggal_pengisian)->format('d M Y') }}
+                Nama: {{ Auth::user()->name }} |
+                Superior: {{ Auth::user()->superiority_role ?? '-' }} |
+                Tanggal: {{ \Carbon\Carbon::parse($screeningData->tanggal_pengisian)->format('d M Y') }}
             </p>
         </div>
 
@@ -43,36 +44,95 @@
                 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2 print:mt-6 dark:text-slate-50 transition-colors duration-500 ease-in-out">
                 Ringkasan Skor</h4>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 print:grid-cols-3 print:gap-4">
+            @php
+                // Ambil peran superior user saat ini
+                $superiorRole = Auth::user()->superiority_role; 
+            @endphp
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 print:grid-cols-3 print:gap-4 mt-6">
+                
                 {{-- Kartu Ayah --}}
-                <div
-                    class="bg-white border rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                    <h5
-                        class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100 transition-colors duration-500 ease-in-out">
-                        Relasi Ayah</h5>
-                    <div class="text-3xl font-bold text-blue-600 mb-1 print:text-black">{{ $catFather }}
+                @php
+                    $isFatherSuperior = $superiorRole === 'Ayah';
+                    // Jika superior: Border Biru Tebal & Relative positioning. Jika tidak: Border biasa.
+                    $cardClasses = $isFatherSuperior 
+                        ? 'border-2 border-blue-500 relative shadow-blue-100 shadow-lg transform scale-105 md:scale-100' 
+                        : 'border border-gray-200';
+                @endphp
+                <div class="{{ $cardClasses }} bg-white rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-all duration-300 ease-in-out">
+                    
+                    @if($isFatherSuperior)
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full shadow-sm">
+                            Peran Superior
+                        </div>
+                    @endif
+
+                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100 transition-colors duration-500 ease-in-out mt-1">
+                        Relasi Ayah
+                    </h5>
+                    <div class="text-3xl font-bold text-blue-600 mb-1 print:text-black">
+                        {{ $catFather }}
                     </div>
                     <p class="text-sm text-gray-500 dark:text-slate-200 transition-colors duration-500 ease-in-out">
-                        Skor: {{ $screeningData->result->fpq_score }}</p>
+                        Skor: {{ $screeningData->result->fpq_score }}
+                    </p>
                 </div>
+
                 {{-- Kartu Ibu --}}
-                <div
-                    class="bg-white border rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">Relasi Ibu</h5>
-                    <div class="text-3xl font-bold text-pink-500 mb-1 print:text-black">{{ $catMother }}
+                @php
+                    $isMotherSuperior = $superiorRole === 'Ibu';
+                    // Jika superior: Border Pink Tebal
+                    $cardClasses = $isMotherSuperior 
+                        ? 'border-2 border-pink-500 relative shadow-pink-100 shadow-lg transform scale-105 md:scale-100' 
+                        : 'border border-gray-200';
+                @endphp
+                <div class="{{ $cardClasses }} bg-white rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-all duration-300 ease-in-out">
+                    
+                    @if($isMotherSuperior)
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-pink-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full shadow-sm">
+                            Peran Superior
+                        </div>
+                    @endif
+
+                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">
+                        Relasi Ibu
+                    </h5>
+                    <div class="text-3xl font-bold text-pink-500 mb-1 print:text-black">
+                        {{ $catMother }}
                     </div>
                     <p class="text-sm text-gray-500 dark:text-slate-200 transition-colors duration-500 ease-in-out">
-                        Skor: {{ $screeningData->result->mciq_score }}</p>
+                        Skor: {{ $screeningData->result->mciq_score }}
+                    </p>
                 </div>
+
                 {{-- Kartu Lain --}}
-                <div
-                    class="bg-white border rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">Keluarga Lain</h5>
-                    <div class="text-3xl font-bold text-green-500 mb-1 print:text-black">{{ $catOther }}
+                @php
+                    // Pastikan stringnya sama persis dengan yang ada di database/input select
+                    $isOtherSuperior = $superiorRole === 'Anggota Keluarga lain'; 
+                    // Jika superior: Border Hijau Tebal
+                    $cardClasses = $isOtherSuperior 
+                        ? 'border-2 border-green-500 relative shadow-green-100 shadow-lg transform scale-105 md:scale-100' 
+                        : 'border border-gray-200';
+                @endphp
+                <div class="{{ $cardClasses }} bg-white rounded-xl p-5 text-center print:border-black dark:bg-slate-600 dark:border-slate-500 transition-all duration-300 ease-in-out">
+                    
+                    @if($isOtherSuperior)
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full shadow-sm">
+                            Peran Superior
+                        </div>
+                    @endif
+
+                    <h5 class="text-lg font-semibold text-gray-700 mb-1 dark:text-slate-100">
+                        Keluarga Lain
+                    </h5>
+                    <div class="text-3xl font-bold text-green-500 mb-1 print:text-black">
+                        {{ $catOther }}
                     </div>
                     <p class="text-sm text-gray-500 dark:text-slate-200 transition-colors duration-500 ease-in-out">
-                        Skor: {{ $screeningData->result->fmwb_score }}</p>
+                        Skor: {{ $screeningData->result->fmwb_score }}
+                    </p>
                 </div>
+
             </div>
 
 
