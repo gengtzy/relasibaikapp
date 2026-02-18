@@ -111,16 +111,19 @@ class Index extends Component
         if ($this->filterType === 'risk') {
             // Filter: Cari yang kode rekomendasinya mengandung huruf 'R'
             $query->whereHas('recommendation', function($q) {
-                $q->where('code', 'like', '%R%'); 
+                $q->where('code', 'ilike', '%R%'); 
             });
         }
 
         return $query->where(function($q) {
                 $q->whereHas('user', function($u) {
-                    $u->where('name', 'like', '%' . $this->search . '%');
+                    $u->where('name', 'ilike', '%' . $this->search . '%');
                 })
-                ->orWhere('id', 'like', '%' . $this->search . '%')
-                ->orWhereDate('created_at', 'like', '%' . $this->search . '%');
+                // Gunakan casting ::text untuk ID (berjaga-jaga jika tipe datanya integer)
+                ->orWhereRaw('id::text ILIKE ?', ['%' . $this->search . '%'])
+                
+                // INI PERBAIKANNYA: Ubah created_at menjadi text sebelum dicari
+                ->orWhereRaw('created_at::text ILIKE ?', ['%' . $this->search . '%']);
             })
             ->latest();
     }

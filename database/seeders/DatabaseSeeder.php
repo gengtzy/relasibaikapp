@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'AgengDev',
-            'email' => 'ageng@yopmail.com',
-            'password' => Hash::make('akuakuaku'),
+            'name' => 'RelasiBaik',
+            'email' => 'relasibaik@yopmail.com',
+            'password' => Hash::make('12345678'),
             'role' => 'masyarakat',
-            'superiority_role' => 'Ayah',
+            'superiority_role' => null,
             'email_verified_at' => now(),
         ]);
         

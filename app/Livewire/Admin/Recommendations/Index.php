@@ -98,8 +98,8 @@ class Index extends Component
     public function render()
     {
         $recommendations = Recommendation::query()
-            ->where('title', 'like', '%' . $this->search . '%')
-            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->where('title', 'ilike', '%' . $this->search . '%')
+            ->orWhere('description', 'ilike', '%' . $this->search . '%')
             ->paginate($this->perPage);
 
         return view('livewire.admin.recommendations.index', [

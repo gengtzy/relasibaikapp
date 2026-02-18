@@ -103,12 +103,12 @@ class Index extends Component
         $questions = Question::with('instrument') // Eager load relasi 'instrument'
             ->where(function ($query) {
                 // Cari di kolom 'question_text' atau 'scoring_type'
-                $query->where('question_text', 'like', '%' . $this->search . '%')
-                      ->orWhere('scoring_type', 'like', '%' . $this->search . '%')
+                $query->where('question_text', 'ilike', '%' . $this->search . '%')
+                      ->orWhere('scoring_type', 'ilike', '%' . $this->search . '%')
                       // ATAU cari di relasi instrument (berdasarkan code atau name)
                       ->orWhereHas('instrument', function ($subQuery) {
-                          $subQuery->where('code', 'like', '%' . $this->search . '%')
-                                   ->orWhere('name', 'like', '%' . $this->search . '%');
+                          $subQuery->where('code', 'ilike', '%' . $this->search . '%')
+                                   ->orWhere('name', 'ilike', '%' . $this->search . '%');
                       });
             })
             ->paginate($this->perPage);
