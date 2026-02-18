@@ -1,6 +1,6 @@
 <div>
-    <form wire:submit="save">
-        <section id="form" class="w-full max-w-6xl mx-auto my-24 border border-white shadow-xl rounded-2xl dark:border-slate-600 transition-colors duration-500 ease-in-out">
+    <form wire:submit="save" x-data="{ isSubmitting: false, isBack: false }" x-on:submit="isSubmitting = true">
+        <section id="form" class="mx-5 md:mx-24 my-24 border border-white shadow-xl rounded-2xl dark:border-slate-600 transition-colors duration-500 ease-in-out">
 
             <div class="bg-blue-500 p-8 text-white relative rounded-t-2xl">
                 <h2 class="text-3xl font-bold mb-2">Jawablah sesuai kondisi Anda saat ini</h2>
@@ -74,16 +74,42 @@
                 <div
                     class="flex flex-col-reverse sm:flex-row justify-between items-center mt-12 pt-6 border-t border-blue-200 gap-4">
 
-                    <button type="button" wire:click="back"
-                        class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-1 focus:outline-none dark:bg-slate-600 dark:border-slate-500 dark:text-slate-50 transition-colors duration-500 ease-in-out">
-                        <i class="fas fa-arrow-left"></i>
-                        Kembali ke Kuisioner Ibu
+                    <button type="button" 
+                        wire:click="back" 
+                        @click="isBack = true"
+                        x-bind:disabled="isSubmitting || isBack"
+                        class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 focus:ring-1 focus:outline-none dark:bg-slate-600 dark:border-slate-500 dark:text-slate-50 transition-colors duration-500 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
+                        
+                        <span x-show="!isBack" class="flex items-center gap-2">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali ke Kuisioner Ibu
+                        </span>
+
+                        <span x-show="isBack" class="flex items-center gap-2" style="display: none;">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-slate-700 dark:text-slate-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Memproses...
+                        </span>
                     </button>
 
                     <button type="submit"
-                        class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
-                        Simpan & Lihat Hasil
-                        <i class="fas fa-arrow-right"></i>
+                        x-bind:disabled="isSubmitting || isBack"
+                        class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md hover:shadow-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                        
+                        <span x-show="!isSubmitting" class="flex items-center gap-2">
+                            Simpan & Lihat Hasil
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                        <span x-show="isSubmitting" class="flex items-center gap-2" style="display: none;">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Memproses...
+                        </span>
                     </button>
                 </div>
             </div>

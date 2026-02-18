@@ -1,6 +1,6 @@
 <section class="min-h-screen my-24 flex justify-center items-center print:p-0 print:bg-white">
     <div
-        class="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden print:shadow-none print:max-w-none dark:bg-slate-700 transition-colors duration-500 ease-in-out">
+        class="mx-5 md:w-full md:max-w-6xl md:mx-auto bg-white rounded-2xl shadow-xl overflow-hidden print:shadow-none print:max-w-none dark:bg-slate-700 transition-colors duration-500 ease-in-out">
 
         <div
             class="bg-blue-500 p-8 text-white relative rounded-t-2xl print:text-center print:bg-white print:text-black print:p-0 print:mb-4 print:border-b-2 print:border-black">
@@ -141,78 +141,80 @@
                     class="text-xl font-bold text-gray-800 mb-4 border-b pb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
                     Lampiran: Detail Jawaban</h4>
 
-                <table
-                    class="w-full text-sm text-left text-gray-500 border border-gray-200 print:border-black print:text-black dark:text-slate-200 dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                    <thead
-                        class="text-xs text-gray-700 uppercase bg-gray-50 print:bg-gray-200 dark:bg-slate-600 dark:text-slate-50 transition-colors duration-500 ease-in-out">
-                        <tr>
-                            <th scope="col"
-                                class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                                No</th>
-                            <th scope="col"
-                                class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                                Instrumen</th>
-                            <th scope="col"
-                                class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                                Pertanyaan</th>
-                            <th scope="col"
-                                class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out text-center">
-                                Nilai</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($screeningData->responses as $index => $response)
-                            <tr
-                                class="bg-white border-b hover:bg-gray-50 print:border-black dark:bg-slate-600 dark:border-slate-500 transition-colors duration-500 ease-in-out">
-                                <td
-                                    class="px-4 py-2 font-medium text-gray-900 text-center dark:text-slate-50 transition-colors duration-500 ease-in-out">
-                                    {{ $index + 1 }}
-                                </td>
-                                <td class="px-4 py-2">
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded print:border print:border-black print:bg-white print:text-black">
-                                        {{ $response->question->instrument->code ?? '-' }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-2">
-                                    {{ $response->question->question_text }}
-                                </td>
-                                <td class="px-4 py-2 text-center font-bold">
-                                    @php
-                                        $rawVal = (int) $response->answer_value;
-                                        $scoringType = $response->question->scoring_type ?? 'Favorable';
-                                        $instrumentCode = $response->question->instrument->code ?? '';
-
-                                        $finalScore = $rawVal;
-
-                                        // 1. INSTRUMEN IBU (MCIQ)
-                                        if ($instrumentCode === 'MCIQ') {
-                                            if ($scoringType === 'Favorable') {
-                                                $finalScore = $rawVal;
-                                            } else {
-                                                $finalScore = 4 - $rawVal;
-                                            }
-                                        }
-                                        // 2. INSTRUMEN LAIN (FMWB)
-                                        elseif ($instrumentCode === 'FMWB') {
-                                            if ($scoringType === 'Favorable') {
-                                                $finalScore = $rawVal - 1;
-                                            } else {
-                                                $finalScore = 10 - $rawVal;
-                                            }
-                                        }
-                                        // 3. INSTRUMEN AYAH (FPQ) atau Default
-                                        else {
-                                            $finalScore = $rawVal;
-                                        }
-                                    @endphp
-
-                                    {{ $finalScore }}
-                                </td>
+                <div class="relative overflow-x-auto">
+                    <table
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 border border-gray-200 print:border-black print:text-black dark:text-slate-200 dark:border-slate-500 transition-colors duration-500 ease-in-out">
+                        <thead
+                            class="text-xs text-gray-700 uppercase bg-gray-50 print:bg-gray-200 dark:bg-slate-600 dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                            <tr>
+                                <th scope="col"
+                                    class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
+                                    No</th>
+                                <th scope="col"
+                                    class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
+                                    Instrumen</th>
+                                <th scope="col"
+                                    class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out">
+                                    Pertanyaan</th>
+                                <th scope="col"
+                                    class="px-4 py-3 border-b dark:border-slate-500 transition-colors duration-500 ease-in-out text-center">
+                                    Nilai</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($screeningData->responses as $index => $response)
+                                <tr
+                                    class="bg-white border-b hover:bg-gray-50 print:border-black dark:bg-slate-600 dark:border-slate-500 transition-colors duration-500 ease-in-out">
+                                    <td
+                                        class="px-4 py-2 font-medium text-gray-900 text-center dark:text-slate-50 transition-colors duration-500 ease-in-out">
+                                        {{ $index + 1 }}
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded print:border print:border-black print:bg-white print:text-black">
+                                            {{ $response->question->instrument->code ?? '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        {{ $response->question->question_text }}
+                                    </td>
+                                    <td class="px-4 py-2 text-center font-bold">
+                                        @php
+                                            $rawVal = (int) $response->answer_value;
+                                            $scoringType = $response->question->scoring_type ?? 'Favorable';
+                                            $instrumentCode = $response->question->instrument->code ?? '';
+    
+                                            $finalScore = $rawVal;
+    
+                                            // 1. INSTRUMEN IBU (MCIQ)
+                                            if ($instrumentCode === 'MCIQ') {
+                                                if ($scoringType === 'Favorable') {
+                                                    $finalScore = $rawVal;
+                                                } else {
+                                                    $finalScore = 4 - $rawVal;
+                                                }
+                                            }
+                                            // 2. INSTRUMEN LAIN (FMWB)
+                                            elseif ($instrumentCode === 'FMWB') {
+                                                if ($scoringType === 'Favorable') {
+                                                    $finalScore = $rawVal - 1;
+                                                } else {
+                                                    $finalScore = 10 - $rawVal;
+                                                }
+                                            }
+                                            // 3. INSTRUMEN AYAH (FPQ) atau Default
+                                            else {
+                                                $finalScore = $rawVal;
+                                            }
+                                        @endphp
+    
+                                        {{ $finalScore }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {{-- FOOTER TOMBOL (HILANG SAAT PRINT) --}}

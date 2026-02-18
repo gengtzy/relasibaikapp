@@ -1,10 +1,10 @@
 <div class="overflow-hidden">
-    <form wire:submit="save">
-        <section id="form" class="w-full max-w-6xl mx-auto my-24 space-y-4">
+    <form wire:submit="save" x-data="{ isSubmitting: false }" x-on:submit="isSubmitting = true">
+        <section id="form" class="mx-5 md:mx-24 my-24 space-y-4">
             <div>
                 @auth
                     @if (Auth::User()->superiority_role)
-                        <span class="text-sm line-clamp-2 bg-green-100 text-green-600 font-medium p-2.5 rounded-md">
+                        <span class="text-xs md:text-sm line-clamp-2 bg-green-100 text-green-600 font-medium p-2.5 h-20 md:h-14 rounded-md">
                             Akun Anda telah berhasil diverifikasi. Peran <span
                                 class="font-bold text-base">{{ Auth::User()->superiority_role }}</span> telah ditetapkan
                             sebagai superior dalam keluarga
@@ -13,7 +13,7 @@
                             terkait dengan peran {{ Auth::User()->superiority_role }}.
                         </span>
                     @else
-                        <span class="text-sm line-clamp-2 bg-orange-100 text-orange-600 font-medium p-2.5 rounded-md">
+                        <span class="text-xs md:text-sm line-clamp-2 bg-orange-100 text-orange-600 font-medium p-2.5 h-20 md:h-14 rounded-md">
                             Akun Anda belum diverifikasi. Anda tetap dapat melakukan pengisian diagnosis, namun
                             perhitungan belum menyertakan bobot khusus karena peran superior (Ayah atau Ibu) di dalam keluarga Anda belum ditentukan.
                         </span>
@@ -58,9 +58,21 @@
                             Kembali ke Beranda
                         </a>
                         <button type="submit"
-                            class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md hover:shadow-lg transition-all">
-                            Lanjut ke Kuisioner Ayah
-                            <i class="fas fa-arrow-right"></i>
+                            x-bind:disabled="isSubmitting"
+                            class="gap-2 w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md hover:shadow-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                    
+                            <span x-show="!isSubmitting" class="flex items-center gap-2">
+                                Lanjut ke Kuisioner Ayah
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+
+                            <span x-show="isSubmitting" class="flex items-center gap-2" style="display: none;">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Memproses...
+                            </span>
                         </button>
                     </div>
                 </div>
