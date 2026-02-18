@@ -250,17 +250,9 @@
                     </table>
                 </div>
 
-                <nav class="flex pb-4 items-center flex-col md:flex-row justify-between pt-4 px-4"
-                    aria-label="Table navigation">
-                    <span class="text-sm font-normal text-slate-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-                        Showing
-                        <span
-                            class="font-semibold text-slate-700">{{ $screenings->firstItem() ?? 0 }}-{{ $screenings->lastItem() ?? 0 }}</span>
-                        of
-                        <span class="font-semibold text-slate-700">{{ $screenings->total() }}</span>
-                    </span>
+                <div class="px-4 py-4 mt-4 border-t border-gray-200">
                     {{ $screenings->links() }}
-                </nav>
+                </div>
 
                 <div x-show="showModal" style="display: none;" x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"

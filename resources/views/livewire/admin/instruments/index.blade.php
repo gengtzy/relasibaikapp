@@ -180,16 +180,9 @@ x-init="$watch('showModal', value => {
             </table>
         </div>
 
-        <nav class="flex pb-4 items-center flex-col md:flex-row justify-between pt-4 px-4"
-            aria-label="Table navigation">
-            <span class="text-sm font-normal text-slate-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-                Showing
-                <span class="font-semibold text-slate-700">{{ $instruments->firstItem() ?? 0 }}-{{ $instruments->lastItem() ?? 0 }}</span>
-                of
-                <span class="font-semibold text-slate-700">{{ $instruments->total() }}</span>
-            </span>
+        <div class="px-4 py-4 mt-4 border-t border-gray-200">
             {{ $instruments->links() }}
-        </nav>
+        </div>
 
         {{-- MODAL HAPUS FIX --}}
         <div x-show="showModal" style="display: none;" 
