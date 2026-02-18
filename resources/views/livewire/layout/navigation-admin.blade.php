@@ -1,10 +1,13 @@
-<div>
+{{-- Tambahkan x-data sidebarOpen di div paling luar --}}
+<div x-data="{ sidebarOpen: false }">
+    
+    {{-- NAVBAR ATAS --}}
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
-                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
-                        aria-controls="logo-sidebar" type="button"
+                    {{-- TOMBOL HAMBURGER MOBILE (Ubah trigger ke Alpine) --}}
+                    <button @click="sidebarOpen = !sidebarOpen" type="button"
                         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
                         <span class="sr-only">Open sidebar</span>
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
@@ -24,16 +27,13 @@
                 <div class="flex items-center">
                     <livewire:admin.components.admin-notification />
                     <div class="flex items-center ms-3" x-data="{ dropdownOpen: false }">
-
                         <div>
                             <button @click="dropdownOpen = !dropdownOpen" type="button"
                                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                                 aria-expanded="false">
-
                                 <span class="sr-only">Open user menu</span>
 
                                 @if (Auth::user()->avatar)
-                                    {{-- FIX: Cek apakah avatar formatnya Base64 (Data URI) atau File Storage biasa --}}
                                     <img class="w-8 h-8 rounded-full object-cover"
                                         src="{{ str_contains(Auth::user()->avatar, 'data:image') ? Auth::user()->avatar : asset('storage/' . Auth::user()->avatar) }}" 
                                         alt="user photo">
@@ -53,7 +53,7 @@
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-transition:leave-end="transform opacity-0 scale-95"
                             class="z-50 absolute right-5 top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
-                            style="display: none;"> {{-- style display none agar tidak kedip saat load --}}
+                            style="display: none;">
 
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900" role="none">{{ Auth::user()->name }}</p>
@@ -86,14 +86,24 @@
         </div>
     </nav>
 
+    {{-- BACKDROP / OVERLAY MOBILE (Menutup sidebar jika klik area luar) --}}
+    <div x-show="sidebarOpen" 
+         x-transition.opacity 
+         @click="sidebarOpen = false" 
+         class="fixed inset-0 z-30 bg-gray-900/50 sm:hidden" 
+         style="display: none;"></div>
+
+    {{-- SIDEBAR --}}
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-30 w-66 h-screen pt-20 transition-transform -translate-x-full bg-white sm:translate-x-0"
+        :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
+        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
             <h3 class="text-sm font-semibold text-slate-500 mb-4 ml-2">MENU</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('admin.dashboard') }}" wire:navigate @class([
+                    {{-- Tambah @click agar auto-close di mobile saat pindah halaman --}}
+                    <a href="{{ route('admin.dashboard') }}" wire:navigate @click="sidebarOpen = false" @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('admin.dashboard*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs('admin.dashboard*'),
@@ -103,7 +113,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('screeningresult') }}" wire:navigate @class([
+                    <a href="{{ route('screeningresult') }}" wire:navigate @click="sidebarOpen = false" @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('screeningresult*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs('screeningresult*'),
@@ -113,26 +123,20 @@
                     </a>
                 </li>
             </ul>
+
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">MANAJEMEN DATA</h3>
             <ul class="space-y-2 font-medium">
+                {{-- Dropdown Menu --}}
                 <li>
-                    <button type="button" wire:navigate @class([
-                        'flex items-center p-2 w-full rounded-lg',
+                    <button type="button" @class([
+                        'flex items-center p-2 w-full rounded-lg transition-colors',
                         'text-blue-500 bg-gray-50' => request()->routeIs([
-                            'instrumentindex*',
-                            'instrumentcreate*',
-                            'instrumentedit*',
-                            'questionsindex',
-                            'questionscreate',
-                            'questionsedit',
+                            'instrumentindex*', 'instrumentcreate*', 'instrumentedit*',
+                            'questionsindex', 'questionscreate', 'questionsedit',
                         ]),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                            'instrumentindex*',
-                            'instrumentcreate*',
-                            'instrumentedit*',
-                            'questionsindex',
-                            'questionscreate',
-                            'questionsedit',
+                            'instrumentindex*', 'instrumentcreate*', 'instrumentedit*',
+                            'questionsindex', 'questionscreate', 'questionsedit',
                         ]),
                     ]) aria-controls="dropdown-example"
                         data-collapse-toggle="dropdown-example"
@@ -141,92 +145,57 @@
                         <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Kuisioner</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
-                    <ul id="dropdown-example" wire:navigate @class([
+                    <ul id="dropdown-example" @class([
                         'py-2 space-y-2',
                         'hidden' => !request()->routeIs([
-                            'instrumentindex*',
-                            'instrumentcreate*',
-                            'instrumentedit*',
-                            'questionsindex',
-                            'questionscreate',
-                            'questionsedit',
+                            'instrumentindex*', 'instrumentcreate*', 'instrumentedit*',
+                            'questionsindex', 'questionscreate', 'questionsedit',
                         ]),
                     ])>
                         <li>
-                            <a href="{{ route('instrumentindex') }}" wire:navigate
+                            <a href="{{ route('instrumentindex') }}" wire:navigate @click="sidebarOpen = false"
                                 @class([
-                                    'flex pl-10 items-center p-2',
-                                    'text-blue-500 bg-gray-50' => request()->routeIs([
-                                        'instrumentindex*',
-                                        'instrumentcreate*',
-                                        'instrumentedit*',
-                                    ]),
-                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                                        'instrumentindex*',
-                                        'instrumentcreate*',
-                                        'instrumentedit*',
-                                    ]),
+                                    'flex pl-10 items-center p-2 rounded-lg transition-colors',
+                                    'text-blue-500 bg-gray-50' => request()->routeIs(['instrumentindex*', 'instrumentcreate*', 'instrumentedit*']),
+                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs(['instrumentindex*', 'instrumentcreate*', 'instrumentedit*']),
                                 ])>Instrumen</a>
                         </li>
                         <li>
-                            <a href="{{ route('questionsindex') }}" wire:navigate
+                            <a href="{{ route('questionsindex') }}" wire:navigate @click="sidebarOpen = false"
                                 @class([
-                                    'flex pl-10 items-center p-2',
-                                    'text-blue-500 bg-gray-50' => request()->routeIs([
-                                        'questionsindex*',
-                                        'questionscreate*',
-                                        'questionsedit*',
-                                    ]),
-                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                                        'questionsindex*',
-                                        'questionscreate*',
-                                        'questionsedit*',
-                                    ]),
+                                    'flex pl-10 items-center p-2 rounded-lg transition-colors',
+                                    'text-blue-500 bg-gray-50' => request()->routeIs(['questionsindex*', 'questionscreate*', 'questionsedit*']),
+                                    'text-gray-700 hover:bg-gray-50' => !request()->routeIs(['questionsindex*', 'questionscreate*', 'questionsedit*']),
                                 ])>Pertanyaan</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('recommendationsindex') }}" wire:navigate @class([
+                    <a href="{{ route('recommendationsindex') }}" wire:navigate @click="sidebarOpen = false" @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs([
-                            'recommendationsindex*',
-                            'recommendationscreate*',
-                            'recommendationsedit*',
-                        ]),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                            'recommendationsindex*',
-                            'recommendationscreate*',
-                            'recommendationsedit*',
-                        ]),
+                        'text-blue-500 bg-gray-50' => request()->routeIs(['recommendationsindex*', 'recommendationscreate*', 'recommendationsedit*']),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs(['recommendationsindex*', 'recommendationscreate*', 'recommendationsedit*']),
                     ])>
                         <i class="fas fa-diagnoses"></i>
                         <span class="ms-3">Manajemen Rekomendasi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('adminusers') }}" wire:navigate @class([
+                    <a href="{{ route('adminusers') }}" wire:navigate @click="sidebarOpen = false" @class([
                         'flex items-center p-2 rounded-lg group',
-                        'text-blue-500 bg-gray-50' => request()->routeIs([
-                            'adminusers*',
-                            'userscreate*',
-                            'usersedit*',
-                        ]),
-                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs([
-                            'adminusers*',
-                            'userscreate*',
-                            'usersedit*',
-                        ]),
+                        'text-blue-500 bg-gray-50' => request()->routeIs(['adminusers*', 'userscreate*', 'usersedit*']),
+                        'text-gray-700 hover:bg-gray-50' => !request()->routeIs(['adminusers*', 'userscreate*', 'usersedit*']),
                     ])>
                         <i class="fas fa-users-cog"></i>
                         <span class="ms-3">Manajemen Pengguna</span>
                     </a>
                 </li>
             </ul>
+
             <h3 class="text-sm font-semibold text-slate-500 my-4 ml-2">PELAPORAN</h3>
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('report') }}" wire:navigate @class([
+                    <a href="{{ route('report') }}" wire:navigate @click="sidebarOpen = false" @class([
                         'flex items-center p-2 rounded-lg group',
                         'text-blue-500 bg-gray-50' => request()->routeIs('report*'),
                         'text-gray-700 hover:bg-gray-50' => !request()->routeIs('report*'),
