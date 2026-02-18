@@ -91,7 +91,7 @@
                             <i class="fas fa-search text-gray-500"></i>
                         </div>
                         <input wire:model.live.debounce.300ms="search" type="text" id="table-search"
-                            class="block h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:outline-none focus:border-blue-500"
+                            class="block h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 md:w-80 bg-gray-50 focus:outline-none focus:border-blue-500"
                             placeholder="Cari nama, email, peran...">
                     </div>
                     <button type="button"
