@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
+    <div class="w-full mx-5 md:max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
         
         <h5 class="text-2xl font-bold text-gray-900 pt-6 mb-2 dark:text-slate-100 transition-colors duration-500 ease-in-out">Lupa Kata Sandi?</h5>
         <div class="mb-6 text-sm text-gray-600 dark:text-slate-200 transition-colors duration-500 ease-in-out">

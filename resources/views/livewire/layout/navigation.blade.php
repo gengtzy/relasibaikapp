@@ -124,9 +124,9 @@
                             Kerja</a>
                         <div class="space-x-2">
                             <a href="{{ route('login') }}"
-                                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white font-medium transition">Masuk</a>
+                                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white font-medium transition-colors duration-300 ease-in-out">Masuk</a>
                             <a href="{{ route('register') }}"
-                                class="px-4 py-2 border border-blue-500 text-white bg-blue-500 rounded-full hover:bg-white hover:text-blue-500 font-medium transition">Daftar</a>
+                                class="px-4 py-2 border border-blue-500 text-white bg-blue-500 rounded-full hover:bg-white dark:hover:bg-slate-800 hover:text-blue-500 font-medium transition-colors duration-300 ease-in-out">Daftar</a>
                         </div>
                         <button @click="darkMode = !darkMode" type="button"
                             class="relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none ml-2"
@@ -154,7 +154,7 @@
                     </div>
                     <div class="-me-2 flex items-center md:hidden">
                         <button @click="open = ! open"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition-colors duration-500 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

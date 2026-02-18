@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg">
+    <div class="w-full mx-5 md:max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg">
 
         <h5 class="text-2xl font-bold text-gray-900 pt-6 mb-2">Konfirmasi Akses</h5>
         <div class="mb-6 text-sm text-gray-600">

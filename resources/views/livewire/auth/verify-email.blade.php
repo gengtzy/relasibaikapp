@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-md px-6 pb-6 bg-white border border-white rounded-lg shadow-lg text-center dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
+    <div class="w-full mx-5 md:max-w-sm px-6 pb-6 bg-white border border-white rounded-lg shadow-lg text-center dark:bg-slate-700 dark:border-slate-500 transition-colors duration-500 ease-in-out">
         
         <div class="pt-6 pb-4">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
