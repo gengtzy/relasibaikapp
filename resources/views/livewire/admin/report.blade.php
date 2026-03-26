@@ -119,7 +119,7 @@
 
                     <div class="mt-auto pt-4">
                         <button wire:click="printUser"
-                            class="w-full flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all"
+                            class="cursor-pointer w-full flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all"
                             {{ !$selectedUserId ? 'disabled class=opacity-50 cursor-not-allowed' : '' }}>
                             <i class="fas fa-file-user"></i> Cetak Portofolio
                         </button>

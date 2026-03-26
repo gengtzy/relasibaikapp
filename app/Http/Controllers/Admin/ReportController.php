@@ -65,17 +65,16 @@ class ReportController extends Controller
         elseif ($type === 'stats') {
             $year = $request->query('year', date('Y'));
 
-            // Ambil rata-rata per bulan
             $monthlyStats = ScreeningResult::select(
-                DB::raw('MONTH(created_at) as month'),
+                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
                 DB::raw('AVG(fpq_score) as avg_father'),
                 DB::raw('AVG(mciq_score) as avg_mother'),
                 DB::raw('AVG(fmwb_score) as avg_other'),
                 DB::raw('COUNT(*) as total_count')
             )
             ->whereYear('created_at', $year)
-            ->groupBy('month')
-            ->orderBy('month')
+            ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
+            ->orderBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
             ->get();
 
             $data = $monthlyStats;

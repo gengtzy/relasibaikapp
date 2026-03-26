@@ -36,7 +36,7 @@ class Report extends Component
     {
         if (strlen($this->userSearch) > 2) {
             $this->usersList = User::where('role', 'masyarakat')
-                ->where('name', 'like', '%' . $this->userSearch . '%')
+                ->where('name', 'ilike', '%' . $this->userSearch . '%')
                 ->take(5)
                 ->get();
         } else {

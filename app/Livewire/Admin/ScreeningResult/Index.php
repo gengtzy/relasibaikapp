@@ -85,7 +85,6 @@ class Index extends Component
         $this->dispatch('close-modal');
     }
 
-    // Hapus Banyak Data
     public function deleteSelected()
     {
         if (empty($this->selectedIds)) return;
@@ -116,14 +115,14 @@ class Index extends Component
         }
 
         return $query->where(function($q) {
+                // 1. Cari berdasarkan Nama User
                 $q->whereHas('user', function($u) {
                     $u->where('name', 'ilike', '%' . $this->search . '%');
                 })
-                // Gunakan casting ::text untuk ID (berjaga-jaga jika tipe datanya integer)
-                ->orWhereRaw('id::text ILIKE ?', ['%' . $this->search . '%'])
-                
-                // INI PERBAIKANNYA: Ubah created_at menjadi text sebelum dicari
-                ->orWhereRaw('created_at::text ILIKE ?', ['%' . $this->search . '%']);
+                // 2. Cari berdasarkan Hasil Diagnosa (Kolom title di tabel recommendations)
+                ->orWhereHas('recommendation', function($r) {
+                    $r->where('title', 'ilike', '%' . $this->search . '%');
+                });
             })
             ->latest();
     }
