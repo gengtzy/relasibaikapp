@@ -77,9 +77,6 @@ class DatabaseSeeder extends Seeder
             ['RRT', 'Banyak Konflik Serius', 'Kondisi keluarga buruk namun masih ada sedikit aspek positif.'],
             ['RRS', 'Keluarga Hampir Disharmonis', 'Mayoritas hubungan buruk, hanya satu yang sedang.'],
             ['RRR', 'Disharmonis Total', 'Kondisi krisis. Disarankan segera mencari dukungan profesional.'],
-
-            // Fallback
-            ['BUTUH_KONSELING', 'Perlu Evaluasi Lanjut', 'Silakan hubungi admin.'],
         ];
 
 
