@@ -34,49 +34,47 @@ class DatabaseSeeder extends Seeder
         $insMother = Instrument::create(['code' => 'MCIQ', 'name' => 'Mother Child-Interaction Questionnaire']);
         $insOther  = Instrument::create(['code' => 'FMWB', 'name' => 'Family Member Well-Being']);
 
-        // 3. Buat 27 Rule Recommendations (Knowledge Base)
-        // Format Code: AYAH-IBU-LAIN (T=Tinggi, S=Sedang, R=Rendah)
         $rules = [
             // 1. Kombinasi Tinggi - Tinggi - Tinggi
-            ['TTT', 'Keluarga Sangat Harmonis', 'Selamat! Semua hubungan dalam keluarga berada pada tingkat terbaik.'],
+            ['TTT', 'Sangat Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Persepsi anak terhadap relasi dengan kedua orangtua dalam taraf yang harmonis dan anak merasakan gambaran kesejahteraan keluarga yang tinggi.'],
 
             // Kombinasi dengan dominan Tinggi
-            ['TTS', 'Keluarga Harmonis Stabil', 'Orangtua sangat baik, hubungan keluarga lain cukup stabil.'],
-            ['TTR', 'Keluarga Harmonis tapi Lingkungan Bermasalah', 'Hubungan inti baik, namun ada masalah di lingkungan keluarga lain.'],
+            ['TTS', 'Harmonis dengan kesejahteraan psikologis yang memadai', 'Persepsi anak terhadap relasi dengan kedua orangtuanya dalam taraf harmonis, namun anak merasakan kesejahteraan keluarga yang cukup, akibat adanya sumber permasalahan lain.'],
+            ['TTR', 'Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Persepsi anak terhadap relasi dengan kedua orangtuanya dalam taraf harmonis, namun anak merasakan kesejahteraan keluarga yang rendah, akibat adanya sumber permasalahan lain.'],
 
-            ['TST', 'Hubungan Baik dengan Dinamika Sedang', 'Hubungan cukup kuat, meskipun ada area yang perlu perhatian.'],
-            ['TSS', 'Cukup Harmonis', 'Interaksi dalam keluarga cukup baik secara keseluruhan.'],
-            ['TSR', 'Harmonis namun Ada Masalah Sampingan', 'Hubungan orang tua baik, tetapi ada masalah pada anggota keluarga tertentu.'],
+            ['TST', 'Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun ada resiko konflik relasional dengan ibu, yang tidak berkaitan dengan kondisi kesejahteraan keluarganya.'],
+            ['TSS', 'Harmonis dengan kesejahteraan psikologis yang memadai', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun terindikasi ada resiko konflik relasional ibu dan anak, yang tampak berkaitan dengan kondisi kesejahteraan keluarganya.'],
+            ['TSR', 'Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun terindikasi ada resiko konflik relasional ibu dan anak, yang dirasakan mengganggu kondisi kesejahteraan keluarganya.'],
 
-            ['TRT', 'Keluarga Cenderung Harmonis', 'Sebagian besar hubungan berjalan baik meski ada satu area rendah.'],
-            ['TRS', 'Keluarga Hampir Harmonis', 'Mayoritas hubungan baik, namun beberapa aspek butuh perhatian.'],
-            ['TRR', 'Harmonis Terbatas', 'Hanya hubungan inti yang baik, sisanya bermasalah.'],
+            ['TRT', 'Cukup Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Terindikasi terdapat disharmoni dalam relasi ibu-anak, namun tidak berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['TRS', 'Cukup Harmonis dengan kesejahteraan psikologis yang memadai', 'Terindikasi terdapat disharmoni dalam relasi ibu-anak, tampaknya berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['TRR', 'Cukup Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Terindikasi terdapat disharmoni dalam relasi ibu-anak, berkaitan dengan kesejahteraan keluarga yang dirasakan anak rendah.'],
 
             // Kombinasi dominan Sedang
-            ['STT', 'Potensi Harmonis Tinggi', 'Hubungan keluarga bisa menjadi sangat baik dengan sedikit perbaikan.'],
-            ['STS', 'Cukup Stabil', 'Keluarga berada dalam kondisi stabil meski tidak terlalu dekat.'],
-            ['STR', 'Stabil tapi Ada Konflik', 'Hubungan keluarga sedang, namun ada area konflik yang perlu diperhatikan.'],
+            ['STT', 'Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun ada resiko konflik relasional dengan ayah, yang tidak berkaitan dengan kondisi kesejahteraan keluarganya.'],
+            ['STS', 'Harmonis dengan kesejahteraan psikologis yang memadai', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun terindikasi ada resiko konflik relasional ayah dan anak, yang tampak berkaitan dengan kondisi kesejahteraan keluarganya.'],
+            ['STR', 'Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Relasi orangtua-anak dipersepsikan anak cukup harmonis, meskipun terindikasi ada resiko konflik relasional ayah dan anak, yang tampak berkaitan dengan kondisi kesejahteraan keluarganya. (Catatan: Poin ini muncul dua kali di teks asli).'],
 
-            ['SST', 'Stabil Menuju Harmonis', 'Hubungan keluarga stabil dan dapat meningkat dengan komunikasi lebih baik.'],
-            ['SSS', 'Keluarga Rata-Rata', 'Hubungan dalam keluarga berjalan standar, perlu ditingkatkan kehangatannya.'],
-            ['SSR', 'Stabil namun Cenderung Melemah', 'Hubungan masih cukup, tetapi mulai ada kendala yang perlu diperbaiki.'],
+            ['SST', 'Cukup Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Terindikasi adanya relasi orangtua-anak yang dipersepsikan anak ada resiko konflik relasional baik dengan ayah atau ibu, namun tidak berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['SSS', 'Cukup Harmonis dengan kesejahteraan psikologis yang memadai', 'Terindikasi adanya relasi orangtua-anak yang dipersepsikan anak ada resiko konflik relasional baik dengan ayah atau ibu, tampak berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['SSR', 'Cukup Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Terindikasi adanya relasi orangtua-anak yang dipersepsikan anak ada resiko konflik relasional baik dengan ayah atau ibu, yang dirasakan anak dalam kesejahteraan keluarga yang rendah.'],
 
-            ['SRT', 'Hubungan Tidak Stabil tapi Bisa Dipulihkan', 'Ada dinamika rendah, namun masih ada faktor positif.'],
-            ['SRS', 'Hubungan Mulai Bermasalah', 'Hubungan cukup renggang, namun masih bisa diperbaiki.'],
-            ['SRR', 'Hubungan Banyak Masalah', 'Mayoritas hubungan keluarga memerlukan perhatian serius.'],
+            ['SRT', 'Kurang Harmonis relasi orangtua-anak, namun anggota keluarga merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ibu, namun merasakan dukungan dari pihak lain sehingga kesejahteraan keluarganya dirasakan masih tinggi.'],
+            ['SRS', 'Kurang Harmonis dengan kesejahteraan psikologis yang memadai', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ibu, dan tampaknya berkaitan dengan kesejahteraan keluarganya.'],
+            ['SRR', 'Kurang Harmonis, dan anggota keluarga tidak merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ibu, dan tampaknya sangat berkaitan dengan rendahnya kesejahteraan keluarga yang dirasakannya rendah.'],
 
             // Kombinasi dominan Rendah
-            ['RTT', 'Masalah pada Anggota Tertentu', 'Orangtua baik, tetapi ada masalah serius pada hubungan tertentu.'],
-            ['RTS', 'Cenderung Bermasalah', 'Hubungan kurang harmonis, namun masih ada bagian stabil.'],
-            ['RTR', 'Masalah Berat pada Lingkungan', 'Hubungan sangat terpengaruh oleh konflik di lingkungan keluarga.'],
+            ['RTT', 'Cukup Harmonis, dan anggota keluarga merasakan kesejahteraan psikologis', 'Terindikasi terdapat disharmoni dalam relasi ayah-anak, namun tidak berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['RTS', 'Cukup Harmonis dengan kesejahteraan psikologis yang memadai', 'Terindikasi terdapat disharmoni dalam relasi ayah-anak, tampaknya berkaitan dengan kesejahteraan keluarga yang dirasakan anak.'],
+            ['RTR', 'Cukup Harmonis relasi orangtua-anak, namun anggota keluarga tidak merasakan kesejahteraan psikologis', 'Terindikasi terdapat disharmoni dalam relasi ayah-anak, yang berkaitan dengan kesejahteraan keluarga yang dirasakan anak rendah.'],
 
-            ['RST', 'Hubungan Kurang baik Namun Ada Potensi', 'Dua area rendah, namun ada satu hubungan yang masih baik.'],
-            ['RSS', 'Kurang Harmonis', 'Hubungan dalam keluarga cenderung buruk namun masih bisa diperbaiki.'],
-            ['RSR', 'Disharmonis Parsial', 'Hubungan tidak stabil dan memerlukan perbaikan signifikan.'],
+            ['RST', 'Kurang Harmonis relasi orangtua-anak, namun anggota keluarga merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ayah, namun merasakan dukungan dari pihak lain sehingga kesejahteraan keluarganya dirasakan masih tinggi.'],
+            ['RSS', 'Kurang Harmonis dengan kesejahteraan psikologis yang memadai', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ayah, dan tampaknya berkaitan dengan kesejahteraan keluarganya.'],
+            ['RSR', 'Kurang Harmonis, dan anggota keluarga tidak merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua, khususnya ayah, dan tampaknya sangat berkaitan dengan rendahnya kesejahteraan keluarga yang dirasakannya rendah.'],
 
-            ['RRT', 'Banyak Konflik Serius', 'Kondisi keluarga buruk namun masih ada sedikit aspek positif.'],
-            ['RRS', 'Keluarga Hampir Disharmonis', 'Mayoritas hubungan buruk, hanya satu yang sedang.'],
-            ['RRR', 'Disharmonis Total', 'Kondisi krisis. Disarankan segera mencari dukungan profesional.'],
+            ['RRT', 'Disharmonis relasi orangtua-anak, namun anggota keluarga merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua yang cukup berat, namun merasakan dukungan dari pihak lain sehingga kesejahteraan keluarganya dirasakan masih tinggi.'],
+            ['RRS', 'Disharmonis dengan kesejahteraan psikologis yang memadai', 'Anak mempersepsikan adanya problem relasional dengan orangtua yang cukup berat, dan tampaknya berkaitan dengan kondisi kesejahteraan keluarganya.'],
+            ['RRR', 'Sangat Disharmonis, dan anggota keluarga tidak merasakan kesejahteraan psikologis', 'Anak mempersepsikan adanya problem relasional dengan orangtua yang cukup berat, dan berkaitan erat dengan kondisi kesejahteraan keluarga yang rendah.'],
         ];
 
 
