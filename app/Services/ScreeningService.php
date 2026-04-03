@@ -39,7 +39,7 @@ class ScreeningService
             $totalScore  = $scoreFather + $scoreMother + $scoreOther;
 
             // 2. Tentukan Kategori (Fakta)
-            $catFather = $this->getCategory($scoreFather, 14, 4, 0); // "Tinggi"/"Sedang"/"Rendah"
+            $catFather = $this->getCategory($scoreFather, 14, 4, 0);
             $catMother = $this->getCategory($scoreMother, 28, 4, 0);
             $catOther  = $this->getCategory($scoreOther, 8, 9, 0);
 
@@ -51,7 +51,6 @@ class ScreeningService
             
             // Fallback jika rule tidak ditemukan (Jaga-jaga)
             if (!$recommendation) {
-                // Bisa default ke RRR atau kode default lain
                 $recommendation = Recommendation::where('code', 'RRR')->first(); 
             }
 
@@ -60,7 +59,7 @@ class ScreeningService
             'user_id' => $user->id,
             'lokasi'  => $biodata['lokasi_name'] ?? null,
             'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
-            'id_recommendation' => $recommendation ? $recommendation->id : null, // Simpan ID-nya
+            'id_recommendation' => $recommendation ? $recommendation->id : null,
             'status' => 'preview'
             ]);
 
