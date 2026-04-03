@@ -24,7 +24,7 @@
                         <div class="mb-2">
                             <span
                                 class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                Diagnosa / Rekomendasi
+                                Diagnosa
                             </span>
                         </div>
                         <h3

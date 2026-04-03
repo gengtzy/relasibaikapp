@@ -44,7 +44,7 @@ class StepMother extends Component
         
         foreach ($this->questions as $question) {
             $rules["answers.{$question->id}"] = 'required|integer|min:0|max:4';
-            $messages["answers.{$question->id}.required"] = "Butir ini wajib diisi (geser slider).";
+            $messages["answers.{$question->id}.required"] = "Butir ini wajib diisi.";
         }
 
         $this->validate($rules, $messages);

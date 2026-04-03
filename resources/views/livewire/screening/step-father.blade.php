@@ -1,5 +1,6 @@
 <div>
-    <form wire:submit="save" x-data="{ isSubmitting: false, isBack: false }" x-on:submit="isSubmitting = true">
+    <form wire:submit="save" x-data="{ isSubmitting: false, isBack: false }" x-on:submit="isSubmitting = true"
+        @validation-failed.window="isSubmitting = false; isBack = false">
         <section id="form"
             class="mx-5 md:mx-24 my-24 border border-white shadow-xl rounded-2xl dark:border-slate-600 transition-colors duration-500 ease-in-out">
 

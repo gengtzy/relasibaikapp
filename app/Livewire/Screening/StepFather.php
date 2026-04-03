@@ -41,7 +41,13 @@ class StepFather extends Component
             $messages["answers.{$question->id}.required"] = "Butir ini wajib diisi.";
         }
 
-        $this->validate($rules, $messages);
+        try {
+            $this->validate($rules, $messages);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Jika validasi gagal, kirim sinyal ke frontend untuk mematikan loading
+            $this->dispatch('validation-failed');
+            throw $e; // Lempar kembali errornya agar pesan merah muda tetap muncul di layar
+        }
 
         $totalScore = $screeningService->calculateFatherScore(
             $this->answers, 
