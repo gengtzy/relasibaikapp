@@ -75,10 +75,10 @@ x-init="$watch('showModal', value => {
                         class="block h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 md:w-80 bg-gray-50 focus:outline-none focus:border-blue-500"
                         placeholder="Cari berdasarkan nama atau kode...">
                 </div>
-                <button type="button"
+                <!-- <button type="button"
                     class="text-theme-sm shadow-theme-xs inline-flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 font-medium text-gray-700 hover:bg-gray-200">
                     <i class="fa-solid fa-filter"></i>
-                </button>
+                </button> -->
             </div>
         </div>
 

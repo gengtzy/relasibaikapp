@@ -3,7 +3,6 @@
 namespace App\Livewire\Screening;
 
 use App\Models\Screening;
-use App\Services\ScreeningService;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
@@ -11,8 +10,9 @@ use Livewire\Attributes\Layout;
 class StepResult extends Component
 {
     public $resultId;
-    public $screeningData;
     
+    // HAPUS: public $screeningData; <-- Ini biang kerok yang bikin loading 30 detik!
+
     // Variabel Kategori
     public $catFather;
     public $catMother;
@@ -20,28 +20,36 @@ class StepResult extends Component
 
     public function mount($resultId)
     {
-        // Ambil data screening lengkap
-        $this->screeningData = Screening::with(['result', 'recommendation', 'responses.question.instrument'])
-                                        ->findOrFail($resultId);
+        $this->resultId = $resultId;
 
-        $this->catFather = $this->screeningData->result->fpq_category;
-        $this->catMother = $this->screeningData->result->mciq_category;
-        $this->catOther  = $this->screeningData->result->fmwb_category;
+        // Ambil data secukupnya saja saat mount untuk mengisi text kategori
+        $data = Screening::with('result')->findOrFail($resultId);
+
+        $this->catFather = $data->result->fpq_category;
+        $this->catMother = $data->result->mciq_category;
+        $this->catOther  = $data->result->fmwb_category;
     }
 
     public function markAsSaved()
     {
-        $this->screeningData->update([
+        // Panggil datanya cukup berdasarkan ID, lalu update statusnya
+        $screening = Screening::findOrFail($this->resultId);
+        $screening->update([
             'status' => 'saved'
         ]);
-
-        $this->screeningData->refresh();
 
         session()->flash('message', 'Hasil berhasil disimpan ke riwayat!');
     }
 
     public function render()
     {
-        return view('livewire.screening.step-result');
+        // PENTING: Ambil data lengkapnya DI SINI, lalu lempar ke file Blade.
+        // Dengan begini, Livewire tidak akan kelebihan beban (CPU tidak ngos-ngosan).
+        $screeningData = Screening::with(['result', 'recommendation', 'responses.question.instrument'])
+                                  ->findOrFail($this->resultId);
+
+        return view('livewire.screening.step-result', [
+            'screeningData' => $screeningData
+        ]);
     }
 }
