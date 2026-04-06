@@ -34,7 +34,7 @@
                             Pengisian</label>
                         <input wire:model.live="lokasi" type="text" id="lokasi"
                             class="bg-white border border-gray-300 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-4 dark:bg-slate-600 dark:placeholder:text-slate-400 dark:text-slate-50 dark:border-slate-500 transition-colors duration-500 ease-in-out"
-                            placeholder="Masukan lokasimu" />
+                            placeholder="Masukan lokasimu (Cth: Jakarta, Bandung, Surabaya)" />
                         @error('lokasi')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
