@@ -6,15 +6,15 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 
-// Menggunakan Attribute #[Layout] untuk mendefinisikan layout
 #[Layout('layouts.guest')]
 class Login extends Component
 {
-    // 'state' sekarang menjadi public property
-    // Attribute #[Rule] menggantikan fungsi rules()
     #[Rule('required|email')]
     public string $email = '';
 
@@ -23,38 +23,71 @@ class Login extends Component
 
     public bool $remember = false;
 
-    // Fungsi mount() tetap sama, tapi sekarang menjadi method di dalam class
     public function mount(): void
     {
         View::share('bgImage', 'images/bgauth.svg');
         View::share('centered', true);
     }
 
-    // Fungsi $login sekarang menjadi method public login()
     public function login(): void
     {
+        $this->resetErrorBag();
+
         $this->validate();
 
+        $this->ensureIsNotRateLimited();
+
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            RateLimiter::clear($this->throttleKey());
             Session::regenerate();
 
             $user = Auth::user();
 
             if ($user->role === 'admin') {
-                $this->redirect(route('admin.dashboard'), navigate: true); // Anda menamainya admin.home.index, pastikan nama rute ini benar
+                $this->redirect(route('admin.dashboard'), navigate: true);
             } else {
                 $this->redirect(route('screening.wizard'), navigate: true);
             }
-
             return;
+        }
+
+        RateLimiter::hit($this->throttleKey(), 120);
+
+        if (RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
+            $this->ensureIsNotRateLimited();
         }
 
         $this->addError('email', 'Email atau password yang Anda masukkan salah.');
     }
 
-    // Method render() memberitahu Livewire file view mana yang harus ditampilkan
+    protected function ensureIsNotRateLimited(): void
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
+            return;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        $this->dispatch('lockout-started', seconds: $seconds);
+
+        throw ValidationException::withMessages([
+            'rate_limit' => 'locked',
+        ]);
+    }
+
+    protected function throttleKey(): string
+    {
+        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+    }
+
     public function render()
     {
-        return view('livewire.auth.login');
+        $lockoutSeconds = RateLimiter::tooManyAttempts($this->throttleKey(), 3) 
+            ? RateLimiter::availableIn($this->throttleKey()) 
+            : 0;
+
+        return view('livewire.auth.login', [
+            'lockoutSeconds' => $lockoutSeconds
+        ]);
     }
 }
