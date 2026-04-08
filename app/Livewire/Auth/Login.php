@@ -31,7 +31,7 @@ class Login extends Component
 
     public function login(): void
     {
-        $this->resetErrorBag();
+        $this->resetErrorBag(); // Hapus error lama di memori
 
         $this->validate();
 
@@ -53,6 +53,7 @@ class Login extends Component
 
         RateLimiter::hit($this->throttleKey(), 120);
 
+        // Jika barusan mencapai batas ke-5, langsung paksa eksekusi blokir
         if (RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
             $this->ensureIsNotRateLimited();
         }
@@ -68,8 +69,10 @@ class Login extends Component
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
+        // Kirim sinyal & waktu sisa ke Alpine.js (Blade)
         $this->dispatch('lockout-started', seconds: $seconds);
 
+        // Lempar error khusus agar proses login dihentikan
         throw ValidationException::withMessages([
             'rate_limit' => 'locked',
         ]);
@@ -82,12 +85,6 @@ class Login extends Component
 
     public function render()
     {
-        $lockoutSeconds = RateLimiter::tooManyAttempts($this->throttleKey(), 3) 
-            ? RateLimiter::availableIn($this->throttleKey()) 
-            : 0;
-
-        return view('livewire.auth.login', [
-            'lockoutSeconds' => $lockoutSeconds
-        ]);
+        return view('livewire.auth.login');
     }
 }

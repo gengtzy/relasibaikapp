@@ -6,23 +6,21 @@
             </div>
         @endif
 
+        {{-- Alpine.js menangkap sinyal dari PHP dan menjalankan timer mundur --}}
         <form wire:submit="login" class="space-y-6"
-              x-data="{ 
-                  timeLeft: {{ $lockoutSeconds }}, 
-                  timer: null,
-                  startTimer() {
-                      clearInterval(this.timer);
-                      this.timer = setInterval(() => {
-                          if(this.timeLeft > 0) this.timeLeft--;
-                          else clearInterval(this.timer);
-                      }, 1000);
-                  }
-              }"
-              x-init="if(timeLeft > 0) startTimer()"
-              @lockout-started.window="timeLeft = $event.detail.seconds; startTimer();">
+              x-data="{ timeLeft: 0, timer: null }"
+              @lockout-started.window="
+                  timeLeft = $event.detail.seconds;
+                  clearInterval(timer);
+                  timer = setInterval(() => {
+                      if(timeLeft > 0) timeLeft--;
+                      else clearInterval(timer);
+                  }, 1000);
+              ">
             
             <h5 class="text-2xl font-bold text-gray-900 pt-6 dark:text-slate-100 transition-colors duration-500 ease-in-out">Masuk ke Relasibaik.</h5>
 
+            {{-- Banner Hitung Mundur (Hanya muncul jika timeLeft > 0) --}}
             <template x-if="timeLeft > 0">
                 <div class="mt-4 text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg text-center border border-red-200 transition-all">
                     Terlalu banyak percobaan. <br> Coba lagi dalam <span x-text="timeLeft" class="font-bold text-lg"></span> detik.
@@ -36,6 +34,7 @@
                     placeholder="Masukan email kamu"
                     x-bind:disabled="timeLeft > 0" />
                 
+                {{-- Trik agar pesan error hilang sementara saat tombol diklik (efek Blink) --}}
                 <div wire:loading.remove wire:target="login">
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
@@ -55,6 +54,7 @@
                     </div>
                 </div>
 
+                {{-- Trik efek Blink untuk password --}}
                 <div wire:loading.remove wire:target="login">
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
@@ -75,6 +75,7 @@
                 @endif
             </div>
 
+            {{-- TOMBOL SUDAH DIKEMBALIKAN SEPERTI SEMULA --}}
             <button type="submit"
                 x-bind:disabled="timeLeft > 0"
                 class="w-full text-white bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md font-semibold px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed">
