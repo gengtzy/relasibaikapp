@@ -11,8 +11,6 @@ class StepResult extends Component
 {
     public $resultId;
     
-    // HAPUS: public $screeningData; <-- Ini biang kerok yang bikin loading 30 detik!
-
     // Variabel Kategori
     public $catFather;
     public $catMother;
@@ -43,9 +41,8 @@ class StepResult extends Component
 
     public function render()
     {
-        // PENTING: Ambil data lengkapnya DI SINI, lalu lempar ke file Blade.
-        // Dengan begini, Livewire tidak akan kelebihan beban (CPU tidak ngos-ngosan).
-        $screeningData = Screening::with(['result', 'recommendation', 'responses.question.instrument'])
+        // PENTING: Perhatikan perubahan 'result.recommendation' di bawah ini
+        $screeningData = Screening::with(['result.recommendation', 'responses.question.instrument'])
                                   ->findOrFail($this->resultId);
 
         return view('livewire.screening.step-result', [

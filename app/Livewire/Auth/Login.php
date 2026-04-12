@@ -31,7 +31,7 @@ class Login extends Component
 
     public function login(): void
     {
-        $this->resetErrorBag(); // Hapus error lama di memori
+        $this->resetErrorBag();
 
         $this->validate();
 
@@ -53,7 +53,6 @@ class Login extends Component
 
         RateLimiter::hit($this->throttleKey(), 120);
 
-        // Jika barusan mencapai batas ke-5, langsung paksa eksekusi blokir
         if (RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
             $this->ensureIsNotRateLimited();
         }
@@ -69,10 +68,8 @@ class Login extends Component
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        // Kirim sinyal & waktu sisa ke Alpine.js (Blade)
         $this->dispatch('lockout-started', seconds: $seconds);
 
-        // Lempar error khusus agar proses login dihentikan
         throw ValidationException::withMessages([
             'rate_limit' => 'locked',
         ]);

@@ -41,7 +41,7 @@ class ScreeningHistory extends Component
 
     public function render()
     {
-        $query = Screening::with(['result', 'recommendation'])
+        $query = Screening::with(['result.recommendation'])
             ->where('user_id', Auth::id())
             ->where('status', 'saved'); // PENTING: Hanya tampilkan yang sudah disimpan user
 

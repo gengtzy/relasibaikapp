@@ -15,6 +15,8 @@ return new class extends Migration
         $table->id();
         $table->foreignId('id_screening')->constrained('screenings')->onDelete('cascade');
         
+        $table->foreignId('id_recommendation')->nullable()->constrained('recommendations')->onDelete('set null');
+        
         // KOLOM SKOR & KATEGORI (Wajib ada)
         $table->integer('fpq_score')->default(0);
         $table->string('fpq_category')->nullable(); // T/S/R

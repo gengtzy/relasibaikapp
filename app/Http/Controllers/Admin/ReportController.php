@@ -24,13 +24,15 @@ class ReportController extends Controller
             $endDate   = Carbon::parse($request->query('end'))->endOfDay();
             $status    = $request->query('status');
 
-            $query = Screening::with(['user', 'result', 'recommendation'])
+            // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
+            $query = Screening::with(['user', 'result.recommendation'])
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->where('status', 'saved'); // Hanya yang sudah disimpan
 
             // Filter Status Diagnosa (Opsional)
             if ($status === 'problem') {
-                $query->whereHas('recommendation', function($q) {
+                // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
+                $query->whereHas('result.recommendation', function($q) {
                     $q->where('code', 'like', '%R%'); // Cari yang bermasalah
                 });
             }
@@ -48,7 +50,8 @@ class ReportController extends Controller
             $userId = $request->query('user_id');
             $user = User::findOrFail($userId);
 
-            $data = Screening::with(['result', 'recommendation'])
+            // PERBAIKAN: Ganti ['result', 'recommendation'] menjadi ['result.recommendation']
+            $data = Screening::with(['result.recommendation'])
                 ->where('user_id', $userId)
                 ->where('status', 'saved')
                 ->latest()
@@ -62,6 +65,7 @@ class ReportController extends Controller
         }
 
         // 3. LOGIKA LAPORAN STATISTIK (TAHUNAN)
+        // Logika ini sudah aman karena tidak memanggil relasi recommendation secara langsung
         elseif ($type === 'stats') {
             $year = $request->query('year', date('Y'));
 

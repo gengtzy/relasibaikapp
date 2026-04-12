@@ -117,21 +117,22 @@
 
             <div class="space-y-4">
                 <h3 class="font-semibold text-base">Diagnosa & Rekomendasi</h3>
-                @if ($screening->recommendation)
+                {{-- PERBAIKAN DI SINI --}}
+                @if ($screening->result && $screening->result->recommendation)
                     @php
-                        $bgClass = str_contains($screening->recommendation->code, 'R')
+                        $bgClass = str_contains($screening->result->recommendation->code, 'R')
                             ? 'bg-red-50 text-red-700 border-red-200'
                             : 'bg-orange-50 text-orange-700 border-orange-200';
-                        if ($screening->recommendation->code === 'TTT') {
+                        if ($screening->result->recommendation->code === 'TTT') {
                             $bgClass = 'bg-green-50 text-green-700 border-green-200';
                         }
                     @endphp
                     <span
                         class="{{ $bgClass }} border px-3 py-1.5 font-bold text-sm rounded-lg inline-block mb-2">
-                        {{ $screening->recommendation->title }}
+                        {{ $screening->result->recommendation->title }}
                     </span>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        {{ $screening->recommendation->description }}
+                        {{ $screening->result->recommendation->description }}
                     </p>
                 @else
                     <span class="text-slate-400 italic text-sm">Belum ada data</span>

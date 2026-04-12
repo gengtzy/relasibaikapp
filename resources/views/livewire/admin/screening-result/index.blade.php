@@ -186,21 +186,22 @@
                                     </td>
                                     <td wire:click="viewResult({{ $item->id }})"
                                         class="px-6 py-4 cursor-pointer">
-                                        @if ($item->recommendation)
+                                        {{-- PERBAIKAN DI SINI --}}
+                                        @if ($item->result && $item->result->recommendation)
                                             @php
                                                 $isGood =
-                                                    $item->recommendation->code === 'TTT' ||
-                                                    $item->recommendation->code === 'TTS';
+                                                    $item->result->recommendation->code === 'TTT' ||
+                                                    $item->result->recommendation->code === 'TTS';
                                                 $bgClass = $isGood
                                                     ? 'bg-green-50 text-green-700 border-green-200'
                                                     : 'bg-orange-50 text-orange-700 border-orange-200';
-                                                if (str_contains($item->recommendation->code, 'R')) {
+                                                if (str_contains($item->result->recommendation->code, 'R')) {
                                                     $bgClass = 'bg-red-50 text-red-700 border-red-200';
                                                 }
                                             @endphp
                                             <span
                                                 class="{{ $bgClass }} border px-2 py-1 font-medium text-xs rounded-lg inline-block">
-                                                {{ Str::limit($item->recommendation->title, 30) }}
+                                                {{ Str::limit($item->result->recommendation->title, 30) }}
                                             </span>
                                         @else
                                             <span class="text-slate-400 text-xs italic">Belum ada hasil</span>

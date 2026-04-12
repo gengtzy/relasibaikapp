@@ -29,11 +29,11 @@
                         </div>
                         <h3
                             class="text-3xl font-bold text-gray-900 mb-2 dark:text-slate-50 transition-colors duration-500 ease-in-out">
-                            {{ $screeningData->recommendation->title ?? 'Data Tidak Ditemukan' }}
+                            {{ $screeningData->result->recommendation->title ?? 'Data Tidak Ditemukan' }}
                         </h3>
                         <p
                             class="text-lg text-gray-700 leading-relaxed dark:text-slate-200 transition-colors duration-500 ease-in-out">
-                            {{ $screeningData->recommendation->description }}
+                            {{ $screeningData->result->recommendation->description }}
                         </p>
                     </div>
                 </div>

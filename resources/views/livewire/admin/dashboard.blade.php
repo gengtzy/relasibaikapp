@@ -128,13 +128,14 @@
                                     {{ $item->created_at->diffForHumans() }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if ($item->recommendation)
+                                    {{-- PERBAIKAN: Panggil lewat result->recommendation --}}
+                                    @if ($item->result && $item->result->recommendation)
                                         @php
-                                            $color = str_contains($item->recommendation->code, 'R') ? 'red' : 'green';
+                                            $color = str_contains($item->result->recommendation->code, 'R') ? 'red' : 'green';
                                         @endphp
                                         <span
                                             class="bg-{{ $color }}-100 text-{{ $color }}-700 text-xs font-bold px-2 py-1 rounded">
-                                            {{ Str::limit($item->recommendation->title, 25) }}
+                                            {{ Str::limit($item->result->recommendation->title, 25) }}
                                         </span>
                                     @else
                                         -

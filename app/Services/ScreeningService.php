@@ -46,7 +46,6 @@ class ScreeningService
             $ruleCode = substr($catFather, 0, 1) . substr($catMother, 0, 1) . substr($catOther, 0, 1);
 
             // 4. Cari Langsung di Database berdasarkan Kode "TTS" tadi
-            // Inilah yang dimaksud pemanggilan langsung
             $recommendation = Recommendation::where('code', $ruleCode)->first();
             
             // Fallback jika rule tidak ditemukan (Jaga-jaga)
@@ -54,24 +53,26 @@ class ScreeningService
                 $recommendation = Recommendation::where('code', 'RRR')->first(); 
             }
 
-            // 5. Simpan Data (Sama seperti sebelumnya)
+            // 5. Simpan Data Induk (HANYA ADMINISTRASI)
             $screening = Screening::create([
-            'user_id' => $user->id,
-            'lokasi'  => $biodata['lokasi_name'] ?? null,
-            'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
-            'id_recommendation' => $recommendation ? $recommendation->id : null,
-            'status' => 'preview'
+                'user_id' => $user->id,
+                'lokasi'  => $biodata['lokasi_name'] ?? null,
+                'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
+                'status' => 'preview'
+                // id_recommendation sudah DIHAPUS dari sini
             ]);
 
+            // 6. Simpan Data Hasil (ANGKA DAN DIAGNOSA)
             ScreeningResult::create([
-                'id_screening'  => $screening->id,
-                'fpq_score'     => $scoreFather,
-                'fpq_category'  => $catFather,
-                'mciq_score'    => $scoreMother,
-                'mciq_category' => $catMother,
-                'fmwb_score'    => $scoreOther,
-                'fmwb_category' => $catOther,
-                'total_score'   => $totalScore,
+                'id_screening'      => $screening->id,
+                'id_recommendation' => $recommendation ? $recommendation->id : null, // <-- DIPINDAH KE SINI
+                'fpq_score'         => $scoreFather,
+                'fpq_category'      => $catFather,
+                'mciq_score'        => $scoreMother,
+                'mciq_category'     => $catMother,
+                'fmwb_score'        => $scoreOther,
+                'fmwb_category'     => $catOther,
+                'total_score'       => $totalScore,
             ]);
 
             // ... (Simpan response detail, kode sama) ...
@@ -125,15 +126,12 @@ class ScreeningService
             return 0;
         }
 
-        // 1. Ambil Detail Pertanyaan (untuk tahu mana Favorable/Unfavorable)
-        // Kita perlu query ulang berdasarkan keys dari jawaban untuk efisiensi
         $questionIds = array_keys($answers);
         $questions = Question::whereIn('id', $questionIds)->get();
 
         $totalScore = 0;
 
         foreach ($questions as $question) {
-            // Pastikan ada jawaban untuk pertanyaan ini
             if (!isset($answers[$question->id])) continue;
 
             $userVal = (int) $answers[$question->id]; 
@@ -147,13 +145,12 @@ class ScreeningService
             $totalScore += $score;
         }
 
-        // 2. Logika Bonus (Role Masyarakat + Peran Superior Ibu + Terverifikasi)
         $bonus = 0;
         if ($user->role === 'masyarakat' && 
             $user->superiority_role === 'Ibu' && 
             $user->hasVerifiedEmail()) {
             
-            $bonus = 5; // Sesuaikan poin bonus
+            $bonus = 5; 
         }
 
         return $totalScore + $bonus;
@@ -176,10 +173,8 @@ class ScreeningService
             $userVal = (int) $answers[$question->id];
 
             if ($question->scoring_type === 'Favorable') {
-                // Rumus Favorable (Urut): Nilai - 1
                 $score = $userVal - 1;
             } else {
-                // Rumus Unfavorable (Terbalik): 9 - Nilai
                 $score = 10 - $userVal;
             }
 
@@ -191,7 +186,7 @@ class ScreeningService
             $user->superiority_role === 'Anggota Keluarga Lain' && 
             $user->hasVerifiedEmail()) {
             
-            $bonus = 5; // Sesuaikan poin bonus
+            $bonus = 5; 
         }
 
         return $totalScore + $bonus;
@@ -199,16 +194,15 @@ class ScreeningService
 
     public function getCategory(int $score, int $numberOfQuestions, int $maxScale, int $minScale): string
     {
-        // Rumus Statistik Anda:
         $xMin = $minScale * $numberOfQuestions;
-        $xMax = $maxScale * $numberOfQuestions; // Max Poin per butir * Jumlah Soal
+        $xMax = $maxScale * $numberOfQuestions; 
 
         $range = $xMax - $xMin;
         $mean = ($xMax + $xMin) / 2;
         $sd = $range / 6;
 
-        $cutoffLow = $mean - $sd;  // Batas Bawah (M - 1SD)
-        $cutoffHigh = $mean + $sd; // Batas Atas (M + 1SD)
+        $cutoffLow = $mean - $sd;  
+        $cutoffHigh = $mean + $sd; 
 
         if ($score < $cutoffLow) {
             return 'Rendah';

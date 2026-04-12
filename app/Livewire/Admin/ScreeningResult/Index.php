@@ -18,7 +18,6 @@ class Index extends Component
     public $filterType = '';
     public $deleteId = null;
     public $isBulkDelete = false;
-    // public ?Screening $deletingScreening = null;
     
     // Bulk Action
     public $selectAll = false;
@@ -39,7 +38,6 @@ class Index extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            // Ambil semua ID dari halaman/query saat ini
             $this->selectedIds = $this->getScreeningQuery()
                 ->pluck('id')
                 ->map(fn ($id) => (string) $id)
@@ -57,7 +55,6 @@ class Index extends Component
 
     public function executeDelete()
     {
-        // Cek properti $isBulkDelete yang dikirim dari tombol View
         if ($this->isBulkDelete) {
             $this->deleteSelected();
         } else {
@@ -71,7 +68,6 @@ class Index extends Component
             $screening = Screening::find($this->deleteId);
             
             if ($screening) {
-                // Format ID untuk pesan sukses (Opsional)
                 $formattedId = 'SCR-' . $screening->created_at->format('Ymd') . '-' . str_pad($screening->id, 5, '0', STR_PAD_LEFT);
                 
                 $screening->delete();
@@ -92,7 +88,7 @@ class Index extends Component
         Screening::whereIn('id', $this->selectedIds)->delete();
         
         session()->flash('success', count($this->selectedIds) . ' data screening berhasil dihapus.');
-        $this->isBulkDelete = false; // Reset mode
+        $this->isBulkDelete = false; 
         $this->resetSelection();
         $this->dispatch('close-modal');
     }
@@ -104,12 +100,13 @@ class Index extends Component
 
     protected function getScreeningQuery()
     {
-        $query = Screening::with(['user', 'result', 'recommendation'])
+        // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
+        $query = Screening::with(['user', 'result.recommendation'])
             ->where('status', 'saved');
 
         if ($this->filterType === 'risk') {
-            // Filter: Cari yang kode rekomendasinya mengandung huruf 'R'
-            $query->whereHas('recommendation', function($q) {
+            // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
+            $query->whereHas('result.recommendation', function($q) {
                 $q->where('code', 'ilike', '%R%'); 
             });
         }
@@ -119,8 +116,9 @@ class Index extends Component
                 $q->whereHas('user', function($u) {
                     $u->where('name', 'ilike', '%' . $this->search . '%');
                 })
-                // 2. Cari berdasarkan Hasil Diagnosa (Kolom title di tabel recommendations)
-                ->orWhereHas('recommendation', function($r) {
+                // 2. Cari berdasarkan Hasil Diagnosa
+                // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
+                ->orWhereHas('result.recommendation', function($r) {
                     $r->where('title', 'ilike', '%' . $this->search . '%');
                 });
             })

@@ -83,9 +83,9 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
-                                            @if ($item->recommendation)
+                                            @if ($item->result && $item->result->recommendation)
                                                 <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full border border-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-800 transition-colors duration-500 ease-in-out">
-                                                    {{ $item->recommendation->title }}
+                                                    {{ $item->result->recommendation->title }}
                                                 </span>
                                             @else
                                                 <span class="text-slate-400 italic">Tidak ada data</span>

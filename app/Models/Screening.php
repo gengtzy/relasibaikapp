@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Screening extends Model
 {
     protected $guarded = [];
+    
     protected $fillable = [
         'user_id', 
         'lokasi', 
         'tanggal_pengisian', 
-        'id_recommendation', 
+        // id_recommendation sudah dihapus dari sini
         'status'
     ];
 
@@ -24,11 +25,8 @@ class Screening extends Model
     {
         return $this->hasOne(ScreeningResult::class, 'id_screening');
     }
-
-    public function recommendation()
-    {
-        return $this->belongsTo(Recommendation::class, 'id_recommendation');
-    }
+    
+    // Fungsi recommendation() sudah dihapus dari sini
     
     public function responses()
     {

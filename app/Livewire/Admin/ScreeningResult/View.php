@@ -14,11 +14,10 @@ class View extends Component
 
     public function mount($id)
     {
-        // Eager Load user, result, recommendation, DAN responses+question
+        // PERBAIKAN: Eager Load 'result.recommendation'
         $this->screening = Screening::with([
             'user', 
-            'result', 
-            'recommendation',
+            'result.recommendation',
             'responses.question.instrument'
         ])->findOrFail($id);
     }

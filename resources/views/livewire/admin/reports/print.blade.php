@@ -68,7 +68,8 @@
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->total_score ?? 0 }}
                         </td>
                         <td class="border border-black px-2 py-1">
-                            {{ $item->recommendation->title ?? '-' }}
+                            {{-- PERBAIKAN: Tambah ->result --}}
+                            {{ $item->result->recommendation->title ?? '-' }}
                         </td>
                     </tr>
                 @endforeach
@@ -108,7 +109,8 @@
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->fpq_score }}</td>
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->mciq_score }}</td>
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->fmwb_score }}</td>
-                        <td class="border border-black px-2 py-1 font-bold">{{ $item->recommendation->title ?? '-' }}
+                        {{-- PERBAIKAN: Tambah ->result --}}
+                        <td class="border border-black px-2 py-1 font-bold">{{ $item->result->recommendation->title ?? '-' }}
                         </td>
                     </tr>
                 @endforeach

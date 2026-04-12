@@ -20,9 +20,10 @@ class Dashboard extends Component
 
         $avgTotalScore = ScreeningResult::avg('total_score');
 
+        // PERBAIKAN 1: Panggil lewat relasi 'result.recommendation'
         $riskCount = Screening::where('status', 'saved')
-            ->whereHas('recommendation', function($q) {
-                $q->where('code', 'like', '%R%'); // Asumsi kode RRR, TTR, dsb mengandung indikasi masalah
+            ->whereHas('result.recommendation', function($q) {
+                $q->where('code', 'like', '%R%'); 
             })->count();
 
         //barchart
@@ -36,9 +37,10 @@ class Dashboard extends Component
             'lain' => round(($avgOther / 72) * 100, 1),
         ];
 
-        //piechart
+        // PERBAIKAN 2: Tambahkan Join ke tabel screening_results dulu
         $pieDataRaw = Screening::where('status', 'saved')
-            ->join('recommendations', 'screenings.id_recommendation', '=', 'recommendations.id')
+            ->join('screening_results', 'screenings.id', '=', 'screening_results.id_screening')
+            ->join('recommendations', 'screening_results.id_recommendation', '=', 'recommendations.id')
             ->select('recommendations.title', DB::raw('count(*) as total'))
             ->groupBy('recommendations.title')
             ->get();
@@ -46,7 +48,8 @@ class Dashboard extends Component
         $chartPieLabels = $pieDataRaw->pluck('title')->toArray();
         $chartPieSeries = $pieDataRaw->pluck('total')->toArray();
 
-        $recentScreenings = Screening::with(['user', 'recommendation'])
+        // PERBAIKAN 3: Ganti 'recommendation' menjadi 'result.recommendation'
+        $recentScreenings = Screening::with(['user', 'result.recommendation'])
             ->where('status', 'saved')
             ->latest()
             ->take(5)

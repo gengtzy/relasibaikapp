@@ -19,11 +19,11 @@ return new class extends Migration
         $table->string('lokasi')->nullable(); 
         $table->date('tanggal_pengisian')->nullable();
         
-        // Relasi ke rekomendasi (hasil rule)
-        $table->foreignId('id_recommendation')
-              ->nullable()
-              ->constrained('recommendations')
-              ->onDelete('set null');
+        // // Relasi ke rekomendasi (hasil rule)
+        // $table->foreignId('id_recommendation')
+        //       ->nullable()
+        //       ->constrained('recommendations')
+        //       ->onDelete('set null');
 
         $table->string('status')->default('draft'); // draft/completed
         $table->timestamps();
