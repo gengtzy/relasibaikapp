@@ -8,6 +8,7 @@ use App\Livewire\ScreeningHistory;
 use App\Livewire\Admin\Dashboard;
 use App\Http\Controllers\Admin\ReportController;
 use App\Livewire\Admin\Report;
+use App\Livewire\Portal;
 
 Use App\Livewire\Admin\ScreeningResult\Index as ScreeningResultIndex;
 Use App\Livewire\Admin\ScreeningResult\View as ScreeningResultView;
@@ -30,10 +31,13 @@ use App\Livewire\Admin\Recommendations\Edit as RecommendationsEdit;
 
 use App\Livewire\Screening\StepResult;
 
+// Route utama
+Route::get('/', Portal::class)->name('portal');
+
 // Rute untuk Tamu
-Route::get('/', function () {
+Route::get('app', function () {
     return view('welcome');
-})->middleware('redirect.admin');
+})->middleware('redirect.admin')->name('app');
 
 // Rute untuk Pengguna Masyarakat (User)
 Route::middleware(['auth', 'verified', 'redirect.admin'])->group(function () {
