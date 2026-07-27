@@ -132,10 +132,10 @@ class Index extends Component
 
         if (!empty($this->search)) {
             $query->where(function ($q) {
-                $q->where('name', 'ilike', '%' . $this->search . '%')
-                  ->orWhere('email', 'ilike', '%' . $this->search . '%')
-                  ->orWhere('role', 'ilike', '%' . $this->search . '%')
-                  ->orWhere('superiority_role', 'ilike', '%' . $this->search . '%');
+                $q->where('name', 'like', '%' . $this->search . '%')
+                  ->orWhere('email', 'like', '%' . $this->search . '%')
+                  ->orWhere('role', 'like', '%' . $this->search . '%')
+                  ->orWhere('superiority_role', 'like', '%' . $this->search . '%');
             });
         }
 

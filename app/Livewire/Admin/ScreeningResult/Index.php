@@ -107,19 +107,19 @@ class Index extends Component
         if ($this->filterType === 'risk') {
             // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
             $query->whereHas('result.recommendation', function($q) {
-                $q->where('code', 'ilike', '%R%'); 
+                $q->where('code', 'like', '%R%'); 
             });
         }
 
         return $query->where(function($q) {
                 // 1. Cari berdasarkan Nama User
                 $q->whereHas('user', function($u) {
-                    $u->where('name', 'ilike', '%' . $this->search . '%');
+                    $u->where('name', 'like', '%' . $this->search . '%');
                 })
                 // 2. Cari berdasarkan Hasil Diagnosa
                 // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
                 ->orWhereHas('result.recommendation', function($r) {
-                    $r->where('title', 'ilike', '%' . $this->search . '%');
+                    $r->where('title', 'like', '%' . $this->search . '%');
                 });
             })
             ->latest();

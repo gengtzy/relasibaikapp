@@ -55,7 +55,7 @@
     @stack('styles')
 </head>
 
-<body class="min-h-screen bg-cover bg-no-repeat bg-white dark:bg-slate-800 transition-colors duration-500 ease-in-out"
+<body class="min-h-screen bg-cover bg-no-repeat bg-white dark:bg-slate-800 transition-colors duration-500 ease-in-out overflow-x-hidden"
     style="background-image:url('{{ asset($bgImage ?? 'images/default-bg.svg') }}')">
     {{ $slot }}
 </body>

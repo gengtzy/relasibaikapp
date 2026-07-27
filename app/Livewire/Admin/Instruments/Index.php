@@ -106,8 +106,8 @@ class Index extends Component
     public function render()
     {
         $instruments = Instrument::query()
-            ->where('name', 'ilike', '%' . $this->search . '%')
-            ->orWhere('code', 'ilike', '%' . $this->search . '%')
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('code', 'like', '%' . $this->search . '%')
             ->paginate($this->perPage);
 
         return view('livewire.admin.instruments.index', [

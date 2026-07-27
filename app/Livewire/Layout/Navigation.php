@@ -11,7 +11,7 @@ class Navigation extends Component
     {
         $logout();
         // Redirect bisa dilakukan di sini atau dari action
-        return $this->redirect('/', navigate: true); 
+        return $this->redirect('/'); 
     }
     public function render()
     {

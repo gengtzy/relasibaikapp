@@ -70,7 +70,7 @@ class ReportController extends Controller
             $year = $request->query('year', date('Y'));
 
             $monthlyStats = ScreeningResult::select(
-                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
+                DB::raw('MONTH(created_at) as month'),
                 DB::raw('AVG(fpq_score) as avg_father'),
                 DB::raw('AVG(mciq_score) as avg_mother'),
                 DB::raw('AVG(fmwb_score) as avg_other'),

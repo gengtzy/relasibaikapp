@@ -44,9 +44,9 @@ class Login extends Component
             $user = Auth::user();
 
             if ($user->role === 'admin') {
-                $this->redirect(route('admin.dashboard'), navigate: true);
+                $this->redirect(route('admin.dashboard'));
             } else {
-                $this->redirect(route('screening.wizard'), navigate: true);
+                $this->redirect(route('screening.wizard'));
             }
             return;
         }

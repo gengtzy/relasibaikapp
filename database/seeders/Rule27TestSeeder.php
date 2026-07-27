@@ -51,29 +51,29 @@ class Rule27TestSeeder extends Seeder
                     // Cari ID Rekomendasi di database berdasarkan kode
                     $recommendation = Recommendation::where('code', $ruleCode)->first();
 
-                    // Buat Data Screening Utama
+                    // Buat Data Screening Utama (id_recommendation DIHAPUS DARI SINI)
                     $screening = Screening::create([
                         'user_id' => $user->id,
                         'lokasi'  => "Test Seeder Rule R-" . str_pad($ruleNumber, 2, '0', STR_PAD_LEFT),
-                        'tanggal_pengisian' => now(),
-                        'id_recommendation' => $recommendation ? $recommendation->id : null,
+                        'tanggal_pengisian' => '2026-03-04',
                         'status' => 'saved'
                     ]);
 
                     // Buat Data Hasil (Screening Result)
                     ScreeningResult::create([
-                        'id_screening'  => $screening->id,
+                        'id_screening'      => $screening->id,
+                        'id_recommendation' => $recommendation ? $recommendation->id : null, // <-- DIPINDAH KE SINI
                         
-                        'fpq_score'     => $scores['FPQ'][$catFather],
-                        'fpq_category'  => $catFather,
+                        'fpq_score'         => $scores['FPQ'][$catFather],
+                        'fpq_category'      => $catFather,
                         
-                        'mciq_score'    => $scores['MCIQ'][$catMother],
-                        'mciq_category' => $catMother,
+                        'mciq_score'        => $scores['MCIQ'][$catMother],
+                        'mciq_category'     => $catMother,
                         
-                        'fmwb_score'    => $scores['FMWB'][$catOther],
-                        'fmwb_category' => $catOther,
+                        'fmwb_score'        => $scores['FMWB'][$catOther],
+                        'fmwb_category'     => $catOther,
                         
-                        'total_score'   => $scores['FPQ'][$catFather] + $scores['MCIQ'][$catMother] + $scores['FMWB'][$catOther],
+                        'total_score'       => $scores['FPQ'][$catFather] + $scores['MCIQ'][$catMother] + $scores['FMWB'][$catOther],
                     ]);
 
                     $ruleNumber++;
