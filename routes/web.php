@@ -31,15 +31,10 @@ use App\Livewire\Admin\Recommendations\Edit as RecommendationsEdit;
 
 use App\Livewire\Screening\StepResult;
 
-// Route utama
-Route::get('/', Portal::class)->name('portal');
-
-// Rute untuk Tamu
-Route::get('app', function () {
+Route::get('/', function () {
     return view('welcome');
-})->middleware('redirect.admin')->name('app');
+})->middleware('redirect.admin');
 
-// Rute untuk Pengguna Masyarakat (User)
 Route::middleware(['auth', 'verified', 'redirect.admin'])->group(function () {
     Route::get('/screening', ScreeningWizard::class)->name('screening.wizard'); 
 
