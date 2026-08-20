@@ -1,4 +1,4 @@
-<div class="">
+<div class="" x-data @open-new-tab.window="window.open($event.detail.url, '_blank')">
     <nav class="flex" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -165,12 +165,4 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('open-new-tab', (data) => {
-                // Buka URL di tab baru ('_blank')
-                window.open(data.url, '_blank');
-            });
-        });
-    </script>
 </div>
