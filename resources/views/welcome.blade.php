@@ -280,7 +280,7 @@
                         <a href="{{ route('register') }}"
                             class="hover:text-white hover:underline transition-all">Daftar</a>
                     </div>
-                    <a href="{{ route('portal') }}"
+                    <a href="https://edtechnology.id/"
                             class="hover:text-white hover:underline transition-all text-slate-300 text-sm">Kembali Ke Portal</a>
                 </div>
 
