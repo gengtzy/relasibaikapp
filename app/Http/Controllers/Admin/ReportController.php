@@ -77,8 +77,8 @@ class ReportController extends Controller
                 DB::raw('COUNT(*) as total_count')
             )
             ->whereYear('created_at', $year)
-            ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
-            ->orderBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MONTH(created_at)'))
             ->get();
 
             $data = $monthlyStats;
