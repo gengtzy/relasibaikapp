@@ -235,115 +235,17 @@
                     <div></div>
                 @endif
 
-                {{-- Tombol Kanan: Dropup Menu (Simpan & Cetak) --}}
-                <div x-data="{ open: false }" class="relative w-full sm:w-auto">
-
-                    {{-- Trigger Button --}}
-                    <button @click="open = !open"
-                        class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-1 focus:outline-none focus:ring-blue-300 transition-all shadow-lg">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z">
-                            </path>
-                        </svg>
-                        Opsi Lainnya
-                        <svg class="w-3 h-3 ml-2 transition-transform duration-200" :class="{ 'rotate-180': open }"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-
-                    {{-- Dropup Content --}}
-                    <div x-show="open" @click.outside="open = false"
-                        x-transition:enter="transition ease-out duration-100"
-                        x-transition:enter-start="transform opacity-0 scale-95 translate-y-2"
-                        x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
-                        x-transition:leave="transition ease-in duration-75"
-                        x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
-                        x-transition:leave-end="transform opacity-0 scale-95 translate-y-2"
-                        class="absolute bottom-full right-0 mb-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden dark:bg-slate-700 dark:border-slate-600 transition-colors duration-500 ease-in-out">
-
-                        <ul class="text-sm text-gray-700 dark:text-slate-50 transition-colors duration-500 ease-in-out">
-
-                            {{-- Opsi 1: Simpan ke Riwayat --}}
-                            <li>
-                                @if ($screeningData->status !== 'saved')
-                                    <!-- <button wire:click="markAsSaved" wire:loading.attr="disabled"
-                                        class="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-2 transition-colors dark:hover:bg-slate-600 duration-500 ease-in-out">
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
-                                            </path>
-                                        </svg>
-                                        Simpan ke Riwayat
-                                    </button> -->
-                                    <button wire:click="markAsSaved" 
-                                        wire:loading.attr="disabled"
-                                        wire:target="markAsSaved"
-                                        class="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-2 transition-colors dark:hover:bg-slate-600 duration-500 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
-                                        
-                                        {{-- State Normal --}}
-                                        <span wire:loading.remove wire:target="markAsSaved" class="flex items-center gap-2">
-                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                                            </svg>
-                                            Simpan ke Riwayat
-                                        </span>
-
-                                        {{-- State Loading (Berputar saat diproses) --}}
-                                        <span wire:loading wire:target="markAsSaved" class="flex items-center gap-2" style="display: none;">
-                                            <svg class="animate-spin w-4 h-4 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Memproses...
-                                        </span>
-                                    </button>
-                                @else
-                                    <span
-                                        class="w-full text-left px-4 py-3 bg-green-50 text-green-700 flex items-center gap-2 cursor-default dark:bg-slate-700 transition-colors duration-500 ease-in-out">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        Tersimpan
-                                    </span>
-                                @endif
-                            </li>
-
-                            {{-- Opsi 2: Cetak PDF (Hanya aktif jika status == saved) --}}
-                            <li>
-                                @if ($screeningData->status === 'saved')
-                                    {{-- Arahkan ke Route Cetak PDF (Nanti dibuat controllernya) --}}
-                                    <a href="#" onclick="window.print()"
-                                        class="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-2 transition-colors border-t border-gray-100 dark:border-slate-600 dark:hover:bg-slate-700 duration-500 ease-in-out">
-                                        <svg class="w-4 h-4 text-gray-600 dark:text-slate-200 transition-colors duration-500 ease-in-out"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
-                                            </path>
-                                        </svg>
-                                        Cetak Hasil (PDF)
-                                    </a>
-                                @else
-                                    <button disabled
-                                        class="w-full text-left px-4 py-3 text-gray-400 flex items-center gap-2 cursor-not-allowed border-t border-gray-100 dark:text-slate-600 dark:border-slate-600 dark:bg-slate-800 transition-colors duration-500 ease-in-out"
-                                        title="Simpan terlebih dahulu">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                                            </path>
-                                        </svg>
-                                        Cetak (Simpan Dulu)
-                                    </button>
-                                @endif
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                {{-- Tombol Kanan: Langsung Cetak PDF --}}
+                <button onclick="window.print()"
+                    class="w-full sm:w-auto gap-2 inline-flex justify-center items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all shadow-lg transform hover:scale-[1.02] active:scale-95">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                        </path>
+                    </svg>
+                    Cetak Hasil (PDF)
+                </button>
+                
             </div>
             {{-- END FOOTER --}}
 

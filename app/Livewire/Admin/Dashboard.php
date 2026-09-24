@@ -46,7 +46,7 @@ class Dashboard extends Component
             ->get();
 
         $chartPieLabels = $pieDataRaw->pluck('title')->toArray();
-        $chartPieSeries = $pieDataRaw->pluck('total')->toArray();
+        $chartPieSeries = $pieDataRaw->pluck('total')->map(fn($val) => (int) $val)->toArray();
 
         // PERBAIKAN 3: Ganti 'recommendation' menjadi 'result.recommendation'
         $recentScreenings = Screening::with(['user', 'result.recommendation'])

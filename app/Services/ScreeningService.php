@@ -58,7 +58,7 @@ class ScreeningService
                 'user_id' => $user->id,
                 'lokasi'  => $biodata['lokasi_name'] ?? null,
                 'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
-                'status' => 'preview'
+                'status' => 'saved'
                 // id_recommendation sudah DIHAPUS dari sini
             ]);
 

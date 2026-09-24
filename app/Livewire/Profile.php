@@ -36,12 +36,32 @@ class Profile extends Component
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
         ]);
 
-        // UPDATE: Hanya Nama dan Email yang diupdate
-        $user->update([
-            'name' => $this->name,
-            'email' => $this->email,
-            // Role tidak diupdate disini demi keamanan
-        ]);
+        // Masukkan data baru ke dalam object model, TAPI JANGAN DISIMPAN DULU
+        $user->name = $this->name;
+        $user->email = $this->email;
+
+        // CEK LOGIKA RE-VERIFIKASI EMAIL
+        // isDirty('email') adalah bawaan Laravel untuk mengecek apakah data email diubah oleh user
+        if ($user->isDirty('email')) {
+            // 1. Cabut status verifikasinya (kembalikan jadi NULL)
+            $user->email_verified_at = null;
+            
+            // 2. Simpan perubahannya ke database
+            $user->save();
+
+            // 3. Kirim ulang link verifikasi ke alamat email yang baru
+            $user->sendEmailVerificationNotification();
+
+            // 4. Kasih notifikasi ke user bahwa dia harus cek email baru
+            session()->flash('status', 'Profil berhasil diperbarui. Silakan periksa kotak masuk email baru Anda untuk verifikasi ulang.');
+            
+            // 5. Tendang (redirect) agar sistem menangkap bahwa user ini belum terverifikasi
+            $this->redirectRoute('verification.notice', navigate: true);
+            return;
+        }
+
+        // JIKA EMAIL TIDAK BERUBAH (cuma ganti nama aja)
+        $user->save();
 
         $this->dispatch('profile-updated'); 
         session()->flash('status', 'Informasi akun berhasil diperbarui.');
