@@ -6,7 +6,7 @@
     }
 })">
 
-    <nav class="flex" aria-label="Breadcrumb">
+    <nav class="flex print:hidden" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
                 <a href="{{ route('screeningresult') }}" wire:navigate
@@ -38,11 +38,17 @@
             {{ $screening->user->name }} - {{ $screening->created_at->format('d F Y H:i') }}
         </h1>
 
-        {{-- UPDATE TOMBOL HAPUS: Panggil Modal, bukan confirm browser --}}
-        <button @click="showModal = true" type="button"
-            class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 shadow-sm transition-colors">
-            Hapus
-        </button>
+        <div class="flex items-center gap-4">
+            <button onclick="window.print()" class="bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors mr-2 print:hidden">
+                <i class="fas fa-print mr-1"></i> Cetak Detail
+            </button>
+    
+            {{-- UPDATE TOMBOL HAPUS: Panggil Modal, bukan confirm browser --}}
+            <button @click="showModal = true" type="button"
+                class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 shadow-sm transition-colors print:hidden">
+                Hapus
+            </button>
+        </div>
     </div>
 
     {{-- ... (BAGIAN KONTEN INTI TETAP SAMA, TIDAK ADA PERUBAHAN) ... --}}
@@ -227,7 +233,7 @@
 
     <div class="flex justify-start pb-8">
         <a href="{{ route('screeningresult') }}" wire:navigate
-            class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm transition-all">
+            class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm transition-all print:hidden">
             Batal
         </a>
     </div>
@@ -283,7 +289,7 @@
                         </button>
 
                         <button @click="showModal = false" type="button"
-                            class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 transition-all shadow-sm">
+                            class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 transition-all shadow-sm print:hidden">
                             Batal
                         </button>
                     </div>

@@ -30,7 +30,7 @@ class StepOther extends Component
         // 3. Inisialisasi
         foreach ($this->questions as $question) {
             if (!array_key_exists($question->id, $this->answers)) {
-                $this->answers[$question->id] = null; 
+                $this->answers[$question->id] = 5; 
             }
         }
     }

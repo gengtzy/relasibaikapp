@@ -22,8 +22,8 @@
 
     <livewire:layout.navigation-admin />
 
-    <main class="bg-slate-100 p-4 sm:ml-64 min-h-screen">
-        <div class="p-4 mt-14 relative overflow-x-auto">
+    <main class="bg-slate-100 p-4 sm:ml-64 print:ml-0 print:bg-white print:p-0 min-h-screen">
+        <div class="p-4 mt-14 print:mt-0 print:p-0 relative overflow-x-auto">
             {{ $slot }}
         </div>
     </main>

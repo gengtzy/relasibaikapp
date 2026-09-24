@@ -1,5 +1,5 @@
 {{-- Tambahkan x-data sidebarOpen di div paling luar --}}
-<div x-data="{ sidebarOpen: false }">
+<div x-data="{ sidebarOpen: false }" class="print:hidden">
     
     {{-- NAVBAR ATAS --}}
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
