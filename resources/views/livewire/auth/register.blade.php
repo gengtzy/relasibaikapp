@@ -19,6 +19,30 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
+            <!-- TAMBAHAN: Nomor HP -->
+            <div>
+                <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Nomor HP (E-Wallet)</label>
+                <input id="no_hp" type="number" wire:model="no_hp" required
+                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out"
+                    placeholder="Contoh: 081234567890" />
+                <x-input-error :messages="$errors->get('no_hp')" class="mt-2" />
+            </div>
+
+            <!-- TAMBAHAN: Jenis E-Wallet -->
+            <div>
+                <label for="jenis_ewallet" class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-100 transition-colors duration-500 ease-in-out">Jenis E-Wallet</label>
+                <select id="jenis_ewallet" wire:model="jenis_ewallet" required
+                    class="bg-white border border-gray-400 text-gray-900 text-base rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 dark:placeholder:text-slate-400 transition-colors duration-500 ease-in-out">
+                    <option value="">-- Pilih E-Wallet --</option>
+                    <option value="DANA">DANA</option>
+                    <option value="GoPay">GoPay</option>
+                    <option value="OVO">OVO</option>
+                    <option value="ShopeePay">ShopeePay</option>
+                    <option value="LinkAja">LinkAja</option>
+                </select>
+                <x-input-error :messages="$errors->get('jenis_ewallet')" class="mt-2" />
+            </div>
+
             <div x-data="{ showPasswords: false }">
                 <!-- Input Kata Sandi Pertama -->
                 <div class="mb-6">

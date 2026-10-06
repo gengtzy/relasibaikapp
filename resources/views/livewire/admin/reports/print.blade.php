@@ -68,7 +68,6 @@
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->total_score ?? 0 }}
                         </td>
                         <td class="border border-black px-2 py-1">
-                            {{-- PERBAIKAN: Tambah ->result --}}
                             {{ $item->result->recommendation->title ?? '-' }}
                         </td>
                     </tr>
@@ -109,7 +108,6 @@
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->fpq_score }}</td>
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->mciq_score }}</td>
                         <td class="border border-black px-2 py-1 text-center">{{ $item->result->fmwb_score }}</td>
-                        {{-- PERBAIKAN: Tambah ->result --}}
                         <td class="border border-black px-2 py-1 font-bold">{{ $item->result->recommendation->title ?? '-' }}
                         </td>
                     </tr>
@@ -151,6 +149,49 @@
             bulan tersebut.</p>
     @endif
 
+    {{-- 4. LAPORAN PEMBAYARAN REWARD (BARU) --}}
+    @if ($type === 'payment')
+        <div class="mb-4 text-sm">
+            <strong>Total Responden Penerima Reward:</strong> {{ count($data) }} Orang
+        </div>
+        <table class="w-full border-collapse border border-black text-sm text-left">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-black px-2 py-1 text-center">No</th>
+                    <th class="border border-black px-2 py-1">Nama</th>
+                    <th class="border border-black px-2 py-1">Email</th>
+                    <th class="border border-black px-2 py-1">No HP</th>
+                    <th class="border border-black px-2 py-1">E-Wallet</th>
+                    <th class="border border-black px-2 py-1 text-center">Tanggal Pengisian</th>
+                    <th class="border border-black px-2 py-1">Lokasi</th>
+                    <th class="border border-black px-2 py-1 text-center">ID Sesi</th>
+                    <th class="border border-black px-2 py-1 text-center">Skor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $index => $item)
+                    <tr>
+                        <td class="border border-black px-2 py-1 text-center">{{ $index + 1 }}</td>
+                        <td class="border border-black px-2 py-1">{{ $item->name }}</td>
+                        <td class="border border-black px-2 py-1">{{ $item->email }}</td>
+                        <td class="border border-black px-2 py-1 font-mono">{{ $item->no_hp }}</td>
+                        <td class="border border-black px-2 py-1 font-bold">{{ $item->jenis_ewallet }}</td>
+                        <td class="border border-black px-2 py-1 text-center">{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</td>
+                        <td class="border border-black px-2 py-1">{{ $item->lokasi ?? '-' }}</td>
+                        <td class="border border-black px-2 py-1 text-xs font-mono text-center">{{ $item->id_sesi }}</td>
+                        <td class="border border-black px-2 py-1 text-center">{{ $item->skor }}</td>
+                    </tr>
+                @endforeach
+                
+                @if(count($data) === 0)
+                    <tr>
+                        <td colspan="8" class="border border-black px-2 py-4 text-center italic text-gray-500">Tidak ada data penyelesaian skrining pada periode ini.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    @endif
+
     {{-- FOOTER CETAK --}}
     <div class="mt-12 text-right text-sm">
         <p>Dicetak pada: {{ now()->format('d F Y H:i:s') }}</p>
@@ -161,7 +202,7 @@
         window.onload = function() {
             setTimeout(function() {
                 window.print();
-            }, 800); // Jeda dikit biar loading CSS selesai
+            }, 800);
         }
     </script>
 </body>

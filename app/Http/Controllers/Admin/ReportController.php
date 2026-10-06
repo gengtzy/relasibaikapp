@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Screening;
 use App\Models\User;
 use App\Models\ScreeningResult;
+use App\Models\Payment; // <-- TAMBAHAN WAJIB
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -24,16 +25,13 @@ class ReportController extends Controller
             $endDate   = Carbon::parse($request->query('end'))->endOfDay();
             $status    = $request->query('status');
 
-            // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
             $query = Screening::with(['user', 'result.recommendation'])
                 ->whereBetween('created_at', [$startDate, $endDate])
-                ->where('status', 'saved'); // Hanya yang sudah disimpan
+                ->where('status', 'saved');
 
-            // Filter Status Diagnosa (Opsional)
             if ($status === 'problem') {
-                // PERBAIKAN: Ganti 'recommendation' menjadi 'result.recommendation'
                 $query->whereHas('result.recommendation', function($q) {
-                    $q->where('code', 'like', '%R%'); // Cari yang bermasalah
+                    $q->where('code', 'like', '%R%');
                 });
             }
 
@@ -50,7 +48,6 @@ class ReportController extends Controller
             $userId = $request->query('user_id');
             $user = User::findOrFail($userId);
 
-            // PERBAIKAN: Ganti ['result', 'recommendation'] menjadi ['result.recommendation']
             $data = Screening::with(['result.recommendation'])
                 ->where('user_id', $userId)
                 ->where('status', 'saved')
@@ -65,7 +62,6 @@ class ReportController extends Controller
         }
 
         // 3. LOGIKA LAPORAN STATISTIK (TAHUNAN)
-        // Logika ini sudah aman karena tidak memanggil relasi recommendation secara langsung
         elseif ($type === 'stats') {
             $year = $request->query('year', date('Y'));
 
@@ -86,6 +82,23 @@ class ReportController extends Controller
                 'title' => 'Laporan Analisis Statistik',
                 'subtitle' => 'Tahun: ' . $year,
                 'year' => $year
+            ];
+        }
+        
+        // 4. LOGIKA LAPORAN PEMBAYARAN REWARD (BARU)
+        elseif ($type === 'payment') {
+            $startDate = Carbon::parse($request->query('start'))->startOfDay();
+            $endDate   = Carbon::parse($request->query('end'))->endOfDay();
+
+            // Hanya ambil data payment yang 'skor'-nya tidak null (artinya skrining sudah selesai)
+            $data = Payment::whereNotNull('skor')
+                ->whereBetween('tanggal', [$startDate, $endDate])
+                ->orderBy('tanggal', 'desc') // Urutkan dari yang terbaru
+                ->get();
+
+            $meta = [
+                'title' => 'Laporan Rekapitulasi Pembayaran Reward',
+                'subtitle' => 'Periode: ' . $startDate->format('d M Y') . ' - ' . $endDate->format('d M Y'),
             ];
         }
 

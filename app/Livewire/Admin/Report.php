@@ -17,17 +17,25 @@ class Report extends Component
     // State Kartu B (User)
     public $userSearch = '';
     public $selectedUserId = null;
-    public $selectedUserName = null; // Untuk UI
+    public $selectedUserName = null; 
     public $usersList = [];
 
     // State Kartu C (Statistik)
     public $statsYear;
+
+    // State Kartu D (Payment Baru)
+    public $paymentStart;
+    public $paymentEnd;
 
     public function mount()
     {
         // Default Tanggal: Awal bulan ini sampai hari ini
         $this->recapStart = now()->startOfMonth()->format('Y-m-d');
         $this->recapEnd   = now()->format('Y-m-d');
+        
+        $this->paymentStart = now()->startOfMonth()->format('Y-m-d');
+        $this->paymentEnd   = now()->format('Y-m-d');
+        
         $this->statsYear  = date('Y');
     }
 
@@ -59,7 +67,6 @@ class Report extends Component
             'recapEnd'   => 'required|date|after_or_equal:recapStart',
         ]);
 
-        // Redirect ke Controller Cetak
         $url = route('report.print', [
             'type' => 'recap',
             'start' => $this->recapStart,
@@ -67,7 +74,6 @@ class Report extends Component
             'status' => $this->recapStatus
         ]);
 
-        // Kirim URL ke JavaScript
         $this->dispatch('open-new-tab', url: $url);
     }
 
@@ -90,6 +96,23 @@ class Report extends Component
         $url = route('report.print', [
             'type' => 'stats',
             'year' => $this->statsYear
+        ]);
+
+        $this->dispatch('open-new-tab', url: $url);
+    }
+
+    // FUNGSI BARU: Cetak Payment
+    public function printPayment()
+    {
+        $this->validate([
+            'paymentStart' => 'required|date',
+            'paymentEnd'   => 'required|date|after_or_equal:paymentStart',
+        ]);
+
+        $url = route('report.print', [
+            'type' => 'payment',
+            'start' => $this->paymentStart,
+            'end' => $this->paymentEnd
         ]);
 
         $this->dispatch('open-new-tab', url: $url);

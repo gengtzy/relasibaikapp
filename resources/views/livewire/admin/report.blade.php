@@ -13,9 +13,9 @@
         <h1 class="text-2xl font-bold text-slate-800">Cetak Laporan</h1>
     </div>
 
-    <div class="max-w-6xl">
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-7xl">
+        {{-- PERUBAHAN: Grid disesuaikan agar rapi menampung 4 kartu (lg:grid-cols-2 xl:grid-cols-4) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
 
             {{-- KARTU A: REKAPITULASI --}}
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
@@ -67,7 +67,6 @@
                     </div>
                 </div>
                 <div class="p-6 flex-1 flex flex-col gap-4 relative">
-
                     {{-- User Selector --}}
                     <div>
                         <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Cari Pengguna</label>
@@ -162,7 +161,41 @@
                 </div>
             </div>
 
+            {{-- KARTU D (BARU): PEMBAYARAN REWARD --}}
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                <div class="p-5 border-b border-slate-100 bg-slate-50">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-100 text-amber-600 rounded-lg">
+                            <i class="fas fa-wallet text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">Laporan Pembayaran</h3>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Dari Tanggal</label>
+                        <input wire:model="paymentStart" type="date"
+                            class="w-full border-slate-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Sampai Tanggal</label>
+                        <input wire:model="paymentEnd" type="date"
+                            class="w-full border-slate-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 text-sm">
+                    </div>
+                    
+                    <div class="bg-amber-50 p-4 rounded-lg text-amber-800 text-xs leading-relaxed">
+                        Menampilkan rekapitulasi data responden (beserta E-Wallet) yang telah menyelesaikan pengisian skrining.
+                    </div>
+
+                    <div class="mt-auto pt-4">
+                        <button wire:click="printPayment"
+                            class="w-full flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all">
+                            <i class="fas fa-file-invoice-dollar"></i> Cetak Rekap Dana
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-
 </div>

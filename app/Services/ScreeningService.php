@@ -7,6 +7,7 @@ use App\Models\Screening;
 use App\Models\ScreeningResult;
 use App\Models\ScreeningResponse;
 use App\Models\Recommendation;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,7 @@ class ScreeningService
      * @param array $otherAnswers
      * @return \App\Models\Screening  // Mengembalikan model hasil
      */
+
     public function calculateAndSave(
         array $biodata,
         array $fatherAnswers,
@@ -59,13 +61,12 @@ class ScreeningService
                 'lokasi'  => $biodata['lokasi_name'] ?? null,
                 'tanggal_pengisian' => $biodata['tanggal'] ?? now(),
                 'status' => 'saved'
-                // id_recommendation sudah DIHAPUS dari sini
             ]);
 
             // 6. Simpan Data Hasil (ANGKA DAN DIAGNOSA)
             ScreeningResult::create([
                 'id_screening'      => $screening->id,
-                'id_recommendation' => $recommendation ? $recommendation->id : null, // <-- DIPINDAH KE SINI
+                'id_recommendation' => $recommendation ? $recommendation->id : null,
                 'fpq_score'         => $scoreFather,
                 'fpq_category'      => $catFather,
                 'mciq_score'        => $scoreMother,
@@ -75,9 +76,8 @@ class ScreeningService
                 'total_score'       => $totalScore,
             ]);
 
-            // ... (Simpan response detail, kode sama) ...
+            // 7. Simpan response detail (Tabel screening_responses)
             $responsesData = [];
-            // Gabung semua jawaban jadi satu array
             $allAnswers = $fatherAnswers + $motherAnswers + $otherAnswers;
 
             foreach ($allAnswers as $qId => $val) {
@@ -94,6 +94,23 @@ class ScreeningService
             
             if (!empty($responsesData)) {
                 ScreeningResponse::insert($responsesData);
+            }
+
+            // ==========================================
+            // TAHAP 3: UPDATE TABEL PAYMENT JIKA PERDANA
+            // ==========================================
+            // Cari data payment berdasarkan user_id
+            $payment = Payment::where('user_id', $user->id)->first();
+
+            // Jika data payment ada, DAN skor-nya masih null (artinya ini pengisian pertama kali)
+            if ($payment && is_null($payment->skor)) {
+                // Update tabel payment dengan data skrining terbaru
+                $payment->update([
+                    'lokasi'  => $screening->lokasi,
+                    'tanggal' => $screening->tanggal_pengisian,
+                    'id_sesi' => 'SCR-' . \Carbon\Carbon::parse($screening->tanggal_pengisian)->format('Ymd') . '-' . str_pad($screening->id, 5, '0', STR_PAD_LEFT),
+                    'skor'    => $totalScore
+                ]);
             }
             
             return $screening;
